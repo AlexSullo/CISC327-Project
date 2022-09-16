@@ -49,9 +49,9 @@ Student Number:	20216334
 
 Team Member #3:
 
-Name:
+Name: Lucas Papadatos
 
-Student Number:	
+Student Number:	20233257
 
 
 Team Member #4:
