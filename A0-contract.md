@@ -40,11 +40,11 @@ Name: Alessandro Sullo
 Student Number:	20236304
 
 
-Team Member #2:
+Team Member #2: 
 
-Name:
+Name: Arturo Lomonaco
 
-Student Number:	
+Student Number:	20216334
 
 
 Team Member #3:
