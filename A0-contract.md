@@ -56,6 +56,6 @@ Student Number:	20233257
 
 Team Member #4:
 
-Name:
+Name: Sebastian Deluca
 
-Student Number:	
+Student Number:	20250909
