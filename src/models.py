@@ -17,8 +17,27 @@ class User(db.Model):
 
 
 class Transaction(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    DateOfTransaction = db.Column(db.DateTime, unique=False,nullable=False)
-    payee = db.Column(User.id, unique=False, nullable = False)
-    recipient = db.Column(User.id, unique=False,nullable=False)
-    transactionPrice = db.Column(db.Float, unique=False,nullable=False)
+    """
+    Holds all relevant information regarding a transaction in which a
+    user books a listing. Holds the date, payee of the transaction,
+    recipient of the transaction, and price of the transaction.
+    """
+    id = db.Column(db.Integer, 
+        primary_key=True
+        )
+    DateOfTransaction = db.Column(db.DateTime,
+        unique=False,
+        nullable=False
+        )
+    payee = db.Column(User.id, 
+        unique=False, 
+        nullable = False
+        )
+    recipient = db.Column(User.id, 
+        unique=False,
+        nullable=False
+        )
+    transactionPrice = db.Column(db.Float, 
+        unique=False,
+        nullable=False
+        )
