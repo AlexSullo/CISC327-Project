@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-// setting up SQLAlchemy and data models so we can map data models into database tables
+# setting up SQLAlchemy and data models so we can map data models into database tables
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 db = SQLAlchemy(app)
@@ -14,3 +14,11 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+
+
+class Transaction(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    DateOfTransaction = db.Column(db.DateTime, unique=False,nullable=False)
+    payee = db.Column(User.id, unique=False, nullable = False)
+    recipient = db.Column(User.id, unique=False,nullable=False)
+    transactionPrice = db.Column(db.Float, unique=False,nullable=False)
