@@ -1,3 +1,4 @@
+from unicodedata import name
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -8,9 +9,13 @@ db = SQLAlchemy(app)
 
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
+    name = db.Column(db.Integer, primary_key=True)
+    password = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    rating = db.Column(db.String(120), unique=True, nullable=False)
+    property_reviews = db.Column(db.String(120), unique=True, nullable=False)
+    user_reviews = db.Column(db.String(120), unique=True, nullable=False)
+    balance = db.Column(db.String(120), unique=True, nullable=False)
 
     def __repr__(self):
         return '<User %r>' % self.username
