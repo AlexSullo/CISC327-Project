@@ -1,3 +1,4 @@
+from unicodedata import name
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -35,6 +36,7 @@ class User(db.Model):
         unique=True, 
         nullable=False
         )
+
 
     def __repr__(self):
         return '<User %r>' % self.username
