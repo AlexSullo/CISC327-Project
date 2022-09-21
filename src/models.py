@@ -1,6 +1,3 @@
-from enum import unique
-from logging import NullHandler
-from unicodedata import name
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
