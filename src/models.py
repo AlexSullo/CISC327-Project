@@ -41,3 +41,7 @@ class Transaction(db.Model):
         unique=False,
         nullable=False
         )
+
+
+    def __repr__(self):
+        return '<Transaction %r>' % self.id
