@@ -71,3 +71,26 @@ class Transaction(db.Model):
 
     def __repr__(self):
         return '<Transaction %r>' % self.id
+
+class BankTransfer(db.Model):
+    """
+    - Holds all of the data relevant to a transfer of funds to a user's account from their bank account.
+    """
+    id = db.Column(db.Integer, 
+        primary_key=True,
+        unique=True
+        )
+    dateOfTransaction = db.Column(db.DateTime,
+        unique=False,
+        nullable=False
+        )
+    bank = db.Column(db.String(6),
+        nullable=False
+        )
+    TransferUser = db.Column(User.id, 
+        unique=False, 
+        nullable = False
+        )
+    transactionAmount = db.Column(db.Float, 
+        unique=False
+        nullable = False)
