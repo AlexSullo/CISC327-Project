@@ -85,7 +85,7 @@ class Listing(db.Model):
         primary_key=True
         )
     booked = db.Column(db.Boolean,
-        unique=True,
+        unique=False,
         nullable=False
         )
     address = db.Column(db.String(120),
@@ -99,6 +99,14 @@ class Listing(db.Model):
     propertyType = db.Column(db.String(80),
         unique=False,
         nullable=False
+        )
+    rating = db.Column(db.Float,
+        unique=False,
+        nullable=True
+        )
+    reviews = db.Column(db.String(120),
+        unique=False,
+        nullable=True
         )
     dateOfListing = db.Column(db.DateTime,
         unique=False,
