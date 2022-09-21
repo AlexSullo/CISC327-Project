@@ -23,7 +23,8 @@ class Transaction(db.Model):
     recipient of the transaction, and price of the transaction.
     """
     id = db.Column(db.Integer, 
-        primary_key=True
+        primary_key=True,
+        unique=True
         )
     DateOfTransaction = db.Column(db.DateTime,
         unique=False,
