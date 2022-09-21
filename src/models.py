@@ -1,3 +1,5 @@
+from enum import unique
+from logging import NullHandler
 from unicodedata import name
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -71,3 +73,41 @@ class Transaction(db.Model):
 
     def __repr__(self):
         return '<Transaction %r>' % self.id
+
+
+class Listing(db.Model):
+    """
+    A listing represents a property listed by a registered user who
+    is designated as the owner of the listing. A listing is bookable
+    by a registered user who is not the owner. A listing holds the 
+    address of the property, the registered user who listed the 
+    property (owner), the type of property, ratings and reviews of the
+    property, and the date it was listed.
+    """
+    id = db.Column(db.Integer,
+        primary_key=True
+        )
+    booked = db.Column(db.Boolean,
+        unique=True,
+        nullable=False
+        )
+    address = db.Column(db.String(120),
+        unique=True,
+        nullable=False
+        )
+    owner = db.Column(User.id,
+        unique=False,
+        nullable=False
+        )
+    propertyType = db.Column(db.String(80),
+        unique=False,
+        nullable=False
+        )
+    dateOfListing = db.Column(db.DateTime,
+        unique=False,
+        nullable=False
+        )
+
+    
+    def __repr__(self):
+        return '<Listing %r>' % self.id
