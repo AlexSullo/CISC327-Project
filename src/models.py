@@ -1,4 +1,3 @@
-from unicodedata import name
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 

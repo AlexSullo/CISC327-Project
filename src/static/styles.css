@@ -1,0 +1,159 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('Poppins-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    src: url('Poppins-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: 'Poppins';
+    font-weight: normal;
+}
+
+button {
+    border: none;
+    border-radius: 50px;
+    font-family: 'Poppins';
+    padding: 1em;
+    margin-left: 5em;
+}
+
+#logo {
+    max-width: 4em;
+    padding-right: 2em;
+}
+
+.navbar-container {
+    background-color: #ffffff;
+    min-height: 15vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    filter: drop-shadow(0px 1px 4px rgb(180, 180, 180));
+    opacity: 1;
+    position: sticky;
+    margin: -0.3em;
+    top: 0;
+    z-index: 15;
+
+}
+
+.navbar {
+    display: inherit;
+    align-items: center;
+}
+
+.searchbar {
+    height: 3em;
+    width: 30em;
+    border-radius: 80px;
+    font-family: 'Poppins';
+    font-weight: 100;
+    padding-left: 1em;
+    border-width: 2px;
+    border-color: #e2e2e2;
+    background-color: #FBFBFB;
+}
+
+.filters {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+
+.bnb-select {
+    height: 2em;
+    width: 2em;
+    font-weight: bold;
+    font-family: 'Poppins';
+    padding-left: 1em;
+    border-width: 2px;
+    border-color: #e2e2e2;
+    background-color: #FBFBFB;
+    padding-left: 1em;
+    margin-left: -0.25em;
+    background-color: #e2e2e2;
+    text-align: center;
+    border-radius: 0px 5px 5px 0px;
+    
+}
+
+.bnb-select:first-of-type {
+    border-radius: 5px 0px 0px 5px;
+}
+
+.filter-button {
+    border: none;
+    font-size: 16px;
+    border-radius: 50px;
+    font-weight: bold;
+    padding: 1em;
+    margin-left: 5em;
+    background-color: #ffffff;
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1 1 200px;
+}
+
+.listing {
+    margin: 1em;
+}
+
+.listings-container {
+    margin-top: 5vh;
+    margin: 5vh 25em 0 25em;
+    display: flex;
+    flex-wrap:  wrap;
+    justify-content: center;
+}
+
+.listing-img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-color: #000000;
+    border-width: 4px;
+    border-radius: 5px;
+    
+    
+}
+
+.loc-and-rating {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: -2.5vh;
+}
+
+.listing-rating {
+    text-align: left;
+}
+
+.listing-location {
+    font-weight: bold;
+}
+
+.booking-date {
+    margin-top: -1vh;
+}
+
+.cost-text {
+    margin-top: -1vh;
+}
