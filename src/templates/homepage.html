@@ -4,6 +4,7 @@
     <title>QBNB - Search for a New Experience</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+    <link rel="icon" href="{{url_for('static',filename='favicon.ico')}}">
 </head>
 <body> 
 <div class="navbar-container">
@@ -15,7 +16,7 @@
                 <input class="searchbar" placeholder="Search for a New Experience..." type="text" >
             </div>
             <div class="login-container">
-                <button>Login Button</button>
+                <a href="/settings"><button>Login Button</button></a>
             </div>
         </div>
 </div>
@@ -37,6 +38,7 @@
         <div class="listings-container">
 
             <div class="listing">
+                <a href="/listing">
                 <img class="listing-img" src="{{url_for('static', filename='placeholder.jpg')}}">
                 <div class="loc-and-rating">
                     <p class="listing-location">Location, CAN</p>
@@ -44,7 +46,7 @@
                 </div>
                 <p class="booking-date">Sept. 21 - Sept. 31</p>
                 <p class="cost-text"><b>$999</b> night</p>
-                
+                </a>    
             </div>
 
             <div class="listing">
