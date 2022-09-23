@@ -22,27 +22,30 @@ class Transaction(db.Model):
     user books a listing. Holds the date, payee of the transaction,
     recipient of the transaction, and price of the transaction.
     """
-    id = db.Column(db.Integer, 
+    id = db.Column(db.Integer,  # Unique value to identify user
         primary_key=True,
         unique=True
         )
-    DateOfTransaction = db.Column(db.DateTime,
+    DateOfTransaction = db.Column(db.DateTime,  # Day/Time of trans.
         unique=False,
         nullable=False
         )
-    payee = db.Column(User.id, 
+    payee = db.Column(User.id,  # Person who paid for the transaction
         unique=False, 
         nullable = False
         )
-    recipient = db.Column(User.id, 
+    recipient = db.Column(User.id,  # Person who received transaction
         unique=False,
         nullable=False
         )
-    transactionPrice = db.Column(db.Float, 
+    transactionPrice = db.Column(db.Float,  # Price of the transaction
         unique=False,
         nullable=False
         )
 
 
     def __repr__(self):
+        """
+        Test function to return id of instance and object type
+        """
         return '<Transaction %r>' % self.id
