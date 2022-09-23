@@ -1,3 +1,4 @@
+from unicodedata import name
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
@@ -8,9 +9,34 @@ db = SQLAlchemy(app)
 
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+    id = db.Column(db.Integer, 
+        primary_key=True
+        )
+    username = db.Column(db.String(80), 
+        unique=True, 
+        nullable=False
+        )
+    email = db.Column(db.String(120), 
+        unique=True, 
+        nullable=False
+        )
+    password = db.Column(db.String(120), 
+        unique=True, 
+        nullable=False
+        )
+    rating = db.Column(db.String(120), 
+        unique=True, 
+        nullable=False
+        )
+    propertyReview = db.Column(db.String(120), 
+        unique=True, 
+        nullable=False
+        )
+    userReview = db.Column(db.String(120), 
+        unique=True, 
+        nullable=False
+        )
+
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -45,7 +71,33 @@ class Transaction(db.Model):
 
 
     def __repr__(self):
+
         """
         Test function to return id of instance and object type
         """
         return '<Transaction %r>' % self.id
+
+
+class BankTransfer(db.Model):
+    """
+    - Holds all of the data relevant to a transfer of funds to a user's account from their bank account.
+    """
+    id = db.Column(db.Integer, 
+        primary_key=True,
+        unique=True
+        )
+    dateOfTransaction = db.Column(db.DateTime,
+        unique=False,
+        nullable=False
+        )
+    bank = db.Column(db.String(6),
+        nullable=False
+        )
+    TransferUser = db.Column(User.id, 
+        unique=False, 
+        nullable = False
+        )
+    transactionAmount = db.Column(db.Float, 
+        unique=False
+        nullable = False)
+
