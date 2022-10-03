@@ -156,7 +156,8 @@ class BankTransfer(db.Model):
         nullable = False
         )
     transactionAmount = db.Column(db.Float, 
-        unique=False
-        nullable = False)
+        unique=False,
+        nullable = False
+        )
 
 
