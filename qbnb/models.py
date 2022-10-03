@@ -58,7 +58,7 @@ class Transaction(db.Model):
 
     payee = db.Column(User.id,  # Person who paid for the transaction
                       unique=False, 
-                      nullable = False)
+                      nullable=False)
 
     recipient = db.Column(User.id,  # Person who received transaction
                           unique=False,
@@ -151,11 +151,11 @@ class BankTransfer(db.Model):
 
     TransferUser = db.Column(User.id, 
                              unique=False, 
-                             nullable = False)
+                             nullable=False)
 
     transactionAmount = db.Column(db.Float, 
                                   unique=False,
-                                  nullable = False)
+                                  nullable=False)
 
 
 
