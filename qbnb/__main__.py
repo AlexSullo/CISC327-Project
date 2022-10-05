@@ -11,6 +11,7 @@ greetings = [
     'How are you'
 ]
 
+
 @app.route("/")
 def home():
     '''
@@ -47,6 +48,7 @@ def profile(id):
         return render_template('profile.html',
                                userData=userData,
                                greeting=pickedGreeting)
+
 
 @app.route("/update/<id>", methods=['POST'])
 def update_profile(id):

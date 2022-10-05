@@ -63,7 +63,7 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
-    def __init__(self, username,firstName,email,password):
+    def __init__(self, username, firstName, email, password):
         self.firstName = firstName
         self.email = email
         self.password = password
@@ -75,15 +75,6 @@ class User(db.Model):
         self.postalCode = ''
         self.surname = ''
         self.username = username
-
-    def send_user_info(self, id):
-        '''
-        Sends relevant user data to frontend
-        '''
-        print("TEST")
-        
-
-        return make_response(jsonify(userData))
 
     def save_updated_info(self, updatedInfo):
         '''
@@ -223,6 +214,3 @@ class BankTransfer(db.Model):
                                   unique=False,
                                   nullable=False)
 
-'''
-OTHER FUNCTIONS
-'''
