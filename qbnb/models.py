@@ -1,5 +1,7 @@
+from enum import unique
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 
 '''
 setting up SQLAlchemy and data models so we can map data models into database
@@ -56,11 +58,11 @@ class Transaction(db.Model):
                                   unique=False,
                                   nullable=False)
 
-    payee = db.Column(User.id,  # Person who paid for the transaction
+    payee = db.Column(db.String(20),  # Person who paid for the transaction
                       unique=False, 
                       nullable=False)
 
-    recipient = db.Column(User.id,  # Person who received transaction
+    recipient = db.Column(db.String(20),  # Person who received transaction
                           unique=False,
                           nullable=False)
 
@@ -82,9 +84,16 @@ class Listing(db.Model):
     property, the date it was listed, the cost per night, as well as
     pictures and a description.
     """
-    id = db.Column(db.Integer,  # Unique number identifies the user
-                   primary_key=True,
-                   unique=True)
+    id = db.Column(db.String(20),  # Unique number identifies the user
+        primary_key=True,
+        unique=True
+        )
+
+    title = db.Column(db.String(80),
+        unique=False,
+        nullable=False
+        )
+    print(title)
 
     booked = db.Column(db.Boolean,  # Determines if listing has been booked
                        unique=False,
@@ -94,7 +103,7 @@ class Listing(db.Model):
                         unique=True,
                         nullable=False)
 
-    owner = db.Column(User.id,  # Registered user who listed the property
+    owner = db.Column(db.String(20),  # Registered user who listed the property
                       unique=False,
                       nullable=False)
 
@@ -149,7 +158,7 @@ class BankTransfer(db.Model):
     bank = db.Column(db.String(6),
                      nullable=False)
 
-    TransferUser = db.Column(User.id, 
+    TransferUser = db.Column(db.String(20), 
                              unique=False, 
                              nullable=False)
 
