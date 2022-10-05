@@ -1,13 +1,12 @@
-from flask import Flask
+from flask import Flask, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
-import json
+from qbnb import app
 
 '''
 setting up SQLAlchemy and data models so we can map data models into database
 tables
     '''
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+
 db = SQLAlchemy(app)
 
 
@@ -65,7 +64,6 @@ class User(db.Model):
         return '<User %r>' % self.username
 
     def __init__(self, username,firstName,email,password):
-        self.id = self.id
         self.firstName = firstName
         self.email = email
         self.password = password
@@ -78,18 +76,14 @@ class User(db.Model):
         self.surname = ''
         self.username = username
 
-    def send_user_info(self):
+    def send_user_info(self, id):
         '''
         Sends relevant user data to frontend
         '''
-        userData = {
-            'username': self.username,
-            'email': self.email,
-            'billingAddress': self.billingAddress,
-            'postalCode': self.postalCode,
-        }
+        print("TEST")
+        
 
-        return json.dumps(userData)
+        return make_response(jsonify(userData))
 
     def save_updated_info(self, updatedInfo):
         '''
@@ -229,3 +223,6 @@ class BankTransfer(db.Model):
                                   unique=False,
                                   nullable=False)
 
+'''
+OTHER FUNCTIONS
+'''

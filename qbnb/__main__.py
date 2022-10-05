@@ -1,10 +1,15 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
-from .models import User
+from qbnb import *
+from qbnb.models import *
+import random
 
-
-app = Flask(__name__)
-
+greetings = [
+    'Hey there',
+    'Hi',
+    'Welcome',
+    'How are you'
+]
 
 @app.route("/")
 def home():
@@ -24,24 +29,24 @@ def listing(id):
     return render_template('listing.html')
 
 
-@app.route("/settings")
-def settings():
+@app.route('/profile/<int:id>', methods=['GET', 'POST']) 
+def profile(id):
     '''
-    Opens the settings page
+    Allows user to view/update their profile
     '''
-
-    return render_template('settings.html')
-
-@app.route("/profile/<id>")
-def view_profile(id):
-    '''
-    Allows user to view their profile
-    '''
-    print('Loading user')
-    currentUser = User.query.get(1) # Change to id when testing done
-    data = currentUser.send_user_info()
-    print(data.username)
-    return render_template('profile.html')
+    if request.method == 'GET':
+        user = db.session.query(User).get(id)
+        userData = {
+            "username": user.username,
+            "email": user.email,
+            "billingAddress": user.billingAddress,
+            "postalCode": user.postalCode,
+            "firstName": user.firstName,
+        }
+        pickedGreeting = random.choice(greetings)
+        return render_template('profile.html',
+                               userData=userData,
+                               greeting=pickedGreeting)
 
 @app.route("/update/<id>", methods=['POST'])
 def update_profile(id):

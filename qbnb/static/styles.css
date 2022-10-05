@@ -1,18 +1,4 @@
-@font-face {
-    font-family: 'Poppins';
-    src: url('Poppins-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Poppins';
-    src: url('Poppins-Bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
 a {
     text-decoration: none;
@@ -23,14 +9,14 @@ a:visited {
 }
 
 body {
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     font-weight: normal;
 }
 
 button {
     border: none;
     border-radius: 50px;
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     padding: 1em;
     margin-left: 5em;
 }
@@ -67,7 +53,7 @@ button {
     height: 3em;
     width: 30em;
     border-radius: 80px;
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     font-weight: 100;
     padding-left: 1em;
     border-width: 2px;
@@ -87,7 +73,7 @@ button {
     height: 2em;
     width: 2em;
     font-weight: bold;
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     padding-left: 1em;
     border-width: 2px;
     border-color: #e2e2e2;
@@ -239,26 +225,11 @@ button {
     
 }
 
-.settings-options {
-    background-color: #e2e2e2;
-    font-size: 24px;
-    list-style: none;
-    margin-left: -25em;
-    border-radius: 10px 0 0 10px;
-    max-width: 12em;
-
+.user-greeting {
+    text-align: center;
 }
 
-.settings-options li {
-    margin-right: -5em;
-    padding: 1vh 0 1vh 0;
-    border-width: 4px;
-    border-radius: 10px;
-    border-color: #8f8f8f;
-    
-}
-
-.settings-main {
-    background-color: #e2e2e2;
-    border: #bbbbbb;
+.profile-container {
+    display: flex;
+    flex-direction: column;
 }

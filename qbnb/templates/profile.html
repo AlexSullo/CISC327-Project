@@ -1,28 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>QBNB - Search for a New Experience</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
-    <link rel="icon" href="{{url_for('static',filename='favicon.ico')}}">
-</head>
-<body> 
-<div class="navbar-container">
-        <div class="navbar">
-            <div class="logo-container">
-                <img id="logo" src="{{url_for('static', filename='QBNBLogo.jpg')}}" align="left"/>
-            </div>
-            <div class="searchbar-container">
-                <input class="searchbar" placeholder="Search for a New Experience..." type="text" >
-            </div>
-            <div class="login-container">
-                <a href="/settings"><button>Login Button</button></a>
-            </div>
-        </div>
-</div>
-<br>
+{% extends 'base.html' %}
+
+{% block body %}
 <div class="main-container">
-    
+   
+    {% if userData %}
+        <div class="profile-container">
+            <div class="user-greeting">
+                <h2>{{ greeting }}, {{ userData.firstName }}</h2>
+            </div>
+            <div class="profile-main">
+                Display Name: {{ userData.username }}<br>
+                Email: {{ userData.email }}<br>
+                Address: {{ userData.billingAddress }}<br>
+                Postal Code: {{ userData.postalCode }}<br>
+
+            </div>
+            
+        </div>
+    {% else %}
+        <h2>
+            There was an error. Please return to the homepage.
+            If the issue persists, please contact support.
+        </h2>
+    {% endif %}
 </div>
-</body>
-</html>
+{% endblock %}
