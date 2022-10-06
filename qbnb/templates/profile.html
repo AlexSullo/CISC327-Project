@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<div class="main-container">
+<div class="main-container-profiles">
    
     {% if userData %}
         <div class="profile-container">
@@ -9,11 +9,22 @@
                 <h2>{{ greeting }}, {{ userData.firstName }}</h2>
             </div>
             <div class="profile-main">
-                Display Name: {{ userData.username }}<br>
-                Email: {{ userData.email }}<br>
-                Address: {{ userData.billingAddress }}<br>
-                Postal Code: {{ userData.postalCode }}<br>
-
+                <div class="profile-header">
+                    <h1>Your Changable Information</h1>
+                    <p>This is your on-file information that can be changed.</p>
+                </div>
+                <hr>
+                <div class="profile-changables-container">
+                    <h2 class="profile-head"><b>Display Name: </b>{{ userData.username }}</h2>
+                    <h2 class="profile-head"><b>Email: </b>{{ userData.email }}</h2>
+                    <h2 class="profile-head"><b>Address: </b>{{ userData.billingAddress }}</h2>
+                    <h2 class="profile-head"><b>Postal Code: </b>{{ userData.postalCode }}</h2>
+                </div>
+                <div class="profile-header">
+                    <p>Edit Your Information?</p>
+                    <button class="standard-button" style="justify-self:center;">Edit</button>
+                </div>
+                
             </div>
             
         </div>
