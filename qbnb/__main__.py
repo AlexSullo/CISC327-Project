@@ -73,7 +73,7 @@ def update_profile(id):
             "userReviews": user.userReview,
             "balance": user.balance,
             "id": id
-            }
+        }
         return render_template('updateInfo.html',
                                userData=userData)
     else:
