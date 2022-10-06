@@ -1,18 +1,21 @@
-from flask import Flask
+from flask import Flask, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
+from qbnb import app
 
 '''
 setting up SQLAlchemy and data models so we can map data models into database
 tables
     '''
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
+
 db = SQLAlchemy(app)
 
 
 class User(db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, 
-                   primary_key=True)
+                   primary_key=True,
+                   autoincrement=True,
+                   unique=True)
 
     username = db.Column(db.String(80), 
                          unique=True, 
@@ -23,24 +26,75 @@ class User(db.Model):
                       nullable=False)
 
     password = db.Column(db.String(120), 
-                         unique=True, 
+                         unique=False, 
                          nullable=False)
 
     rating = db.Column(db.String(120), 
-                       unique=True, 
+                       unique=False, 
                        nullable=False)
 
     propertyReview = db.Column(db.String(120), 
-                               unique=True, 
-                               nullable=False)
+                               unique=False, 
+                               nullable=True)
 
     userReview = db.Column(db.String(120), 
-                           unique=True, 
+                           unique=False, 
+                           nullable=True)
+    
+    balance = db.Column(db.Float,
+                        nullable=False)
+
+    billingAddress = db.Column(db.String(120),
+                               unique=False,
+                               nullable=False)
+    
+    postalCode = db.Column(db.String(6),
+                           unique=False,
                            nullable=False)
+
+    firstName = db.Column(db.String(15),
+                          unique=False,
+                          nullable=False)
+
+    surname = db.Column(db.String(20),
+                        unique=False,
+                        nullable=False)
 
     def __repr__(self):
         return '<User %r>' % self.username
 
+    def __init__(self, username, firstName, email, password):
+        self.firstName = firstName
+        self.email = email
+        self.password = password
+        self.rating = '5'
+        self.balance = 100.0
+        self.propertyReview = ''
+        self.userReview = ''
+        self.billingAddress = ''
+        self.postalCode = ''
+        self.surname = ''
+        self.username = username
+
+    def save_updated_info(self, updatedInfo):
+        '''
+        Check if the user has updated any of the relevant fields, and if they
+        have, update their information.
+        '''
+        if updatedInfo.username:
+            self.username = updatedInfo.username
+        
+        if updatedInfo.email:
+            self.email = updatedInfo.email
+        
+        if updatedInfo.billingAddress:
+            self.billingAddress = updatedInfo.billingAddress
+
+        if updatedInfo.postalCode:
+            self.postalCode = updatedInfo.postalCode
+        
+        return '<User %r Updated.>' % self.id
+        
 
 class Transaction(db.Model):
     """
@@ -48,6 +102,7 @@ class Transaction(db.Model):
     user books a listing. Holds the date, payee of the transaction,
     recipient of the transaction, and price of the transaction.
     """
+    __tablename__ = 'transactions'
     id = db.Column(db.Integer,  # Unique value to identify user
                    primary_key=True,
                    unique=True)
@@ -56,11 +111,11 @@ class Transaction(db.Model):
                                   unique=False,
                                   nullable=False)
 
-    payee = db.Column(User.id,  # Person who paid for the transaction
+    payee = db.Column(db.String(20),  # Person who paid for the transaction
                       unique=False, 
                       nullable=False)
 
-    recipient = db.Column(User.id,  # Person who received transaction
+    recipient = db.Column(db.String(20),  # Person who received transaction
                           unique=False,
                           nullable=False)
 
@@ -82,6 +137,7 @@ class Listing(db.Model):
     property, the date it was listed, the cost per night, as well as
     pictures and a description.
     """
+    __tablename__ = 'listings'
     id = db.Column(db.Integer,  # Unique number identifies the user
                    primary_key=True,
                    unique=True)
@@ -94,7 +150,7 @@ class Listing(db.Model):
                         unique=True,
                         nullable=False)
 
-    owner = db.Column(User.id,  # Registered user who listed the property
+    owner = db.Column(db.String(20),  # Registered user who listed the property
                       unique=False,
                       nullable=False)
 
@@ -138,6 +194,7 @@ class BankTransfer(db.Model):
     Holds all of the data relevant to a transfer of funds to a user's account
     from their bank account.
     """
+    __tablename__ = 'banktransfer'
     id = db.Column(db.Integer, 
                    primary_key=True,
                    unique=True)
@@ -149,13 +206,11 @@ class BankTransfer(db.Model):
     bank = db.Column(db.String(6),
                      nullable=False)
 
-    TransferUser = db.Column(User.id, 
+    TransferUser = db.Column(db.String(20), 
                              unique=False, 
                              nullable=False)
 
     transactionAmount = db.Column(db.Float, 
                                   unique=False,
                                   nullable=False)
-
-
 

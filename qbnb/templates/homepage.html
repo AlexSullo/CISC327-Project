@@ -1,26 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>QBNB - Search for a New Experience</title>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
-    <link rel="icon" href="{{url_for('static',filename='favicon.ico')}}">
-</head>
-<body> 
-<div class="navbar-container">
-        <div class="navbar">
-            <div class="logo-container">
-                <img id="logo" src="{{url_for('static', filename='QBNBLogo.jpg')}}" align="left"/>
-            </div>
-            <div class="searchbar-container">
-                <input class="searchbar" placeholder="Search for a New Experience..." type="text" >
-            </div>
-            <div class="login-container">
-                <a href="/settings"><button>Login Button</button></a>
-            </div>
-        </div>
-</div>
-<br>
+{% extends 'base.html' %}
+
+{% block body %}
 <div class="main-container">
     <div class="main">
         <div class="filters">
@@ -38,7 +18,7 @@
         <div class="listings-container">
 
             <div class="listing">
-                <a href="/listing">
+                <a href="/listing/1">
                 <img class="listing-img" src="{{url_for('static', filename='placeholder.jpg')}}">
                 <div class="loc-and-rating">
                     <p class="listing-location">Location, CAN</p>
@@ -195,5 +175,4 @@
         </div>
     </div>
 </div>
-</body>
-</html>
+{% endblock %}
