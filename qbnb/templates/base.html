@@ -10,13 +10,14 @@
 <div class="navbar-container">
         <div class="navbar">
             <div class="logo-container">
-                <img id="logo" src="{{url_for('static', filename='QBNBLogo.jpg')}}" align="left"/>
+                <a href="/"><img id="logo" src="{{url_for('static', filename='QBNBLogo.jpg')}}" align="left"/></a>
             </div>
             <div class="searchbar-container">
                 <input class="searchbar" placeholder="Search for a New Experience..." type="text" >
             </div>
             <div class="login-container">
-                <a href="/settings"><button>Login Button</button></a>
+                <!-- Eventually, add if to check if signed in and change-->
+                <a href="/profile/1"><button style="margin-left:5em;" class="standard-button">Login Button</button></a>
             </div>
         </div>
 </div>
