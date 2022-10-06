@@ -30,7 +30,7 @@ def listing(id):
     return render_template('listing.html')
 
 
-@app.route('/profile/<int:id>', methods=['GET', 'POST']) 
+@app.route('/profile/<int:id>', methods=['GET', 'POST'])
 def profile(id):
     '''
     Allows user to view/update their profile
@@ -44,7 +44,7 @@ def profile(id):
             "postalCode": user.postalCode,
             "firstName": user.firstName,
             "rating": user.rating,
-            "propertyReviews": ['Hello'], # CHANGE
+            "propertyReviews": ['Hello'],  # CHANGE
             "userReviews": user.userReview,
             "balance": user.balance
         }
@@ -63,19 +63,19 @@ def update_profile(id):
     user = db.session.query(User).get(id)
     if request.method == 'GET':
         userData = {
-                "username": user.username,
-                "email": user.email,
-                "billingAddress": user.billingAddress,
-                "postalCode": user.postalCode,
-                "firstName": user.firstName,
-                "rating": user.rating,
-                "propertyReviews": ['Hello'],  # CHANGE
-                "userReviews": user.userReview,
-                "balance": user.balance,
-                "id": id
+            "username": user.username,
+            "email": user.email,
+            "billingAddress": user.billingAddress,
+            "postalCode": user.postalCode,
+            "firstName": user.firstName,
+            "rating": user.rating,
+            "propertyReviews": ['Hello'],  # CHANGE
+            "userReviews": user.userReview,
+            "balance": user.balance,
+            "id": id
             }
         return render_template('updateInfo.html',
-                                userData=userData)
+                               userData=userData)
     else:
         try:
             if request.form['username'] != "":
