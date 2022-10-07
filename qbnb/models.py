@@ -1,5 +1,12 @@
+from cgi import print_environ_usage
+from enum import unique
 from flask import Flask
+from email_validator import validate_email, EmailNotValidError
+# from flask_login import UserMixin
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import false
+import re
+
 
 '''
 setting up SQLAlchemy and data models so we can map data models into database
@@ -12,7 +19,8 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, 
-                   primary_key=True)
+                   primary_key=True,
+                   unique=True)
 
     username = db.Column(db.String(80), 
                          unique=True, 
@@ -33,13 +41,58 @@ class User(db.Model):
     propertyReview = db.Column(db.String(120), 
                                unique=True, 
                                nullable=False)
+    
+    shippingAddress = db.Column(db.String(120),
+                                unique=False,
+                                nullable=True)
+
+    postalCode = db.Column(db.String(120),
+                            unique=False,
+                            nullable=True)
+
+    balance = db.Column(db.Integer(),
+                        unique=False,
+                        nullable=False)
 
     userReview = db.Column(db.String(120), 
                            unique=True, 
                            nullable=False)
+        
+    def registration(self, username, password, email):
+        reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$"
+        pat = re.compile(reg)
+        mat = re.search(pat, password)
+        if username == "":
+            print("Username can not be empty.")
+        if password == "":
+            print("Password can not be empty.")
+        if not mat:
+            print("password is invalid, must contain one lower, one upper, one special char and at least 6 characters long")
+        if len(username) < 2  or len(username) > 20:
+            print("Username must be between 2 and 20 characters long")
+        i = 0
+        for c in username:
+            if (i == 0 or i == len(username)-1):  # If its the first or last character
+                if (not c.isalnum()):  # If its not alphanumeric
+                    print("Username: 'contains spaces on the ends or non-alphanumeric'")
+                    return False
+            elif (c == " "):  # Or if its a space within the title
+                pass
+            elif (not c.isalnum()):  # Or if its not alphanumeric
+                print("'non-alphanumeric'")
+                return False
+            i += 1
+        self.balance = 100
+        try:
+            # Check that the email address is valid.
+            validation = validate_email(email, check_deliverability=unique)  
+            email = validation.email
+        except EmailNotValidError as e:
+            # Email is not valid.
+            print(str(e))
 
-    def __repr__(self):
-        return '<User %r>' % self.username
+        def __repr__(self):
+            return '<User %r>' % self.username
 
 
 class Transaction(db.Model):
@@ -56,11 +109,11 @@ class Transaction(db.Model):
                                   unique=False,
                                   nullable=False)
 
-    payee = db.Column(User.id,  # Person who paid for the transaction
+    payee = db.Column(db.String(20),  # Person who paid for the transaction
                       unique=False, 
                       nullable=False)
 
-    recipient = db.Column(User.id,  # Person who received transaction
+    recipient = db.Column(db.String(20),  # Person who received transaction
                           unique=False,
                           nullable=False)
 
@@ -94,7 +147,7 @@ class Listing(db.Model):
                         unique=True,
                         nullable=False)
 
-    owner = db.Column(User.id,  # Registered user who listed the property
+    owner = db.Column(db.String(20),  # Registered user who listed the property
                       unique=False,
                       nullable=False)
 
@@ -149,13 +202,25 @@ class BankTransfer(db.Model):
     bank = db.Column(db.String(6),
                      nullable=False)
 
-    TransferUser = db.Column(User.id, 
+    TransferUser = db.Column(db.String(20), 
                              unique=False, 
                              nullable=False)
 
     transactionAmount = db.Column(db.Float, 
                                   unique=False,
                                   nullable=False)
+
+"""
+* Sprint two: user registration
+* Checks all cases to insure the account is made correctly
+* Initializes balance to 100
+
+pas = "alexSulloin"
+ema = "alexsullo67@gmail.com"
+use = "SuBooks"
+user = User(username=use, password=pas, email=ema)
+print(user.registration(use, pas, ema))
+"""
 
 
 

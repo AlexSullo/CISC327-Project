@@ -1,6 +1,7 @@
 from qbnb import *
+from curses.ascii import isalnum
 from qbnb.models import *
-from flask import Flask, render_template, request, redirect
+from flask import Flask, redirect, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -20,5 +21,5 @@ def listing():
 
 @app.route("/settings")
 def settings():
-
     return render_template('settings.html')
+
