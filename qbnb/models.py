@@ -40,14 +40,14 @@ class User(db.Model):
     userReview = db.Column(db.String(120), 
                            unique=False, 
                            nullable=True)
-    
+
     balance = db.Column(db.Float,
                         nullable=False)
 
     billingAddress = db.Column(db.String(120),
                                unique=False,
                                nullable=False)
-    
+
     postalCode = db.Column(db.String(6),
                            unique=False,
                            nullable=False)
@@ -67,7 +67,7 @@ class User(db.Model):
         self.firstName = firstName
         self.email = email
         self.password = password
-        self.rating = '5'
+        self.rating = '5.0'
         self.balance = 100.0
         self.propertyReview = ''
         self.userReview = ''
@@ -83,18 +83,18 @@ class User(db.Model):
         '''
         if updatedInfo.username:
             self.username = updatedInfo.username
-        
+
         if updatedInfo.email:
             self.email = updatedInfo.email
-        
+
         if updatedInfo.billingAddress:
             self.billingAddress = updatedInfo.billingAddress
 
         if updatedInfo.postalCode:
             self.postalCode = updatedInfo.postalCode
-        
+
         return '<User %r Updated.>' % self.id
-        
+
 
 class Transaction(db.Model):
     """

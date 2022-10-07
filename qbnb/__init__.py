@@ -5,16 +5,3 @@ from flask import Flask
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# from flask import Flask
-# from . import models
-
-# app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../db.sqlite'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# models.db.create_all()
-# models.db.app = app
-# models.db.session.commit()
-# users = models.User.query.all()
-# print(users)
