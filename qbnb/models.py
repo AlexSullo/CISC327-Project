@@ -109,7 +109,7 @@ class Listing(db.Model):
         nullable=False,
         )
 
-    lastModifiedDate = db.Column(db.DateTime,  # The date this listing was last updated
+    lastModifiedDate = db.Column(db.DateTime,  # The date changes were made
         unique=False,
         nullable=False
         )
@@ -165,10 +165,11 @@ class Listing(db.Model):
         i = 0
         titleLen = len(self.title)
         if (titleLen > 80):  # If the title exceeds 80 characters
-            print("Listing Error: Title Error: '"+str(titleLen-80)+" characters above the limit of 80'")
+            print("Listing Error: Title Error: '"+str(titleLen - 80)+
+            " characters above the limit of 80'")
             return False
         for c in self.title:
-            if (i == 0 or i == titleLen-1):  # If its the first or last character
+            if (i == 0 or i == titleLen - 1):  # If its the first or last character
                 if (not c.isalnum()):  # If its not alphanumeric
                     print("Listing Error: Title Error: 'contains spaces on the ends or non-alphanumeric'")
                     return False
