@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="bg"></div>
+<div class="bg bg2"></div>
+<div class="bg bg3"></div>
+<div class="main-container-profiles">
+    
+    {% if userData %}
+        <div class="profile-container">
+            <div class="core-profile">
+
+            
+                <div class="user-greeting">
+                    <h2 style="color:white">{{ greeting }}, {{ userData.firstName }}</h2>
+                </div>
+                <div class="profile-main">
+                    <h2 style="text-align:center;color:white">{{ userData.firstName }} — <img class="rating-img"  src="{{url_for('static', filename='rating.png')}}"> {{ userData.rating }} Rating</h2>
+                    <div class="pfp-container">
+                        <img class="profile-picture" src="{{url_for('static', filename='pfp_placeholder.jpeg')}}">
+                    </div>
+            </div>
+                <div class="profile-quick-container">
+
+                    
+                    <div class="profile-changables-container" style="text-align:left">
+                        <div class="reviews-container">
+                            <h2>Your Balance</h2>
+                            Current Balance: ${{ userData.balance }}
+                            <div class="profile-header">
+                                <p>Add To Your Balance?</p>
+                                <button class="standard-button" style="justify-self:center;">Add Balance</button>
+                            </div>
+                        </div>
+                        <hr class="short-hr">
+                        {% if userData.propertyReviews %}
+                            <div class="reviews-container">
+                                <h2>Your Reviews</h2>
+                                                                    
+                                    <p>You haven't made any reviews yet!</p>
+                                
+                                
+                            </div>
+                        {% else %}
+                            <div class="reviews-container">
+                                <h2>Your Reviews</h2>
+                                
+                                    <p>Not coded yet.</p>
+                                
+                                
+                            </div>
+                            
+                        {% endif %}
+
+                        {% if userData.userReviews %}
+                            <div class="reviews-container">
+                                <h2>Reviews About You</h2>
+                                                                    
+                                    <p>Here's what people had to say about you!</p>
+                                
+                                
+                            </div>
+                            <hr>
+                        {% else %}
+                            <div class="reviews-container">
+                                <h2>Reviews About You</h2>
+                                
+                                    <p>Nobody has reviewed you yet. Put yourself out there!</p>
+                                
+                                
+                            </div>
+                            <hr>
+
+
+                        {% endif %}
+
+                        
+                    </div>
+
+                        
+                    </div>
+                </div>
+                <div class="changables-container">
+
+                
+                    <div class="profile-header">
+                        <h1>Your Changable Information</h1>
+                        <p>This is your on-file information that can be changed.</p>
+                    </div>
+                    <hr>
+                    <div class="profile-changables-container">
+                        <h2 class="profile-head"><b>Display Name: </b>{{ userData.username }}</h2>
+                        <h2 class="profile-head"><b>Email: </b>{{ userData.email }}</h2>
+                        <h2 class="profile-head"><b>Address: </b>{{ userData.billingAddress }}</h2>
+                        <h2 class="profile-head"><b>Postal Code: </b>{{ userData.postalCode }}</h2>
+                    </div>
+                    <div class="profile-header">
+                        <p>Edit Your Information?</p>
+                        <a href="/update/{{ id }}"><button class="standard-button">Edit</button></a>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    {% else %}
+        <h2>
+            There was an error. Please return to the homepage.
+            If the issue persists, please contact support.
+        </h2>
+    {% endif %}
+</div>
+{% endblock %}
