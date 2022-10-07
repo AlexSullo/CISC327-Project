@@ -1,18 +1,4 @@
-@font-face {
-    font-family: 'Poppins';
-    src: url('Poppins-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Poppins';
-    src: url('Poppins-Bold.ttf') format('truetype');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
 a {
     text-decoration: none;
@@ -23,14 +9,13 @@ a:visited {
 }
 
 body {
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     font-weight: normal;
 }
 
 button {
-    border: none;
-    border-radius: 50px;
-    font-family: 'Poppins';
+    border: solid 4px rgb(157,25,57);
+    font-family: 'Poppins', sans-serif;
     padding: 1em;
     margin-left: 5em;
 }
@@ -39,6 +24,27 @@ button {
     max-width: 4em;
     padding-right: 2em;
 }
+
+.bg {
+    animation:slide 3s ease-in-out infinite alternate;
+    background-image: linear-gradient(-60deg, rgb(238, 189, 49) 50%, rgb(157, 25, 57) 50%);
+    bottom:0;
+    left:-50%;
+    opacity:.5;
+    position:fixed;
+    right:-50%;
+    top:0;
+    z-index:-1;
+  }
+  
+  .bg2 {
+    animation-direction:alternate-reverse;
+    animation-duration:4s;
+  }
+  
+  .bg3 {
+    animation-duration:5s;
+  }
 
 .navbar-container {
     background-color: #ffffff;
@@ -67,11 +73,10 @@ button {
     height: 3em;
     width: 30em;
     border-radius: 80px;
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     font-weight: 100;
     padding-left: 1em;
-    border-width: 2px;
-    border-color: #e2e2e2;
+    border: solid 2px #e2e2e2;
     background-color: #FBFBFB;
 }
 
@@ -87,7 +92,7 @@ button {
     height: 2em;
     width: 2em;
     font-weight: bold;
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     padding-left: 1em;
     border-width: 2px;
     border-color: #e2e2e2;
@@ -120,8 +125,56 @@ button {
     flex-grow: 1 1 200px;
 }
 
+.changing-info-container {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1 1 200px;
+    flex-direction: column;
+    margin: 0 15em 0 15em;
+}
+
+.textfield {
+    transition: all 250ms ease;
+    border: solid 2px rgb(157,25,57);
+    border-radius: 5px;
+    padding: 1em;
+    margin: 1.5vh 0 2.5vh 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #fafafafa;
+    width: 40.2em;
+}
+
+.textfield:active {
+    transition: all 250ms ease;
+    border: solid 2px rgb(0, 36, 82);
+
+}
+
+.main-container-profiles {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1 1 200px;
+}
+
+.changables-container {
+    background-color: rgba(255,255,255,1);
+    margin: -2vh -25em -2vh -25em;
+    padding: 2vh 25em 2vh 25em;
+}
+
+.core-profile {
+    background-color: rgba(255, 255, 255, 0);
+}
+
+
 .listing {
+    transition: all 250ms ease-in-out;
     margin: 1em;
+}
+
+.listing:hover {
+    transition: all 250ms ease-in-out;
+    transform: scale(1.15);
 }
 
 .listings-container {
@@ -239,26 +292,109 @@ button {
     
 }
 
-.settings-options {
-    background-color: #e2e2e2;
-    font-size: 24px;
-    list-style: none;
-    margin-left: -25em;
-    border-radius: 10px 0 0 10px;
-    max-width: 12em;
-
+.user-greeting {
+    text-align: center;
 }
 
-.settings-options li {
-    margin-right: -5em;
-    padding: 1vh 0 1vh 0;
-    border-width: 4px;
-    border-radius: 10px;
-    border-color: #8f8f8f;
-    
+.profile-main {
+    min-width: 50em;
 }
 
-.settings-main {
-    background-color: #e2e2e2;
-    border: #bbbbbb;
+.profile-changables-container form {
+    display: flex;
+    flex-direction: column;
+    margin: 1vh;
 }
+
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5vh 1em 0.5vh 1em;
+}
+
+.profile-head {
+    font-family: 'Poppins', sans-serif;
+    font-weight: normal;
+    justify-content: left;
+}
+
+.profile-header {
+    padding-top: -1vh;
+    text-align: center;
+}
+
+.standard-button {
+    transition: all 250ms ease-in-out;
+
+    background-color: rgb(0, 36, 82);
+    color: white;
+    min-width: 5em;
+    margin-left: 0;
+    border: solid 2px rgb(238,189,49);
+    border-radius: 15px;
+}
+
+.standard-button a {
+    transition: all 250ms ease-in-out;
+    padding: 5em;
+    background-color: rgb(0, 36, 82);
+    color: white;
+    min-width: 5em;
+    margin-left: 0;
+    border: solid 2px rgb(238,189,49);
+    border-radius: 15px;
+}
+
+.standard-button:hover {
+    transition: all 250ms ease-in-out;
+    transform: scale(1.15);
+}
+
+
+.profile-quick-container {
+    text-align: center;
+    background-color: #FBFBFB;
+    margin: 0 -25em 0 -25em;
+    padding: 0 25em 0 25em;
+}
+
+.short-hr {
+    width: 15em;
+}
+
+.reviews-container {
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+}
+
+.rating-img {
+    width: 20px;
+}
+
+.rating-img-listing {
+    height: 15px;
+    margin: 2.75vh -2.5em 0 0;
+}
+
+.profile-picture {
+    width: 15em;
+    border-width: 2px;
+    border-radius: 100%;
+    object-fit: cover;
+    border: solid 4px rgb(157,25,57);
+}
+
+.pfp-container {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1vh;
+}
+
+@keyframes slide {
+    0% {
+      transform:translateX(-25%);
+    }
+    100% {
+      transform:translateX(25%);
+    }
+  }
