@@ -147,75 +147,61 @@ class Listing(db.Model):
 
     __tablename__ = 'listings'
     listingId = db.Column(db.Integer,  # Unique number identifies the listing
-                        primary_key=True,
-                        unique=True,
-                        nullable=False
-                        )
+                          primary_key=True,
+                          unique=True,
+                          nullable=False)
 
     title = db.Column(db.String(40),  # The title of the listing
-                    unique=True,
-                    nullable=False
-                    )
+                      unique=True,
+                      nullable=False)
     
     description = db.Column(db.String(2000),  # The description area of listing
-                    unique=False,
-                    nullable=True
-                    )
+                            unique=False,
+                            nullable=True)
 
     price = db.Column(db.Float,  # The cost of the property per night
-                    unique=False,
-                    nullable=False,
-                    )
+                      unique=False,
+                      nullable=False)
 
     lastModifiedDate = db.Column(db.DateTime,  # The date changes were made
-                    unique=False,
-                    nullable=False
-                    )
+                                 unique=False,
+                                 nullable=False)
 
     ownerId = db.Column(db.Integer,  # Unique number identifies the owner
-                    primary_key=True,
-                    unique=True
-                    )
+                        primary_key=True,
+                        unique=True)
 
     booked = db.Column(db.Boolean,  # Determines if listing has been booked
-                    unique=False,
-                    nullable=False
-                    )
+                       unique=False,
+                       nullable=False)
 
     address = db.Column(db.String(120),  # Address of the listing
-                    unique=True,
-                    nullable=False
-                    )
+                       unique=True,
+                       nullable=False)
 
     owner = db.Column(db.String(20),  # Registered user who listed the property
-                    unique=False,
-                    nullable=False
-                    )
+                      unique=False,
+                      nullable=False)
 
     propertyType = db.Column(db.String(80),  # The type of property
-                    unique=False,
-                    nullable=False
-                    )
+                             unique=False,
+                             nullable=False)
 
     rating = db.Column(db.Float,  # The rating from 0.0 - 5.0
-                    unique=False,
-                    nullable=True
-                    )
+                       unique=False,
+                       nullable=True) 
 
     reviews = db.Column(db.String(120),  # The reviews of the listing
-                    unique=False,
-                    nullable=True
-                    )
+                        unique=False,
+                        nullable=True)
 
     dateAvailable = db.Column(db.DateTime,  # Range when the property is avail.
-                    unique=False,
-                    nullable=False
-                    )
+                              unique=False,
+                              nullable=False)
 
     coverImage = db.Column(db.String(120),  # The url for the listing image
-                    unique=False,
-                    nullable=False
-                    )
+                           unique=False,
+                           nullable=False) 
 
     def checkListing(self):
         """This function checks if the title, description, price, and 
