@@ -176,8 +176,8 @@ class Listing(db.Model):
                        nullable=False)
 
     address = db.Column(db.String(120),  # Address of the listing
-                       unique=True,
-                       nullable=False)
+                        unique=True,
+                        nullable=False)
 
     owner = db.Column(db.String(20),  # Registered user who listed the property
                       unique=False,
@@ -215,14 +215,14 @@ class Listing(db.Model):
         titleLen = len(self.title)
         if (titleLen > 80):  # If the title exceeds 80 characters
             print("Listing Error: Title Error: '" + str(titleLen - 80) + 
-                    " characters above the limit of 80'")
+                  " characters above the limit of 80'")
             return False
         
         for c in self.title:
             if (i == 0 or i == titleLen - 1):  # First or last character
                 if (not c.isalnum()):  # If its not alphanumeric
                     print("Listing Error: Title Error: 'contains spaces on " +
-                        "the ends or non-alphanumeric'")
+                          "the ends or non-alphanumeric'")
                     return False
             
             elif (c == " "):  # Or if its a space within the title
@@ -237,18 +237,18 @@ class Listing(db.Model):
         descLen = len(self.description)
         if (descLen <= titleLen):  # Description is not longer than the title
             print("Listing Error: Description Error: 'description must be " +
-                "longer than title'")
+                  "longer than title'")
             return False
         
         if (descLen < 20 or descLen > 2000):  # Chars not within its boundaries
             print("Listing Error: Description Error: 'description must be " +
-                "between 20 and 2000 characters'")
+                  "between 20 and 2000 characters'")
             return False
         # CHECK PRICE
         
         if (self.price < 10 or self.price > 10000):  # Price outside of range
             print("Listing Error: Price Error: 'price must be between 10 " +
-                "and 10000 dollars per night'")
+                  "and 10000 dollars per night'")
             return False
         # CHECK LAST MODIFIED DATE
         self.lastModifiedDate = datetime.datetime.now()  # Set to current day
@@ -258,7 +258,7 @@ class Listing(db.Model):
         if (self.lastModifiedDate < smallestDate 
             or self.lastModifiedDate > largestDate):
             print("Listing Error: Last Modified Date Error: 'date must be " +
-                "within 4 years from 2021-01-02'")
+                  "within 4 years from 2021-01-02'")
             return False
         return True
 
@@ -290,7 +290,7 @@ class Listing(db.Model):
             print("Price increased!")
         else:
             print("Listing Error: Price Error: 'updated price must be " +
-                "greater than original'")
+                  "greater than original'")
             return False
         # UPDATE LAST MODIFIED DATE
         self.lastModifiedDate = datetime.datetime.now()
@@ -328,17 +328,15 @@ class BankTransfer(db.Model):
                                   unique=False,
                                   nullable=False)
 
-'''
+
+
 # Sprint 2: Listing Test Code
-oldT = "This is a sample title"
-oldD = "This is a sample description for testing purposes."
-oldP = 99.99
-oldList = Listing(title=oldT,description=oldD,price=oldP)
-print("oldList valid:", oldList.checkListing())
-
-newT = "This is the updated title"
-newD = "This is the updated description for testing purposes."
-newP = 100.99
-print("newList updated:", oldList.updateListing(newT, newD, newP))
-'''
-
+# oldT = "This is a sample title"
+# oldD = "This is a sample description for testing purposes."
+# oldP = 99.99
+# oldList = Listing(title=oldT,description=oldD,price=oldP)
+# print("oldList valid:", oldList.checkListing())
+# newT = "This is the updated title"
+# newD = "This is the updated description for testing purposes."
+# newP = 100.99
+# print("newList updated:", oldList.updateListing(newT, newD, newP))
