@@ -255,8 +255,8 @@ class Listing(db.Model):
         smallestDate = datetime.datetime(2021, 1, 2)  # yyyy/mm/dd format
         largestDate = datetime.datetime(2025, 1, 2) 
         
-        if (self.lastModifiedDate < smallestDate 
-            or self.lastModifiedDate > largestDate):
+        if (self.lastModifiedDate < smallestDate or
+                self.lastModifiedDate > largestDate):
             print("Listing Error: Last Modified Date Error: 'date must be " +
                   "within 4 years from 2021-01-02'")
             return False
@@ -327,9 +327,6 @@ class BankTransfer(db.Model):
     transactionAmount = db.Column(db.Float, 
                                   unique=False,
                                   nullable=False)
-
-
-
 # Sprint 2: Listing Test Code
 # oldT = "This is a sample title"
 # oldD = "This is a sample description for testing purposes."
