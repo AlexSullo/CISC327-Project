@@ -31,7 +31,7 @@ class User(db.Model):
                       nullable=False)
 
     password = db.Column(db.String(120), 
-                         unique=False, 
+                         unique=False,
                          nullable=False)
 
     rating = db.Column(db.String(120), 
@@ -147,75 +147,75 @@ class Listing(db.Model):
 
     __tablename__ = 'listings'
     listingId = db.Column(db.Integer,  # Unique number identifies the listing
-        primary_key=True,
-        unique=True,
-        nullable=False
-        )
+                        primary_key=True,
+                        unique=True,
+                        nullable=False
+                        )
 
     title = db.Column(db.String(40),  # The title of the listing
-        unique=True,
-        nullable=False
-        )
+                    unique=True,
+                    nullable=False
+                    )
     
     description = db.Column(db.String(2000),  # The description area of listing
-        unique=False,
-        nullable=True
-        )
+                    unique=False,
+                    nullable=True
+                    )
 
     price = db.Column(db.Float,  # The cost of the property per night
-        unique=False,
-        nullable=False,
-        )
+                    unique=False,
+                    nullable=False,
+                    )
 
     lastModifiedDate = db.Column(db.DateTime,  # The date changes were made
-        unique=False,
-        nullable=False
-        )
+                    unique=False,
+                    nullable=False
+                    )
 
     ownerId = db.Column(db.Integer,  # Unique number identifies the owner
-        primary_key=True,
-        unique=True
-        )
+                    primary_key=True,
+                    unique=True
+                    )
 
     booked = db.Column(db.Boolean,  # Determines if listing has been booked
-        unique=False,
-        nullable=False
-        )
+                    unique=False,
+                    nullable=False
+                    )
 
     address = db.Column(db.String(120),  # Address of the listing
-        unique=True,
-        nullable=False
-        )
+                    unique=True,
+                    nullable=False
+                    )
 
     owner = db.Column(db.String(20),  # Registered user who listed the property
-        unique=False,
-        nullable=False
-        )
+                    unique=False,
+                    nullable=False
+                    )
 
     propertyType = db.Column(db.String(80),  # The type of property
-        unique=False,
-        nullable=False
-        )
+                    unique=False,
+                    nullable=False
+                    )
 
     rating = db.Column(db.Float,  # The rating from 0.0 - 5.0
-        unique=False,
-        nullable=True
-        )
+                    unique=False,
+                    nullable=True
+                    )
 
     reviews = db.Column(db.String(120),  # The reviews of the listing
-        unique=False,
-        nullable=True
-        )
+                    unique=False,
+                    nullable=True
+                    )
 
     dateAvailable = db.Column(db.DateTime,  # Range when the property is avail.
-        unique=False,
-        nullable=False
-        )
+                    unique=False,
+                    nullable=False
+                    )
 
     coverImage = db.Column(db.String(120),  # The url for the listing image
-        unique=False,
-        nullable=False
-        )
+                    unique=False,
+                    nullable=False
+                    )
 
     def checkListing(self):
         """This function checks if the title, description, price, and 
@@ -228,14 +228,15 @@ class Listing(db.Model):
         i = 0
         titleLen = len(self.title)
         if (titleLen > 80):  # If the title exceeds 80 characters
-            print("Listing Error: Title Error: '"+str(titleLen - 80)+
-            " characters above the limit of 80'")
+            print("Listing Error: Title Error: '" + str(titleLen - 80) + 
+                    " characters above the limit of 80'")
             return False
         
         for c in self.title:
-            if (i == 0 or i == titleLen - 1):  # If its the first or last character
+            if (i == 0 or i == titleLen - 1):  # First or last character
                 if (not c.isalnum()):  # If its not alphanumeric
-                    print("Listing Error: Title Error: 'contains spaces on the ends or non-alphanumeric'")
+                    print("Listing Error: Title Error: 'contains spaces on " +
+                        "the ends or non-alphanumeric'")
                     return False
             
             elif (c == " "):  # Or if its a space within the title
@@ -248,25 +249,30 @@ class Listing(db.Model):
         
         # CHECK DESCRIPTION
         descLen = len(self.description)
-        if (descLen <= titleLen):  # If the description is not longer than the title
-            print("Listing Error: Description Error: 'description must be longer than title'")
+        if (descLen <= titleLen):  # Description is not longer than the title
+            print("Listing Error: Description Error: 'description must be " +
+                "longer than title'")
             return False
         
-        if (descLen < 20 or descLen > 2000):  # If the characters are not within its boundaries
-            print("Listing Error: Description Error: 'description must be between 20 and 2000 characters'")
+        if (descLen < 20 or descLen > 2000):  # Chars not within its boundaries
+            print("Listing Error: Description Error: 'description must be " +
+                "between 20 and 2000 characters'")
             return False
         # CHECK PRICE
         
-        if (self.price < 10 or self.price > 10000):  # If the price is not within its boundaries
-            print("Listing Error: Price Error: 'price must be between 10 and 10000 dollars per night'")
+        if (self.price < 10 or self.price > 10000):  # Price outside of range
+            print("Listing Error: Price Error: 'price must be between 10 " +
+                "and 10000 dollars per night'")
             return False
         # CHECK LAST MODIFIED DATE
-        self.lastModifiedDate = datetime.datetime.now()  # Set last modified date to current day
-        smallestDate = datetime.datetime(2021, 1, 2)  # Date in yyyy/mm/dd format
+        self.lastModifiedDate = datetime.datetime.now()  # Set to current day
+        smallestDate = datetime.datetime(2021, 1, 2)  # yyyy/mm/dd format
         largestDate = datetime.datetime(2025, 1, 2) 
         
-        if (self.lastModifiedDate < smallestDate or self.lastModifiedDate > largestDate):
-            print("Listing Error: Last Modified Date Error: 'date must be within 4 years from 2021-01-02'")
+        if (self.lastModifiedDate < smallestDate 
+            or self.lastModifiedDate > largestDate):
+            print("Listing Error: Last Modified Date Error: 'date must be " +
+                "within 4 years from 2021-01-02'")
             return False
         return True
 
@@ -277,8 +283,10 @@ class Listing(db.Model):
         returns false, the listing cannot be updated at this time
         and the function terminates.
         """
-        temp = Listing(title=t, description=d, price=p)  # A new temp listing is created that contains updated values
-        flag = temp.checkListing()  # Checks if the listing with the updated values are valid
+        # A new temp listing is created that contains updated values
+        temp = Listing(title=t, description=d, price=p) 
+        # Checks if the listing with the updated values is valid
+        flag = temp.checkListing()  
         print("newList valid:", flag)  
         if (not flag):
             return False
@@ -295,7 +303,8 @@ class Listing(db.Model):
             self.price = p
             print("Price increased!")
         else:
-            print("Listing Error: Price Error: 'updated price must be greater than original'")
+            print("Listing Error: Price Error: 'updated price must be " +
+                "greater than original'")
             return False
         # UPDATE LAST MODIFIED DATE
         self.lastModifiedDate = datetime.datetime.now()
