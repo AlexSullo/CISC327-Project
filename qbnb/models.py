@@ -13,33 +13,33 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, 
+    id = db.Column(db.Integer,
                    primary_key=True,
                    autoincrement=True,
                    unique=True)
 
-    username = db.Column(db.String(80), 
-                         unique=True, 
+    username = db.Column(db.String(80),
+                         unique=True,
                          nullable=False)
 
-    email = db.Column(db.String(120), 
-                      unique=True, 
+    email = db.Column(db.String(120),
+                      unique=True,
                       nullable=False)
 
-    password = db.Column(db.String(120), 
-                         unique=False, 
+    password = db.Column(db.String(120),
+                         unique=False,
                          nullable=False)
 
-    rating = db.Column(db.String(120), 
-                       unique=False, 
+    rating = db.Column(db.String(120),
+                       unique=False,
                        nullable=False)
 
-    propertyReview = db.Column(db.String(120), 
-                               unique=False, 
+    propertyReview = db.Column(db.String(120),
+                               unique=False,
                                nullable=True)
 
-    userReview = db.Column(db.String(120), 
-                           unique=False, 
+    userReview = db.Column(db.String(120),
+                           unique=False,
                            nullable=True)
 
     balance = db.Column(db.Float,
@@ -60,12 +60,13 @@ class User(db.Model):
     surname = db.Column(db.String(20),
                         unique=False,
                         nullable=False)
-    
-    authenticated = db.Column(db.Boolean, default=False)
-    
 
-    def login(self,entered_email,entered_password):
-        SignInAttempt = db.session.query(User).get(entered_email)
+    authenticated = db.Column(db.Boolean,
+                              default=False)
+
+    def login(self, entered_email, entered_password):
+        SignInAttempt = db.session.query(User).filter(
+            User.email == entered_email).first()
         if SignInAttempt:
             if SignInAttempt.password == entered_password:
                 User.authenticated = True
@@ -74,7 +75,7 @@ class User(db.Model):
                 return "Error, incorrect email and/or password, try again."
         else:
             return "Error, incorrect email and/or password, try again."
-            
+
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -109,7 +110,6 @@ class User(db.Model):
             self.postalCode = updatedInfo.postalCode
 
         return '<User %r Updated.>' % self.id
-
 
 
 class Transaction(db.Model):
@@ -222,11 +222,11 @@ class BankTransfer(db.Model):
     bank = db.Column(db.String(6),
                      nullable=False)
 
-    TransferUser = db.Column(db.String(20), 
-                             unique=False, 
+    TransferUser = db.Column(db.String(20),
+                             unique=False,
                              nullable=False)
 
-    transactionAmount = db.Column(db.Float, 
+    transactionAmount = db.Column(db.Float,
                                   unique=False,
                                   nullable=False)
 
