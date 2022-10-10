@@ -19,47 +19,48 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, 
-            primary_key=True,
-            unique=True)
+                   primary_key=True,
+                   unique=True)
 
     username = db.Column(db.String(80), 
-            unique=True, 
-            nullable=False)
+                         unique=True, 
+                         nullable=False)
 
     email = db.Column(db.String(120), 
-            unique=True, 
-            nullable=False)
+                      unique=True, 
+                      nullable=False)
 
     password = db.Column(db.String(120), 
-            unique=True, 
-            nullable=False)
+                         unique=True, 
+                         nullable=False)
 
     rating = db.Column(db.String(120), 
-            unique=True, 
-            nullable=False)
+                       unique=True, 
+                       nullable=False)
 
     propertyReview = db.Column(db.String(120), 
-            unique=True, 
-            nullable=False)
+                               unique=True, 
+                               nullable=False)
     
     shippingAddress = db.Column(db.String(120),
-            unique=False,
-            nullable=True)
+                                unique=False,
+                                nullable=True)
 
     postalCode = db.Column(db.String(120),
-            unique=False,
-            nullable=True)
+                           unique=False,
+                           nullable=True)
 
     balance = db.Column(db.Integer(),
-            unique=False,
-            nullable=False)
+                        unique=False,
+                        nullable=False)
 
     userReview = db.Column(db.String(120), 
-            unique=True, 
-            nullable=False)
+                           unique=True, 
+                           nullable=False)
         
     def registration(self, username, password, email):
-        reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{6,20}$"
+        reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&])\
+        [A-Za-z\d@$!#%*?&]{6,20}$"
         pat = re.compile(reg)
         mat = re.search(pat, password)
         if username == "":
@@ -69,7 +70,7 @@ class User(db.Model):
         if not mat:
             print("password is invalid, must contain one lower, \
             one upper, one special char and at least 6 characters long")
-        if len(username) < 2  or len(username) > 20:
+        if len(username) < 2 or len(username) > 20:
             print("Username must be between 2 and 20 characters long")
         i = 0
         for c in username:
