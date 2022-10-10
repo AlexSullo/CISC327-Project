@@ -57,6 +57,42 @@ class User(db.Model):
     postalCode = db.Column(db.String(6),
                            unique=False,
                            nullable=False)
+        
+    def registration(self, username, password, email):
+        reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&])\
+        [A-Za-z\d@$!#%*?&]{6,20}$"
+        pat = re.compile(reg)
+        mat = re.search(pat, password)
+        if username == "":
+            print("Username can not be empty.")
+        if password == "":
+            print("Password can not be empty.")
+        if not mat:
+            print("password is invalid, must contain one lower, \
+            one upper, one special char and at least 6 characters long")
+        if len(username) < 2 or len(username) > 20:
+            print("Username must be between 2 and 20 characters long")
+        i = 0
+        for c in username:
+            if (i == 0 or i == len(username) - 1): 
+                if (not c.isalnum()):  # If its not alphanumeric
+                    print("Username: 'contains spaces on \
+                    the ends or non-alphanumeric'")
+                    return False
+            elif (c == " "):  # Or if its a space within the title
+                pass
+            elif (not c.isalnum()):  # Or if its not alphanumeric
+                print("'non-alphanumeric'")
+                return False
+            i += 1
+        self.balance = 100
+        try:
+            # Check that the email address is valid.
+            validation = validate_email(email, check_deliverability=unique)  
+            email = validation.email
+        except EmailNotValidError as e:
+            # Email is not valid.
+            print(str(e))
 
     firstName = db.Column(db.String(15),
                           unique=False,
@@ -363,13 +399,27 @@ class BankTransfer(db.Model):
     transactionAmount = db.Column(db.Float,
                                   unique=False,
                                   nullable=False)
-# Sprint 2: Listing Test Code
-# oldT = "This is a sample title"
-# oldD = "This is a sample description for testing purposes."
-# oldP = 99.99
-# oldList = Listing(title=oldT,description=oldD,price=oldP)
-# print("oldList valid:", oldList.checkListing())
-# newT = "This is the updated title"
-# newD = "This is the updated description for testing purposes."
-# newP = 100.99
-# print("newList updated:", oldList.updateListing(newT, newD, newP))
+
+
+"""
+* Sprint two: user registration
+* Checks all cases to insure the account is made correctly
+* Initializes balance to 100
+
+pas = "alexSulloin"
+ema = "alexsullo67@gmail.com"
+use = "SuBooks"
+user = User(username=use, password=pas, email=ema)
+print(user.registration(use, pas, ema))
+
+Sprint 2: Listing Test Code
+oldT = "This is a sample title"
+oldD = "This is a sample description for testing purposes."
+oldP = 99.99
+oldList = Listing(title=oldT,description=oldD,price=oldP)
+print("oldList valid:", oldList.checkListing())
+newT = "This is the updated title"
+newD = "This is the updated description for testing purposes."
+newP = 100.99
+print("newList updated:", oldList.updateListing(newT, newD, newP))
+"""

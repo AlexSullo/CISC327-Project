@@ -1,6 +1,7 @@
 from flask import Flask, redirect, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from qbnb import *
+from curses.ascii import isalnum
 from qbnb.models import *
 import random
 
