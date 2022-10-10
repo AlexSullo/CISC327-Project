@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, login_user
 
 '''
 setting up SQLAlchemy and data models so we can map data models into database
@@ -37,9 +38,24 @@ class User(db.Model):
     userReview = db.Column(db.String(120), 
                            unique=True, 
                            nullable=False)
+    
+    authenticated = db.Column(db.Boolean, default=False)
+    
 
+    def login(self,entered_email,entered_password):
+        SignInAttempt = db.session.query(User).get(entered_email)
+        if SignInAttempt:
+            if SignInAttempt.password == entered_password:
+                User.authenticated = True
+                return "Login, Successful."
+            else:
+                return "Error, incorrect email and/or password, try again."
+        else:
+            return "Error, incorrect email and/or password, try again."
+            
     def __repr__(self):
         return '<User %r>' % self.username
+
 
 
 class Transaction(db.Model):
@@ -56,11 +72,11 @@ class Transaction(db.Model):
                                   unique=False,
                                   nullable=False)
 
-    payee = db.Column(User.id,  # Person who paid for the transaction
+    payee = db.Column(db.String(20),  # Person who paid for the transaction
                       unique=False, 
                       nullable=False)
 
-    recipient = db.Column(User.id,  # Person who received transaction
+    recipient = db.Column(db.String(20),  # Person who received transaction
                           unique=False,
                           nullable=False)
 
@@ -94,7 +110,7 @@ class Listing(db.Model):
                         unique=True,
                         nullable=False)
 
-    owner = db.Column(User.id,  # Registered user who listed the property
+    owner = db.Column(db.String(20),  # Registered user who listed the property
                       unique=False,
                       nullable=False)
 
@@ -149,13 +165,10 @@ class BankTransfer(db.Model):
     bank = db.Column(db.String(6),
                      nullable=False)
 
-    TransferUser = db.Column(User.id, 
+    TransferUser = db.Column(db.String(20), 
                              unique=False, 
                              nullable=False)
 
     transactionAmount = db.Column(db.Float, 
                                   unique=False,
                                   nullable=False)
-
-
-
