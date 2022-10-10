@@ -5,6 +5,7 @@ from flask import Flask, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user
 from qbnb import app
+import re
 
 
 '''
@@ -69,9 +70,37 @@ class User(db.Model):
                               default=False)
 
     def login(self, entered_email, entered_password):
+        """
+        Login function for the website. First checks if password/email
+        are empty, meet, and that they meet email conventions and
+        password complexoty before checking database. Checks database
+        if email is in it, then checks if password meets the correct
+        one in database.
+        """
+        # checks if email/password empty
+        if not entered_email or not entered_password:
+            return "Error, Email/password should not be empty"
+        # checks if email meets addr-spec defined
+        # in RFC 5322 convention using regex
+        r = r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+'
+        regex = re.compile(r)
+        if not re.fullmatch(regex, entered_email):
+            return "Error, email does not follow RFC 5322 convention"
+        # checks if password meets complexity standard using rules list
+        passwordRules = [lambda s: any(
+            x.isupper() for x in s), lambda s: any(
+                x.islower() for x in s), lambda s: any(
+                x.isdigit() for x in s),
+            lambda s: len(s) >= 7
+            ]
+        if not all(rule(entered_password) for rule in passwordRules):
+            return "Error, password does not meet required complexity"
+        # checks database if email in it
         SignInAttempt = db.session.query(User).filter(
             User.email == entered_email).first()
         if SignInAttempt:
+            # once user email checked, checks if entered password
+            # equals the password in database
             if SignInAttempt.password == entered_password:
                 User.authenticated = True
                 return "Login, Successful."
