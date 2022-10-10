@@ -98,5 +98,24 @@ def update_profile(id):
     return redirect("/profile/" + str(id))
 
 
+@app.route("/login")
+def login():
+    '''
+    TEMPORARILY: Tests if the existing user can be signed in
+    '''
+    email = "sebsemail@email.com"
+    password = "password"
+    attemptedUser = db.session.query(User).filter(User.email == email).first()
+    print("attempted user:")
+    print(attemptedUser.email)
+    print(attemptedUser.password)
+    print("---")
+    print(email)
+    print(password)
+    attempt = attemptedUser.login(email, password)
+    print(attempt)
+    return redirect("/")
+
+
 if __name__ == '__ main__':
     app.run()

@@ -3,8 +3,9 @@ import datetime
 from enum import unique
 from flask import Flask, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
+from flask_login import LoginManager, login_user
 from qbnb import app
+import re
 
 
 '''
@@ -17,33 +18,33 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, 
+    id = db.Column(db.Integer,
                    primary_key=True,
                    autoincrement=True,
                    unique=True)
 
-    username = db.Column(db.String(80), 
-                         unique=True, 
+    username = db.Column(db.String(80),
+                         unique=True,
                          nullable=False)
 
-    email = db.Column(db.String(120), 
-                      unique=True, 
+    email = db.Column(db.String(120),
+                      unique=True,
                       nullable=False)
 
-    password = db.Column(db.String(120), 
+    password = db.Column(db.String(120),
                          unique=False,
                          nullable=False)
 
-    rating = db.Column(db.String(120), 
-                       unique=False, 
+    rating = db.Column(db.String(120),
+                       unique=False,
                        nullable=False)
 
-    propertyReview = db.Column(db.String(120), 
-                               unique=False, 
+    propertyReview = db.Column(db.String(120),
+                               unique=False,
                                nullable=True)
 
-    userReview = db.Column(db.String(120), 
-                           unique=False, 
+    userReview = db.Column(db.String(120),
+                           unique=False,
                            nullable=True)
 
     balance = db.Column(db.Float,
@@ -101,6 +102,48 @@ class User(db.Model):
                         unique=False,
                         nullable=False)
 
+    authenticated = db.Column(db.Boolean,
+                              default=False)
+
+    def login(self, entered_email, entered_password):
+        """
+        Login function for the website. First checks if password/email
+        are empty, meet, and that they meet email conventions and
+        password complexoty before checking database. Checks database
+        if email is in it, then checks if password meets the correct
+        one in database.
+        """
+        # checks if email/password empty
+        if not entered_email or not entered_password:
+            return "Error, Email/password should not be empty"
+        # checks if email meets addr-spec defined
+        # in RFC 5322 convention using regex
+        r = r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+'
+        regex = re.compile(r)
+        if not re.fullmatch(regex, entered_email):
+            return "Error, email does not follow RFC 5322 convention"
+        # checks if password meets complexity standard using rules list
+        passwordRules = [lambda s: any(
+            x.isupper() for x in s), lambda s: any(
+                x.islower() for x in s), lambda s: any(
+                x.isdigit() for x in s),
+            lambda s: len(s) >= 7]
+        if not all(rule(entered_password) for rule in passwordRules):
+            return "Error, password does not meet required complexity"
+        # checks database if email in it
+        SignInAttempt = db.session.query(User).filter(
+            User.email == entered_email).first()
+        if SignInAttempt:
+            # once user email checked, checks if entered password
+            # equals the password in database
+            if SignInAttempt.password == entered_password:
+                User.authenticated = True
+                return "Login, Successful."
+            else:
+                return "Error, incorrect email and/or password, try again."
+        else:
+            return "Error, incorrect email and/or password, try again."
+
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -155,7 +198,7 @@ class Transaction(db.Model):
                                   )
 
     payee = db.Column(db.String(20),  # Person who paid for the transaction
-                      unique=False, 
+                      unique=False,
                       nullable=False)
 
     recipient = db.Column(db.String(20),  # Person who received transaction
@@ -174,8 +217,8 @@ class Transaction(db.Model):
 class Listing(db.Model):
     """A listing represents a property listed by a registered user who
     is designated as the owner of the listing. A listing is bookable
-    by a registered user who is not the owner. A listing holds the 
-    address of the property, the registered user who listed the 
+    by a registered user who is not the owner. A listing holds the
+    address of the property, the registered user who listed the
     property (owner), the type of property, ratings and reviews of the
     property, the date it was listed, the cost per night, as well as
     pictures and a description.
@@ -190,7 +233,7 @@ class Listing(db.Model):
     title = db.Column(db.String(40),  # The title of the listing
                       unique=True,
                       nullable=False)
-    
+
     description = db.Column(db.String(2000),  # The description area of listing
                             unique=False,
                             nullable=True)
@@ -225,7 +268,7 @@ class Listing(db.Model):
 
     rating = db.Column(db.Float,  # The rating from 0.0 - 5.0
                        unique=False,
-                       nullable=True) 
+                       nullable=True)
 
     reviews = db.Column(db.String(120),  # The reviews of the listing
                         unique=False,
@@ -237,11 +280,11 @@ class Listing(db.Model):
 
     coverImage = db.Column(db.String(120),  # The url for the listing image
                            unique=False,
-                           nullable=False) 
+                           nullable=False)
 
     def checkListing(self):
-        """This function checks if the title, description, price, and 
-        last modified date are all up to the standards set by the 
+        """This function checks if the title, description, price, and
+        last modified date are all up to the standards set by the
         customer. It returns False if one attribute breaks the rules
         and returns True if the listing is created and successfully
         passes all tests.
@@ -250,38 +293,32 @@ class Listing(db.Model):
         i = 0
         titleLen = len(self.title)
         if (titleLen > 80):  # If the title exceeds 80 characters
-            print("Listing Error: Title Error: '" + str(titleLen - 80) + 
+            print("Listing Error: Title Error: '" + str(titleLen - 80) +
                   " characters above the limit of 80'")
             return False
-        
         for c in self.title:
             if (i == 0 or i == titleLen - 1):  # First or last character
                 if (not c.isalnum()):  # If its not alphanumeric
                     print("Listing Error: Title Error: 'contains spaces on " +
                           "the ends or non-alphanumeric'")
                     return False
-            
             elif (c == " "):  # Or if its a space within the title
                 pass
-            
             elif (not c.isalnum()):  # Or if its not alphanumeric
                 print("Listing Error: Title Error: 'non-alphanumeric'")
                 return False
             i += 1
-        
         # CHECK DESCRIPTION
         descLen = len(self.description)
         if (descLen <= titleLen):  # Description is not longer than the title
             print("Listing Error: Description Error: 'description must be " +
                   "longer than title'")
             return False
-        
         if (descLen < 20 or descLen > 2000):  # Chars not within its boundaries
             print("Listing Error: Description Error: 'description must be " +
                   "between 20 and 2000 characters'")
             return False
         # CHECK PRICE
-        
         if (self.price < 10 or self.price > 10000):  # Price outside of range
             print("Listing Error: Price Error: 'price must be between 10 " +
                   "and 10000 dollars per night'")
@@ -289,8 +326,7 @@ class Listing(db.Model):
         # CHECK LAST MODIFIED DATE
         self.lastModifiedDate = datetime.datetime.now()  # Set to current day
         smallestDate = datetime.datetime(2021, 1, 2)  # yyyy/mm/dd format
-        largestDate = datetime.datetime(2025, 1, 2) 
-        
+        largestDate = datetime.datetime(2025, 1, 2)
         if (self.lastModifiedDate < smallestDate or
                 self.lastModifiedDate > largestDate):
             print("Listing Error: Last Modified Date Error: 'date must be " +
@@ -306,10 +342,10 @@ class Listing(db.Model):
         and the function terminates.
         """
         # A new temp listing is created that contains updated values
-        temp = Listing(title=t, description=d, price=p) 
+        temp = Listing(title=t, description=d, price=p)
         # Checks if the listing with the updated values is valid
-        flag = temp.checkListing()  
-        print("newList valid:", flag)  
+        flag = temp.checkListing()
+        print("newList valid:", flag)
         if (not flag):
             return False
         # UPDATE TITLE
@@ -345,7 +381,7 @@ class BankTransfer(db.Model):
     from their bank account.
     """
     __tablename__ = 'banktransfer'
-    id = db.Column(db.Integer, 
+    id = db.Column(db.Integer,
                    primary_key=True,
                    unique=True)
 
@@ -356,11 +392,11 @@ class BankTransfer(db.Model):
     bank = db.Column(db.String(6),
                      nullable=False)
 
-    TransferUser = db.Column(db.String(20), 
-                             unique=False, 
+    TransferUser = db.Column(db.String(20),
+                             unique=False,
                              nullable=False)
 
-    transactionAmount = db.Column(db.Float, 
+    transactionAmount = db.Column(db.Float,
                                   unique=False,
                                   nullable=False)
 
