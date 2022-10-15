@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="changing-info-container">
+    <div class="profile-header">
+        <h1>Welcome to QBNB</h1>
+        <p>Search for a new experience!</p>
+    </div>
+    <div class="changing-info-container">
+        {% if login %}
+            <br>
+            <form method="post">
+                <label for="email" class="input-label">Email</label><br>
+                <input type="text" minlength="4"class="textfield" name="email" placeholder="Email" title="Enter a valid email." pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="{{ request.form['email'] }}"></input>    
+                <br>
+                <label for="password" class="input-label">Password</label><br>
+                <input type="text" minlength="4" class="textfield" name="password" placeholder="Password" value="{{ request.form['billingAddress'] }}"></input>
+                <br>
+                <button  class="standard-button" align="center" type="submit">Sign In</button>
+                <p>Haven't signed up yet? <a href="/register">Register now!</a></p>
+                <br>
+                <br>
+            </form>
+        {% else %}
+            <br>
+            <form method="post">
+                <label for="username" class="input-label">Username</label><br>
+                <input type="text" minlength="4" class="textfield" name="username" pattern='^[A-Za-z0-9_-]*$' placeholder="bestusernameever" title="Usernames cannot have special characters."value="{{ request.form['username'] }}"></input>
+                <br>
+                <label for="email" class="input-label">Email</label><br>
+                <input type="text" minlength="4"class="textfield" name="email" placeholder="realemail@email.com" title="Enter a valid email." pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="{{ request.form['email'] }}"></input>    
+                <br>
+                <label for="billingAddress" class="input-label">Billing Address</label><br>
+                <input type="text" minlength="4" class="textfield" name="billingAddress" placeholder="123 Example St, City, PRV" value="{{ request.form['billingAddress'] }}"></input>
+                <br>
+                <label for="postalCode" class="input-label">Postal Code</label><br>
+                <input type="text" minlength="6" maxlength=6 class="textfield" name="postalCode" placeholder="A1A1A1" title="Postal Codes can't contain special characters and must follow the Canadian Postal Code format." pattern='^([A-Za-z]\d[A-Za-z][-]?\d[A-Za-z]\d)' value="{{ request.form['postalCode'] }}"></input>
+                <br>
+                <button  class="standard-button" align="center" type="submit">Register</button>
+                <p>Already have an account? <a href="/login">Login now!</a></p>
+            </form>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -16,12 +16,20 @@
                 <input class="searchbar" placeholder="Search for a New Experience..." type="text" >
             </div>
             <div class="login-container">
-                <!-- Eventually, add if to check if signed in and change-->
-                <a href="/profile/1"><button style="margin-left:5em;" class="standard-button">Login Button</button></a>
+                <!-- {% if userInformation %}
+                    <a href="/profile/{{ userInformation.id }}"><button style="margin-left:5em;" class="standard-button">{{ userInformation.firstName }}</button></a>
+                {% else %} -->
+                    <a href="/register"><button style="margin-left:5em;" class="standard-button">Register</button></a>
+                <!-- {% endif %} -->
             </div>
         </div>
 </div>
 <br>
 {% block body %}{% endblock %}
 </body>
+<footer style="background:#e2e2e2;height:5vh;margin:0 -5em -5em -5em;padding:5vh 15em 5vh 15em;color: gray;">
+    QBNB is not a real service. We are not liable for any losses, financial
+    or otherwise, that may occur as a result of transactions on our site. Each
+    user is fully responsible for their own actions.
+</footer>
 </html>
