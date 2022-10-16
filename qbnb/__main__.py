@@ -2,6 +2,7 @@ from flask import Flask, redirect, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import *
 from qbnb import *
+from curses.ascii import isalnum
 from qbnb.models import *
 import random
 
@@ -113,6 +114,25 @@ def login():
     '''
     return render_template("register.html",
                            login=True)
+
+
+@app.route("/login")
+def login():
+    '''
+    TEMPORARILY: Tests if the existing user can be signed in
+    '''
+    email = "sebsemail@email.com"
+    password = "password"
+    attemptedUser = db.session.query(User).filter(User.email == email).first()
+    print("attempted user:")
+    print(attemptedUser.email)
+    print(attemptedUser.password)
+    print("---")
+    print(email)
+    print(password)
+    attempt = attemptedUser.login(email, password)
+    print(attempt)
+    return redirect("/")
 
 
 if __name__ == '__ main__':
