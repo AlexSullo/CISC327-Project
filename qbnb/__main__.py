@@ -112,15 +112,6 @@ def login():
     '''
     Allows the user to login to their account
     '''
-    return render_template("register.html",
-                           login=True)
-
-
-@app.route("/login")
-def login():
-    '''
-    TEMPORARILY: Tests if the existing user can be signed in
-    '''
     email = "sebsemail@email.com"
     password = "password"
     attemptedUser = db.session.query(User).filter(User.email == email).first()
@@ -132,7 +123,8 @@ def login():
     print(password)
     attempt = attemptedUser.login(email, password)
     print(attempt)
-    return redirect("/")
+    return render_template("register.html",
+                           login=True)
 
 
 if __name__ == '__ main__':
