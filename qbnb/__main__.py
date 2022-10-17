@@ -1,5 +1,6 @@
 from flask import Flask, redirect, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import *
 from qbnb import *
 from curses.ascii import isalnum
 from qbnb.models import *
@@ -18,7 +19,6 @@ def home():
     '''
     Renders the homepage for QBNB
     '''
-
     return render_template('homepage.html')
 
 
@@ -98,10 +98,19 @@ def update_profile(id):
     return redirect("/profile/" + str(id))
 
 
-@app.route("/login")
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    '''
+    Allow a new user to register for an account
+    '''
+    return render_template("register.html",
+                           login=False)
+
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
     '''
-    TEMPORARILY: Tests if the existing user can be signed in
+    Allows the user to login to their account
     '''
     email = "sebsemail@email.com"
     password = "password"
@@ -114,7 +123,8 @@ def login():
     print(password)
     attempt = attemptedUser.login(email, password)
     print(attempt)
-    return redirect("/")
+    return render_template("register.html",
+                           login=True)
 
 
 if __name__ == '__ main__':
