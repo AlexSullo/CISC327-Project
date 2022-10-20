@@ -1,9 +1,8 @@
 from flask import Flask, redirect, render_template, jsonify, request
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import *
 from qbnb import *
-from curses.ascii import isalnum
 from qbnb.models import *
+from curses.ascii import isalnum
 import random
 
 greetings = [
@@ -11,15 +10,32 @@ greetings = [
     'Hi',
     'Welcome',
     'Greetings'
-]
+]  # Greetings for profile
+
+# Set up Login Manager
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
 
 
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def home():
     '''
     Renders the homepage for QBNB
     '''
-    return render_template('homepage.html')
+    userInfo = get_info()  # Check if user is signed in
+    return render_template("homepage.html",
+                           userInformation=userInfo[0],
+                           user=userInfo[1])
+
+
+@app.route("/logout")
+def logout():
+    '''
+    Logs out the user.
+    '''
+    logout_user()  # Logs out the user
+    return redirect("/")
 
 
 @app.route("/listing/<id>")
@@ -32,12 +48,20 @@ def listing(id):
 
 
 @app.route('/profile/<int:id>', methods=['GET', 'POST'])
+@login_required
 def profile(id):
     '''
-    Allows user to view/update their profile
+    Allows user to view a profile, and if it's their own, update it.
     '''
     if request.method == 'GET':
         user = db.session.query(User).get(id)
+        if str(current_user.get_id()) == str(id):
+            # Checks if signed in user is owner of profile
+            idPass = True
+            pickedGreeting = random.choice(greetings)
+        else:
+            idPass = False
+            pickedGreeting = ""
         userData = {
             "username": user.username,
             "email": user.email,
@@ -48,20 +72,23 @@ def profile(id):
             "propertyReviews": ['Hello'],  # CHANGE
             "userReviews": user.userReview,
             "balance": user.balance
-        }
-        pickedGreeting = random.choice(greetings)
+        }  # Get user information from DB
+        userInfo = get_info()  # Check if user is signed in
         return render_template('profile.html',
                                userData=userData,
                                greeting=pickedGreeting,
-                               id=id)
+                               userInformation=userInfo[0],
+                               user=userInfo[1],
+                               idPass=idPass)
 
 
 @app.route("/update/<id>", methods=['GET', 'POST'])
+@login_required
 def update_profile(id):
     '''
     Allows user to update their profile
     '''
-    user = db.session.query(User).get(id)
+    user = db.session.query(User).get(id)  # Get profile id
     if request.method == 'GET':
         userData = {
             "username": user.username,
@@ -74,11 +101,15 @@ def update_profile(id):
             "userReviews": user.userReview,
             "balance": user.balance,
             "id": id
-        }
+        }  # Get user data from database
+        userInfo = get_info()  # Check if user is signed in
         return render_template('updateInfo.html',
-                               userData=userData)
+                               userData=userData,
+                               userInformation=userInfo[0],
+                               user=userInfo[1])
     else:
         try:
+            # Checks if the user entered new information or not
             if request.form['username'] != "":
                 user.username = request.form['username']
 
@@ -91,11 +122,11 @@ def update_profile(id):
             if request.form['postalCode'] != "":
                 user.postalCode = request.form['postalCode'].upper()
 
-            db.session.commit()
+            db.session.commit()  # Updates the database w/ new info
         except AttributeError:
-            db.session.rollback()
+            db.session.rollback()  # Undoes updating of DB
             raise
-    return redirect("/profile/" + str(id))
+    return redirect("/profile/" + str(id))  # Reload profile
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -112,20 +143,47 @@ def login():
     '''
     Allows the user to login to their account
     '''
-    email = "sebsemail@email.com"
-    password = "password"
-    attemptedUser = db.session.query(User).filter(User.email == email).first()
-    print("attempted user:")
-    print(attemptedUser.email)
-    print(attemptedUser.password)
-    print("---")
-    print(email)
-    print(password)
-    attempt = attemptedUser.login(email, password)
-    print(attempt)
-    return render_template("register.html",
-                           login=True)
+    if request.method == "POST":
+        # Verify the information given by the user
+        email = request.form.get("email")
+        password = request.form.get("password")
+        attemptedUser = db.session.query(User).filter(email == email).first()
+        attempt = attemptedUser.login(email, password)
+        if attempt:
+            # If email/password combo is correct
+            login_user(attemptedUser)        
+            return redirect("/")
+        else:
+            return render_template("register.html",
+                                   login=True,
+                                   message=attempt)
+    else:
+        return render_template("register.html",
+                               login=True)
+
+
+@login_manager.user_loader
+def load_user(id):
+    '''
+    Function required for login manager
+    '''
+    return db.session.query(User).get(id)
+
+
+def get_info():
+    '''
+    A function that returns the current user's information if they are signed
+    in, and returns other information if they aren't. This function is for
+    the navbar.
+    '''
+    user = db.session.query(User).get(current_user.get_id())
+    if user is None:
+        return [None, False]
+    else:
+        return [user, True]
 
 
 if __name__ == '__ main__':
     app.run()
+    
+    
