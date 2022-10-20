@@ -12,6 +12,7 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     return app
 
+
 app = create_app()
 
 

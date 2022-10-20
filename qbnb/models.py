@@ -105,7 +105,6 @@ class User(UserMixin, db.Model):
             # Email is not valid.
             print(str(e))
     
-
     def login(self, entered_email, entered_password):
         """
         Login function for the website. First checks if password/email

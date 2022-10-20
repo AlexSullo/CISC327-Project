@@ -17,15 +17,15 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 
 
-@app.route("/",  methods=['GET', 'POST'])
+@app.route("/", methods=['GET', 'POST'])
 def home():
     '''
     Renders the homepage for QBNB
     '''
     userInfo = get_info()
     return render_template("homepage.html",
-                            userInformation=userInfo[0],
-                            user=userInfo[1])
+                           userInformation=userInfo[0],
+                           user=userInfo[1])
 
 
 @app.route("/logout")
@@ -36,6 +36,7 @@ def logout():
     '''
     logout_user()
     return redirect("/")
+
 
 @app.route("/listing/<id>")
 def listing(id):
@@ -140,16 +141,16 @@ def login():
     if request.method == "POST":
         email = request.form.get("email")
         password = request.form.get("password")
-        attemptedUser = db.session.query(User).filter(email==email).first()
+        attemptedUser = db.session.query(User).filter(email == email).first()
         attempt = attemptedUser.login(email, password)
-        if attempt == True:
+        if attempt:
             login_user(attemptedUser)        
             return redirect("/")
         else:
             userInfo = get_info()
             return render_template("register.html",
-                                login=True,
-                                message=attempt)
+                                   login=True,
+                                   message=attempt)
     else:
         return render_template("register.html",
                                login=True)
@@ -166,7 +167,7 @@ def get_info():
     in
     '''
     user = db.session.query(User).get(current_user.get_id())
-    if user == None:
+    if user is None:
         return [None, False]
     else:
         return [user, True]
