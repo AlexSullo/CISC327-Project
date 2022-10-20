@@ -98,13 +98,21 @@ def update_profile(id):
     return redirect("/profile/" + str(id))
 
 
-@app.route("/register", methods=['GET', 'POST'])
+@app.route("/register", methods=['POST'])
 def register():
-    '''
-    Allow a new user to register for an account
-    '''
-    return render_template("register.html",
-                           login=False)
+    if request.method == 'POST':
+        user = db.session.query(User).get(id)  
+        try:
+            if User.registration(request.form['username'], request.form("password"), request.form("email")):
+                user.username = request.form['username']
+                user.password = request.form['password']
+                user.email = request.form['password']
+                user.firstname = request.form["firstName"]
+            db.session.commit()
+        except AttributeError:
+            db.session.rollback()
+            raise
+    return redirect("/register/" + str(id))
 
 
 @app.route("/login", methods=["GET", "POST"])

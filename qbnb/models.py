@@ -5,6 +5,7 @@ from flask import Flask, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user
 from qbnb import app
+from email_validator import validate_email, EmailNotValidError
 import re
 
 
@@ -85,7 +86,6 @@ class User(db.Model):
                 print("'non-alphanumeric'")
                 return False
             i += 1
-        self.balance = 100
         try:
             # Check that the email address is valid.
             validation = validate_email(email, check_deliverability=unique)  
@@ -93,6 +93,7 @@ class User(db.Model):
         except EmailNotValidError as e:
             # Email is not valid.
             print(str(e))
+        self.balance = 100
 
     firstName = db.Column(db.String(15),
                           unique=False,
