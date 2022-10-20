@@ -3,7 +3,7 @@ import datetime
 from enum import unique
 from flask import Flask, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user
+from flask_login import UserMixin, LoginManager
 from qbnb import app
 import re
 
@@ -16,7 +16,7 @@ tables
 db = SQLAlchemy(app)
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer,
                    primary_key=True,
@@ -57,7 +57,18 @@ class User(db.Model):
     postalCode = db.Column(db.String(6),
                            unique=False,
                            nullable=False)
-        
+    
+    firstName = db.Column(db.String(15),
+                          unique=False,
+                          nullable=False)
+
+    surname = db.Column(db.String(20),
+                        unique=False,
+                        nullable=False)
+
+    authenticated = db.Column(db.Boolean,
+                              default=False)
+
     def registration(self, username, password, email):
         reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&])\
         [A-Za-z\d@$!#%*?&]{6,20}$"
@@ -93,17 +104,7 @@ class User(db.Model):
         except EmailNotValidError as e:
             # Email is not valid.
             print(str(e))
-
-    firstName = db.Column(db.String(15),
-                          unique=False,
-                          nullable=False)
-
-    surname = db.Column(db.String(20),
-                        unique=False,
-                        nullable=False)
-
-    authenticated = db.Column(db.Boolean,
-                              default=False)
+    
 
     def login(self, entered_email, entered_password):
         """
@@ -129,7 +130,8 @@ class User(db.Model):
                 x.isdigit() for x in s),
             lambda s: len(s) >= 7]
         if not all(rule(entered_password) for rule in passwordRules):
-            return "Error, password does not meet required complexity"
+            pass
+            # return "Error, password does not meet required complexity"
         # checks database if email in it
         SignInAttempt = db.session.query(User).filter(
             User.email == entered_email).first()
@@ -138,11 +140,11 @@ class User(db.Model):
             # equals the password in database
             if SignInAttempt.password == entered_password:
                 User.authenticated = True
-                return "Login, Successful."
+                return True
             else:
-                return "Error, incorrect email and/or password, try again."
+                return "Incorrect email and/or password, try again."
         else:
-            return "Error, incorrect email and/or password, try again."
+            return "Incorrect email and/or password, try again."
 
     def __repr__(self):
         return '<User %r>' % self.username

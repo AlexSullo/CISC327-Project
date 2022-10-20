@@ -16,11 +16,12 @@
                 <input class="searchbar" placeholder="Search for a New Experience..." type="text" >
             </div>
             <div class="login-container">
-                <!-- {% if userInformation %}
-                    <a href="/profile/{{ userInformation.id }}"><button style="margin-left:5em;" class="standard-button">{{ userInformation.firstName }}</button></a>
-                {% else %} -->
-                    <a href="/register"><button style="margin-left:5em;" class="standard-button">Register</button></a>
-                <!-- {% endif %} -->
+                {% if user %}
+                    <a href="/profile/{{ userInformation.id }}"><button style="margin-left:5em;" class="standard-button">View Profile</button></a>
+                    <a href="/logout"><button class="logout-button">Logout</button></a>
+                {% else %}
+                    <a href="/login"><button style="margin-left:5em;" class="standard-button">Sign In</button></a>
+                {% endif %}
             </div>
         </div>
 </div>
