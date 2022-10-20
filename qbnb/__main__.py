@@ -10,8 +10,9 @@ greetings = [
     'Hi',
     'Welcome',
     'Greetings'
-]
+] # Greetings for profile
 
+# Set up Login Manager
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
@@ -22,7 +23,7 @@ def home():
     '''
     Renders the homepage for QBNB
     '''
-    userInfo = get_info()
+    userInfo = get_info() # Check if user is signed in
     return render_template("homepage.html",
                            userInformation=userInfo[0],
                            user=userInfo[1])
@@ -31,10 +32,9 @@ def home():
 @app.route("/logout")
 def logout():
     '''
-    Temporary function that will auto-log out the user by navigating to the
-    URL.
+    Logs out the user.
     '''
-    logout_user()
+    logout_user() # Logs out the user
     return redirect("/")
 
 
@@ -56,6 +56,7 @@ def profile(id):
     if request.method == 'GET':
         user = db.session.query(User).get(id)
         if str(current_user.get_id()) == str(id):
+            # Checks if signed in user is owner of profile
             idPass = True
             pickedGreeting = random.choice(greetings)
         else:
@@ -71,8 +72,8 @@ def profile(id):
             "propertyReviews": ['Hello'],  # CHANGE
             "userReviews": user.userReview,
             "balance": user.balance
-        }
-        userInfo = get_info()
+        } # Get user information from DB
+        userInfo = get_info() # Check if user is signed in
         return render_template('profile.html',
                                userData=userData,
                                greeting=pickedGreeting,
@@ -87,7 +88,7 @@ def update_profile(id):
     '''
     Allows user to update their profile
     '''
-    user = db.session.query(User).get(id)
+    user = db.session.query(User).get(id) # Get profile id
     if request.method == 'GET':
         userData = {
             "username": user.username,
@@ -100,11 +101,15 @@ def update_profile(id):
             "userReviews": user.userReview,
             "balance": user.balance,
             "id": id
-        }
+        } # Get user data from database
+        userInfo = get_info() # Check if user is signed in
         return render_template('updateInfo.html',
-                               userData=userData)
+                               userData=userData,
+                               userInformation=userInfo[0],
+                               user=userInfo[1])
     else:
         try:
+            # Checks if the user entered new information or not
             if request.form['username'] != "":
                 user.username = request.form['username']
 
@@ -117,11 +122,11 @@ def update_profile(id):
             if request.form['postalCode'] != "":
                 user.postalCode = request.form['postalCode'].upper()
 
-            db.session.commit()
+            db.session.commit() # Updates the database w/ new info
         except AttributeError:
-            db.session.rollback()
+            db.session.rollback() # Undoes updating of DB
             raise
-    return redirect("/profile/" + str(id))
+    return redirect("/profile/" + str(id)) # Reload profile
 
 
 @app.route("/register", methods=['GET', 'POST'])
@@ -139,15 +144,16 @@ def login():
     Allows the user to login to their account
     '''
     if request.method == "POST":
+        # Verify the information given by the user
         email = request.form.get("email")
         password = request.form.get("password")
         attemptedUser = db.session.query(User).filter(email == email).first()
         attempt = attemptedUser.login(email, password)
         if attempt:
+            # If email/password combo is correct
             login_user(attemptedUser)        
             return redirect("/")
         else:
-            userInfo = get_info()
             return render_template("register.html",
                                    login=True,
                                    message=attempt)
@@ -158,13 +164,17 @@ def login():
 
 @login_manager.user_loader
 def load_user(id):
+    '''
+    Function required for login manager
+    '''
     return db.session.query(User).get(id)
 
 
 def get_info():
     '''
     A function that returns the current user's information if they are signed
-    in
+    in, and returns other information if they aren't. This function is for
+    the navbar.
     '''
     user = db.session.query(User).get(current_user.get_id())
     if user is None:
