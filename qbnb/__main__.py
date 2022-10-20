@@ -10,7 +10,7 @@ greetings = [
     'Hi',
     'Welcome',
     'Greetings'
-] # Greetings for profile
+]  # Greetings for profile
 
 # Set up Login Manager
 login_manager = LoginManager()
@@ -23,7 +23,7 @@ def home():
     '''
     Renders the homepage for QBNB
     '''
-    userInfo = get_info() # Check if user is signed in
+    userInfo = get_info()  # Check if user is signed in
     return render_template("homepage.html",
                            userInformation=userInfo[0],
                            user=userInfo[1])
@@ -34,7 +34,7 @@ def logout():
     '''
     Logs out the user.
     '''
-    logout_user() # Logs out the user
+    logout_user()  # Logs out the user
     return redirect("/")
 
 
@@ -72,8 +72,8 @@ def profile(id):
             "propertyReviews": ['Hello'],  # CHANGE
             "userReviews": user.userReview,
             "balance": user.balance
-        } # Get user information from DB
-        userInfo = get_info() # Check if user is signed in
+        }  # Get user information from DB
+        userInfo = get_info()  # Check if user is signed in
         return render_template('profile.html',
                                userData=userData,
                                greeting=pickedGreeting,
@@ -88,7 +88,7 @@ def update_profile(id):
     '''
     Allows user to update their profile
     '''
-    user = db.session.query(User).get(id) # Get profile id
+    user = db.session.query(User).get(id)  # Get profile id
     if request.method == 'GET':
         userData = {
             "username": user.username,
@@ -101,8 +101,8 @@ def update_profile(id):
             "userReviews": user.userReview,
             "balance": user.balance,
             "id": id
-        } # Get user data from database
-        userInfo = get_info() # Check if user is signed in
+        }  # Get user data from database
+        userInfo = get_info()  # Check if user is signed in
         return render_template('updateInfo.html',
                                userData=userData,
                                userInformation=userInfo[0],
@@ -122,11 +122,11 @@ def update_profile(id):
             if request.form['postalCode'] != "":
                 user.postalCode = request.form['postalCode'].upper()
 
-            db.session.commit() # Updates the database w/ new info
+            db.session.commit()  # Updates the database w/ new info
         except AttributeError:
-            db.session.rollback() # Undoes updating of DB
+            db.session.rollback()  # Undoes updating of DB
             raise
-    return redirect("/profile/" + str(id)) # Reload profile
+    return redirect("/profile/" + str(id))  # Reload profile
 
 
 @app.route("/register", methods=['GET', 'POST'])
