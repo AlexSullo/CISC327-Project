@@ -1,10 +1,8 @@
-from sqlite3 import IntegrityError
 from flask import Flask, redirect, render_template, jsonify, request
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import *
 from qbnb import *
-from curses.ascii import isalnum
 from qbnb.models import *
+from curses.ascii import isalnum
 import random
 
 greetings = [
@@ -12,13 +10,14 @@ greetings = [
     'Hi',
     'Welcome',
     'Greetings'
-]
+]  # Greetings for profile
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-@app.route("/")
+
+@app.route("/", methods=['GET', 'POST'])
 def home():
     '''
     Renders the homepage for QBNB
@@ -68,13 +67,11 @@ def profile(id):
             "billingAddress": user.billingAddress,
             "postalCode": user.postalCode,
             "firstName": user.firstName,
-            "surname": user.surname,
             "rating": user.rating,
             "propertyReviews": ['Hello'],  # CHANGE
             "userReviews": user.userReview,
             "balance": user.balance
         }  # Get user information from DB
-        print(userData)
         userInfo = get_info()  # Check if user is signed in
         return render_template('profile.html',
                                userData=userData,
@@ -99,7 +96,7 @@ def update_profile(id):
             "postalCode": user.postalCode,
             "firstName": user.firstName,
             "rating": user.rating,
-            "propertyReviews": user.propertyReview,
+            "propertyReviews": ['Hello'],  # CHANGE
             "userReviews": user.userReview,
             "balance": user.balance,
             "id": id
@@ -133,6 +130,7 @@ def update_profile(id):
 
 @app.route("/register", methods=['GET','POST'])
 def register():
+
     if request.method == "POST":
         userData = {
             'username': request.form["username"],
@@ -142,17 +140,36 @@ def register():
             'email': request.form["email"],
             'billingAddress': request.form["billingAddress"],
             'postalCode': request.form["postalCode"]
+
         }
         register_user = User.registration(userData)
+        print(register_user)
         if register_user == True:
-            login_user(db.session.query(User).filter_by(
-                email=request.form["email"]).first())
-            return redirect("/")
+            return render_template('profile.html')
         else:
-            render_template('register.html',
-                            message='Your username or email is already' +
-                                    'taken. Please try another one.')
-    return render_template('register.html', message="Create your Account!")
+            print("you stupid")
+            render_template('register.html', message='You failed you dumb bitch!')
+    return render_template('register.html', message='Final return')
+
+    """
+        email = request.form.get("email")
+        attemptedUser = db.session.query(User).filter(email == email).first()
+        attemptedUser.password = request.form['password']
+        attempt = attemptedUser.registration(request.form['username'], request.form['password'], email)
+        if attempt:
+            newUser = User(username=request.form['username'],
+                 email=request.form['email'],
+                 firstName=request.form['firstName'],
+                 password=request.form['password'],
+                 surname=request.form['surname'],
+                 billingAddress=request.form['billingAddress'],
+                 postalCode=request.form['postalCode']
+                  )
+            db.session.add(newUser)
+            db.session.commit()
+            return redirect("/")
+        print(attempt)
+        """
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -164,11 +181,9 @@ def login():
         # Verify the information given by the user
         email = request.form.get("email")
         password = request.form.get("password")
-        attemptedUser = db.session.query(User).filter_by(email=str(email))
-        attemptedUser = attemptedUser.first()  # So that code matches PEP8
+        attemptedUser = db.session.query(User).filter(email == email).first()
         attempt = attemptedUser.login(email, password)
-        print(attempt)
-        if attempt == 'Login, Successful.':
+        if attempt:
             # If email/password combo is correct
             login_user(attemptedUser)        
             return redirect("/")
@@ -179,6 +194,46 @@ def login():
     else:
         return render_template("register.html",
                                login=True)
+
+@login_manager.user_loader
+def load_user(id):
+    '''
+    Function required for login manager
+    '''
+    return db.session.query(User).get(id)
+
+
+def get_info():
+    '''
+    A function that returns the current user's information if they are signed
+    in, and returns other information if they aren't. This function is for
+    the navbar.
+    '''
+    user = db.session.query(User).get(current_user.get_id())
+    if user is None:
+        return [None, False]
+    else:
+        return [user, True]
+
+@login_manager.user_loader
+def load_user(id):
+    '''
+    Function required for login manager
+    '''
+    return db.session.query(User).get(id)
+
+
+def get_info():
+    '''
+    A function that returns the current user's information if they are signed
+    in, and returns other information if they aren't. This function is for
+    the navbar.
+    '''
+    user = db.session.query(User).get(current_user.get_id())
+    if user is None:
+        return [None, False]
+    else:
+        return [user, True]
 
 
 @login_manager.user_loader
@@ -201,7 +256,6 @@ def get_info():
     else:
         return [user, True]
 
+
 if __name__ == '__ main__':
     app.run()
-
-   
