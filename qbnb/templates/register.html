@@ -4,8 +4,11 @@
     <div class="profile-header">
         <h1>Welcome to QBNB</h1>
         <p>Search for a new experience!</p>
+        <b>{{ message }}</b>
     </div>
+    
     <div class="login-container">
+        
         {% if login %}
             <br>
             <form method="post">
@@ -13,10 +16,15 @@
                 <input type="text" minlength="4"class="textfield" name="email" placeholder="Email" title="Enter a valid email." pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="{{ request.form['email'] }}"></input>    
                 <br>
                 <label for="password" class="input-label">Password</label><br>
-                <input type="text" minlength="4" class="textfield" name="password" placeholder="Password" value="{{ request.form['billingAddress'] }}"></input>
+                <input type="password" minlength="4" class="textfield" name="password" placeholder="Password" value="{{ request.form['billingAddress'] }}"></input>
                 <br>
                 <button  class="standard-button" align="center" type="submit">Sign In</button>
-                <p>Haven't signed up yet? <a href="/register">Register now!</a></p>
+                <p>Haven't signed up yet? <a class="register-text" href="/register">Register now!</a></p>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
                 <br>
                 <br>
             </form>
@@ -45,7 +53,7 @@
                 <input type="text" minlength="6" maxlength=6 class="textfield" name="postalCode" placeholder="A1A1A1" title="Postal Codes can't contain special characters and must follow the Canadian Postal Code format." pattern='^([A-Za-z]\d[A-Za-z][-]?\d[A-Za-z]\d)' value="{{ request.form['postalCode'] }}"></input>
                 <br>
                 <button  class="standard-button" align="center" type="submit">Register</button>
-                <p>Already have an account? <a href="/login">Login now!</a></p>
+                <p>Already have an account? <a class="register-text" href="/login">Login now!</a></p>
             </form>
         {% endif %}
     </div>
