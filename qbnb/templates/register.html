@@ -26,8 +26,17 @@
                 <label for="username" class="input-label">Username</label><br>
                 <input type="text" minlength="4" class="textfield" name="username" pattern='^[A-Za-z0-9_-]*$' placeholder="bestusernameever" title="Usernames cannot have special characters."value="{{ request.form['username'] }}"></input>
                 <br>
+                <label for="firstName" class="input-label">First Name</label><br>
+                <input type="text" minlength="1" class="textfield" name="firstName" placeholder="Jack" value="{{ request.form['firstName'] }}"></input>
+                <br>
+                <label for="surname" class="input-label">Surname</label><br>
+                <input type="text" minlength="1" class="textfield" name="surname" placeholder="Nelson" value="{{ request.form['surname'] }}"></input>
+                <br>
                 <label for="email" class="input-label">Email</label><br>
                 <input type="text" minlength="4"class="textfield" name="email" placeholder="realemail@email.com" title="Enter a valid email." pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="{{ request.form['email'] }}"></input>    
+                <br>
+                <label for="password" class="input-label">Password</label><br>
+                <input type="text" minlength="4"class="textfield" name="password" placeholder="Password1234!" title="Enter a valid password" value="{{ request.form['password'] }}"></input>    
                 <br>
                 <label for="billingAddress" class="input-label">Billing Address</label><br>
                 <input type="text" minlength="4" class="textfield" name="billingAddress" placeholder="123 Example St, City, PRV" value="{{ request.form['billingAddress'] }}"></input>

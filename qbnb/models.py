@@ -1,11 +1,12 @@
 from curses.ascii import isalnum
 import datetime
+import email
 from enum import unique
 from flask import Flask, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, login_user
+from sqlalchemy import true
 from qbnb import app
-from email_validator import validate_email, EmailNotValidError
 import re
 
 
@@ -59,20 +60,23 @@ class User(db.Model):
                            unique=False,
                            nullable=False)
         
-    def registration(self, username, password, email):
-        reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&])\
-        [A-Za-z\d@$!#%*?&]{6,20}$"
-        pat = re.compile(reg)
-        mat = re.search(pat, password)
+    def registration(username, password):
         if username == "":
             print("Username can not be empty.")
+            return False
         if password == "":
             print("Password can not be empty.")
-        if not mat:
-            print("password is invalid, must contain one lower, \
-            one upper, one special char and at least 6 characters long")
+            return False
+        passwordRules = [lambda s: any(
+            x.isupper() for x in s), lambda s: any(
+                x.islower() for x in s), lambda s: any(
+                x.isdigit() for x in s),
+            lambda s: len(s) >= 7]
+        if not all(rule(password) for rule in passwordRules):
+            return False
         if len(username) < 2 or len(username) > 20:
             print("Username must be between 2 and 20 characters long")
+            return False
         i = 0
         for c in username:
             if (i == 0 or i == len(username) - 1): 
@@ -86,14 +90,10 @@ class User(db.Model):
                 print("'non-alphanumeric'")
                 return False
             i += 1
-        try:
-            # Check that the email address is valid.
-            validation = validate_email(email, check_deliverability=unique)  
-            email = validation.email
-        except EmailNotValidError as e:
-            # Email is not valid.
-            print(str(e))
-        self.balance = 100
+        user = User(username=username, email=email, password=password)
+        db.session.commit()
+        return True
+        
 
     firstName = db.Column(db.String(15),
                           unique=False,
@@ -148,14 +148,16 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
-    def __init__(self, username, firstName, email, password):
-        self.firstName = firstName
+    def __init__(self, username, email, password):
+        self.firstName = ''
         self.email = email
         self.password = password
+        self.billingAddress = ''
+        self.postalCode = ''
         self.rating = '5.0'
         self.balance = 100.0
         self.propertyReview = ''
-        self.userReview = ''
+        self.userReview = '0'
         self.billingAddress = ''
         self.postalCode = ''
         self.surname = ''

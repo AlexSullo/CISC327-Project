@@ -1,3 +1,4 @@
+from email import message
 from flask import Flask, redirect, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import *
@@ -13,6 +14,9 @@ greetings = [
     'Greetings'
 ]
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
 
 @app.route("/")
 def home():
@@ -98,21 +102,39 @@ def update_profile(id):
     return redirect("/profile/" + str(id))
 
 
-@app.route("/register", methods=['POST'])
+@app.route("/register", methods=['GET','POST'])
 def register():
-    if request.method == 'POST':
-        user = db.session.query(User).get(id)  
-        try:
-            if User.registration(request.form['username'], request.form("password"), request.form("email")):
-                user.username = request.form['username']
-                user.password = request.form['password']
-                user.email = request.form['password']
-                user.firstname = request.form["firstName"]
+
+    if request.method == "POST":
+        password = request.form["password"]
+        username = request.form["username"]
+        register_user = User.registration(username, password)
+        if register_user == True:
+            return render_template('profile.html')
+        else:
+            print("you stupid")
+            render_template('register.html', message='You failed you dumb bitch!')
+    return render_template('register.html', message='Final return')
+
+    """
+        email = request.form.get("email")
+        attemptedUser = db.session.query(User).filter(email == email).first()
+        attemptedUser.password = request.form['password']
+        attempt = attemptedUser.registration(request.form['username'], request.form['password'], email)
+        if attempt:
+            newUser = User(username=request.form['username'],
+                 email=request.form['email'],
+                 firstName=request.form['firstName'],
+                 password=request.form['password'],
+                 surname=request.form['surname'],
+                 billingAddress=request.form['billingAddress'],
+                 postalCode=request.form['postalCode']
+                  )
+            db.session.add(newUser)
             db.session.commit()
-        except AttributeError:
-            db.session.rollback()
-            raise
-    return redirect("/register/" + str(id))
+            return redirect("/")
+        print(attempt)
+        """
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -120,20 +142,45 @@ def login():
     '''
     Allows the user to login to their account
     '''
-    email = "sebsemail@email.com"
-    password = "password"
-    attemptedUser = db.session.query(User).filter(User.email == email).first()
-    print("attempted user:")
-    print(attemptedUser.email)
-    print(attemptedUser.password)
-    print("---")
-    print(email)
-    print(password)
-    attempt = attemptedUser.login(email, password)
-    print(attempt)
-    return render_template("register.html",
-                           login=True)
+    if request.method == "POST":
+        # Verify the information given by the user
+        email = request.form.get("email")
+        password = request.form.get("password")
+        attemptedUser = db.session.query(User).filter(email == email).first()
+        attempt = attemptedUser.login(email, password)
+        if attempt:
+            # If email/password combo is correct
+            login_user(attemptedUser)        
+            return redirect("/")
+        else:
+            return render_template("register.html",
+                                   login=True,
+                                   message=attempt)
+    else:
+        return render_template("register.html",
+                               login=True)
 
+@login_manager.user_loader
+def load_user(id):
+    '''
+    Function required for login manager
+    '''
+    return db.session.query(User).get(id)
+
+
+def get_info():
+    '''
+    A function that returns the current user's information if they are signed
+    in, and returns other information if they aren't. This function is for
+    the navbar.
+    '''
+    user = db.session.query(User).get(current_user.get_id())
+    if user is None:
+        return [None, False]
+    else:
+        return [user, True]
 
 if __name__ == '__ main__':
     app.run()
+
+   
