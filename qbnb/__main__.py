@@ -1,4 +1,3 @@
-from email import message
 from flask import Flask, redirect, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import *
@@ -106,9 +105,18 @@ def update_profile(id):
 def register():
 
     if request.method == "POST":
-        password = request.form["password"]
-        username = request.form["username"]
-        register_user = User.registration(username, password)
+        userData = {
+            'username': request.form["username"],
+            'password': request.form["password"],
+            'firstName': request.form["firstName"],
+            'surname': request.form["surname"],
+            'email': request.form["email"],
+            'billingAddress': request.form["billingAddress"],
+            'postalCode': request.form["postalCode"]
+
+        }
+        register_user = User.registration(userData)
+        print(register_user)
         if register_user == True:
             return render_template('profile.html')
         else:

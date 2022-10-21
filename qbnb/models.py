@@ -59,42 +59,7 @@ class User(db.Model):
     postalCode = db.Column(db.String(6),
                            unique=False,
                            nullable=False)
-        
-    def registration(username, password):
-        if username == "":
-            print("Username can not be empty.")
-            return False
-        if password == "":
-            print("Password can not be empty.")
-            return False
-        passwordRules = [lambda s: any(
-            x.isupper() for x in s), lambda s: any(
-                x.islower() for x in s), lambda s: any(
-                x.isdigit() for x in s),
-            lambda s: len(s) >= 7]
-        if not all(rule(password) for rule in passwordRules):
-            return False
-        if len(username) < 2 or len(username) > 20:
-            print("Username must be between 2 and 20 characters long")
-            return False
-        i = 0
-        for c in username:
-            if (i == 0 or i == len(username) - 1): 
-                if (not c.isalnum()):  # If its not alphanumeric
-                    print("Username: 'contains spaces on \
-                    the ends or non-alphanumeric'")
-                    return False
-            elif (c == " "):  # Or if its a space within the title
-                pass
-            elif (not c.isalnum()):  # Or if its not alphanumeric
-                print("'non-alphanumeric'")
-                return False
-            i += 1
-        user = User(username=username, email=email, password=password)
-        db.session.commit()
-        return True
-        
-
+    
     firstName = db.Column(db.String(15),
                           unique=False,
                           nullable=False)
@@ -105,6 +70,48 @@ class User(db.Model):
 
     authenticated = db.Column(db.Boolean,
                               default=False)
+        
+    def registration(userData):
+        '''
+        Registers the user with the provided information
+        '''
+        if userData['username'] == "":
+            print("Username can not be empty.")
+            return False
+        if userData['password'] == "":
+            print("Password can not be empty.")
+            return False
+
+        passwordRules = [lambda s: any(
+            x.isupper() for x in s), lambda s: any(
+                x.islower() for x in s), lambda s: any(
+                x.isdigit() for x in s),
+            lambda s: len(s) >= 7]
+        if not all(rule(userData['password']) for rule in passwordRules):
+            print(userData['password'])
+            return "Error, password does not meet required complexity"
+
+        if len(userData['username']) < 2 or len(userData['username']) > 20:
+            print("Username must be between 2 and 20 characters long")
+            return False
+
+        i = 0
+        for c in userData['username']:
+            if (i == 0 or i == len(userData['username']) - 1): 
+                if (not c.isalnum()):  # If its not alphanumeric
+                    print("Username: 'contains spaces on \
+                    the ends or non-alphanumeric'")
+                    return False
+            elif (c == " "):  # Or if its a space within the title
+                pass
+            elif (not c.isalnum()):  # Or if its not alphanumeric
+                print("'non-alphanumeric'")
+                return False
+            i += 1
+        user = User(userData)
+        db.session.add(user)
+        db.session.commit()
+        return True
 
     def login(self, entered_email, entered_password):
         """
@@ -148,20 +155,19 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.username
 
-    def __init__(self, username, email, password):
-        self.firstName = ''
-        self.email = email
-        self.password = password
-        self.billingAddress = ''
-        self.postalCode = ''
+    def __init__(self, userInfo):
+        self.firstName = userInfo['firstName']
+        self.email = userInfo['email']
+        self.password = userInfo['password']
+        self.billingAddress = userInfo['billingAddress']
+        self.postalCode = userInfo['postalCode']
         self.rating = '5.0'
         self.balance = 100.0
         self.propertyReview = ''
         self.userReview = '0'
         self.billingAddress = ''
-        self.postalCode = ''
-        self.surname = ''
-        self.username = username
+        self.surname = userInfo['surname']
+        self.username = userInfo['username']
 
     def save_updated_info(self, updatedInfo):
         '''
