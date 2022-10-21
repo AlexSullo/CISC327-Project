@@ -1,10 +1,8 @@
 from curses.ascii import isalnum
 import datetime
-import email
-from enum import unique
 from flask import Flask, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager
+from flask_login import UserMixin
 from qbnb import app
 import re
 
@@ -58,13 +56,24 @@ class User(UserMixin, db.Model):
     postalCode = db.Column(db.String(6),
                            unique=False,
                            nullable=False)
+    
+    firstName = db.Column(db.String(15),
+                          unique=False,
+                          nullable=False)
+
+    surname = db.Column(db.String(20),
+                        unique=False,
+                        nullable=False)
+
+    authenticated = db.Column(db.Boolean,
+                              default=False)
         
-    def registration(self, username, password, email):
+    def registration(self, userData):
         reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&])\
         [A-Za-z\d@$!#%*?&]{6,20}$"
         pat = re.compile(reg)
-        mat = re.search(pat, password)
-        if username == "":
+        mat = re.search(pat, userData['password'])
+        if userData['username'] == "":
             print("Username can not be empty.")
             return False
         if userData['password'] == "":
@@ -97,25 +106,11 @@ class User(UserMixin, db.Model):
                 print("'non-alphanumeric'")
                 return False
             i += 1
-        self.balance = 100
-        try:
-            # Check that the email address is valid.
-            validation = validate_email(email, check_deliverability=unique)  
-            email = validation.email
-        except EmailNotValidError as e:
-            # Email is not valid.
-            print(str(e))
-
-    firstName = db.Column(db.String(15),
-                          unique=False,
-                          nullable=False)
-
-    surname = db.Column(db.String(20),
-                        unique=False,
-                        nullable=False)
-
-    authenticated = db.Column(db.Boolean,
-                              default=False)
+        user = User(userData)
+        user.billingAddress = userData['billingAddress']
+        db.session.add(user)
+        db.session.commit()
+        return True
 
     def login(self, entered_email, entered_password):
         """
@@ -130,6 +125,10 @@ class User(UserMixin, db.Model):
             return "Error, Email/password should not be empty"
         # checks if email meets addr-spec defined
         # in RFC 5322 convention using regex
+        userAttempt = db.session.query(User).filter_by(email=entered_email)
+        userAttempt = userAttempt.first()
+        if entered_password != userAttempt.password:
+            return 'Password is incorrect.'
         r = r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+'
         regex = re.compile(r)
         if not re.fullmatch(regex, entered_email):
@@ -413,27 +412,3 @@ class BankTransfer(db.Model):
     transactionAmount = db.Column(db.Float,
                                   unique=False,
                                   nullable=False)
-
-
-"""
-* Sprint two: user registration
-* Checks all cases to insure the account is made correctly
-* Initializes balance to 100
-
-pas = "alexSulloin"
-ema = "alexsullo67@gmail.com"
-use = "SuBooks"
-user = User(username=use, password=pas, email=ema)
-print(user.registration(use, pas, ema))
-
-Sprint 2: Listing Test Code
-oldT = "This is a sample title"
-oldD = "This is a sample description for testing purposes."
-oldP = 99.99
-oldList = Listing(title=oldT,description=oldD,price=oldP)
-print("oldList valid:", oldList.checkListing())
-newT = "This is the updated title"
-newD = "This is the updated description for testing purposes."
-newP = 100.99
-print("newList updated:", oldList.updateListing(newT, newD, newP))
-"""
