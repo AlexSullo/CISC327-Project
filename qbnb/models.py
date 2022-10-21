@@ -1,11 +1,8 @@
 from curses.ascii import isalnum
 import datetime
-import email
-from enum import unique
 from flask import Flask, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user
-from sqlalchemy import true
+from flask_login import UserMixin
 from qbnb import app
 import re
 
@@ -18,7 +15,7 @@ tables
 db = SQLAlchemy(app)
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer,
                    primary_key=True,
@@ -109,6 +106,7 @@ class User(db.Model):
                 return False
             i += 1
         user = User(userData)
+        user.billingAddress = userData['billingAddress']
         db.session.add(user)
         db.session.commit()
         return True
@@ -126,6 +124,10 @@ class User(db.Model):
             return "Error, Email/password should not be empty"
         # checks if email meets addr-spec defined
         # in RFC 5322 convention using regex
+        userAttempt = db.session.query(User).filter_by(email=entered_email)
+        userAttempt = userAttempt.first()
+        if entered_password != userAttempt.password:
+            return 'Password is incorrect.'
         r = r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+'
         regex = re.compile(r)
         if not re.fullmatch(regex, entered_email):

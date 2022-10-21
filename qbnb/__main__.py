@@ -1,3 +1,4 @@
+from sqlite3 import IntegrityError
 from flask import Flask, redirect, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import *
@@ -22,7 +23,19 @@ def home():
     '''
     Renders the homepage for QBNB
     '''
-    return render_template('homepage.html')
+    userInfo = get_info()  # Check if user is signed in
+    return render_template("homepage.html",
+                           userInformation=userInfo[0],
+                           user=userInfo[1])
+
+
+@app.route("/logout")
+def logout():
+    '''
+    Logs out the user.
+    '''
+    logout_user()  # Logs out the user
+    return redirect("/")
 
 
 @app.route("/listing/<id>")
@@ -35,36 +48,49 @@ def listing(id):
 
 
 @app.route('/profile/<int:id>', methods=['GET', 'POST'])
+@login_required
 def profile(id):
     '''
-    Allows user to view/update their profile
+    Allows user to view a profile, and if it's their own, update it.
     '''
     if request.method == 'GET':
         user = db.session.query(User).get(id)
+        if str(current_user.get_id()) == str(id):
+            # Checks if signed in user is owner of profile
+            idPass = True
+            pickedGreeting = random.choice(greetings)
+        else:
+            idPass = False
+            pickedGreeting = ""
         userData = {
             "username": user.username,
             "email": user.email,
             "billingAddress": user.billingAddress,
             "postalCode": user.postalCode,
             "firstName": user.firstName,
+            "surname": user.surname,
             "rating": user.rating,
             "propertyReviews": ['Hello'],  # CHANGE
             "userReviews": user.userReview,
             "balance": user.balance
-        }
-        pickedGreeting = random.choice(greetings)
+        }  # Get user information from DB
+        print(userData)
+        userInfo = get_info()  # Check if user is signed in
         return render_template('profile.html',
                                userData=userData,
                                greeting=pickedGreeting,
-                               id=id)
+                               userInformation=userInfo[0],
+                               user=userInfo[1],
+                               idPass=idPass)
 
 
 @app.route("/update/<id>", methods=['GET', 'POST'])
+@login_required
 def update_profile(id):
     '''
     Allows user to update their profile
     '''
-    user = db.session.query(User).get(id)
+    user = db.session.query(User).get(id)  # Get profile id
     if request.method == 'GET':
         userData = {
             "username": user.username,
@@ -73,15 +99,19 @@ def update_profile(id):
             "postalCode": user.postalCode,
             "firstName": user.firstName,
             "rating": user.rating,
-            "propertyReviews": ['Hello'],  # CHANGE
+            "propertyReviews": user.propertyReview,
             "userReviews": user.userReview,
             "balance": user.balance,
             "id": id
-        }
+        }  # Get user data from database
+        userInfo = get_info()  # Check if user is signed in
         return render_template('updateInfo.html',
-                               userData=userData)
+                               userData=userData,
+                               userInformation=userInfo[0],
+                               user=userInfo[1])
     else:
         try:
+            # Checks if the user entered new information or not
             if request.form['username'] != "":
                 user.username = request.form['username']
 
@@ -94,16 +124,15 @@ def update_profile(id):
             if request.form['postalCode'] != "":
                 user.postalCode = request.form['postalCode'].upper()
 
-            db.session.commit()
+            db.session.commit()  # Updates the database w/ new info
         except AttributeError:
-            db.session.rollback()
+            db.session.rollback()  # Undoes updating of DB
             raise
-    return redirect("/profile/" + str(id))
+    return redirect("/profile/" + str(id))  # Reload profile
 
 
 @app.route("/register", methods=['GET','POST'])
 def register():
-
     if request.method == "POST":
         userData = {
             'username': request.form["username"],
@@ -113,36 +142,17 @@ def register():
             'email': request.form["email"],
             'billingAddress': request.form["billingAddress"],
             'postalCode': request.form["postalCode"]
-
         }
         register_user = User.registration(userData)
-        print(register_user)
         if register_user == True:
-            return render_template('profile.html')
-        else:
-            print("you stupid")
-            render_template('register.html', message='You failed you dumb bitch!')
-    return render_template('register.html', message='Final return')
-
-    """
-        email = request.form.get("email")
-        attemptedUser = db.session.query(User).filter(email == email).first()
-        attemptedUser.password = request.form['password']
-        attempt = attemptedUser.registration(request.form['username'], request.form['password'], email)
-        if attempt:
-            newUser = User(username=request.form['username'],
-                 email=request.form['email'],
-                 firstName=request.form['firstName'],
-                 password=request.form['password'],
-                 surname=request.form['surname'],
-                 billingAddress=request.form['billingAddress'],
-                 postalCode=request.form['postalCode']
-                  )
-            db.session.add(newUser)
-            db.session.commit()
+            login_user(db.session.query(User).filter_by(
+                email=request.form["email"]).first())
             return redirect("/")
-        print(attempt)
-        """
+        else:
+            render_template('register.html',
+                            message='Your username or email is already' +
+                                    'taken. Please try another one.')
+    return render_template('register.html', message="Create your Account!")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -154,9 +164,11 @@ def login():
         # Verify the information given by the user
         email = request.form.get("email")
         password = request.form.get("password")
-        attemptedUser = db.session.query(User).filter(email == email).first()
+        attemptedUser = db.session.query(User).filter_by(email=str(email))
+        attemptedUser = attemptedUser.first()  # So that code matches PEP8
         attempt = attemptedUser.login(email, password)
-        if attempt:
+        print(attempt)
+        if attempt == 'Login, Successful.':
             # If email/password combo is correct
             login_user(attemptedUser)        
             return redirect("/")
@@ -167,6 +179,7 @@ def login():
     else:
         return render_template("register.html",
                                login=True)
+
 
 @login_manager.user_loader
 def load_user(id):

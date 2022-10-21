@@ -130,7 +130,18 @@ button {
     justify-content: center;
     flex-grow: 1 1 200px;
     flex-direction: column;
-    margin: 0 15em 0 15em;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1 1 200px;
+    flex-direction: row;
+    
+}
+
+.register-text {
+    color: blue;
 }
 
 .textfield {
@@ -334,15 +345,19 @@ button {
     border-radius: 15px;
 }
 
-.standard-button a {
-    transition: all 250ms ease-in-out;
-    padding: 5em;
-    background-color: rgb(0, 36, 82);
-    color: white;
-    min-width: 5em;
-    margin-left: 0;
-    border: solid 2px rgb(238,189,49);
+.logout-button {
+    transition: all 100ms ease-in-out;
+    color: gray;
+    border: none;
     border-radius: 15px;
+    margin-right: -10em;
+}
+
+.logout-button:hover {
+    transition: all 100ms ease-in-out;
+    color: black;
+    background-color: white;
+    border: 2px solid black;
 }
 
 .standard-button:hover {
@@ -356,6 +371,7 @@ button {
     background-color: #FBFBFB;
     margin: 0 -25em 0 -25em;
     padding: 0 25em 0 25em;
+    min-height: 65vh;
 }
 
 .short-hr {
