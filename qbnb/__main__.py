@@ -1,9 +1,10 @@
 from sqlite3 import IntegrityError
 from flask import Flask, redirect, render_template, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
 from flask_login import *
 from qbnb import *
-from qbnb.models import *
 from curses.ascii import isalnum
+from qbnb.models import *
 import random
 
 greetings = [
@@ -11,14 +12,13 @@ greetings = [
     'Hi',
     'Welcome',
     'Greetings'
-]  # Greetings for profile
+]
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-
-@app.route("/", methods=['GET', 'POST'])
+@app.route("/")
 def home():
     '''
     Renders the homepage for QBNB
@@ -74,6 +74,7 @@ def profile(id):
             "userReviews": user.userReview,
             "balance": user.balance
         }  # Get user information from DB
+        print(userData)
         userInfo = get_info()  # Check if user is signed in
         return render_template('profile.html',
                                userData=userData,
@@ -142,7 +143,7 @@ def register():
             'billingAddress': request.form["billingAddress"],
             'postalCode': request.form["postalCode"]
         }
-        register_user = User.registration(userData)
+        register_user = User(userData).registration(userData)
         if register_user == True:
             login_user(db.session.query(User).filter_by(
                 email=request.form["email"]).first())
@@ -241,6 +242,7 @@ def get_info():
     else:
         return [user, True]
 
-
 if __name__ == '__ main__':
     app.run()
+
+   

@@ -129,6 +129,10 @@ class User(UserMixin, db.Model):
         userAttempt = userAttempt.first()
         if entered_password != userAttempt.password:
             return 'Password is incorrect.'
+        userAttempt = db.session.query(User).filter_by(email=entered_email)
+        userAttempt = userAttempt.first()
+        if entered_password != userAttempt.password:
+            return 'Password is incorrect.'
         r = r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+'
         regex = re.compile(r)
         if not re.fullmatch(regex, entered_email):
@@ -140,8 +144,7 @@ class User(UserMixin, db.Model):
                 x.isdigit() for x in s),
             lambda s: len(s) >= 7]
         if not all(rule(entered_password) for rule in passwordRules):
-            pass
-            # return "Error, password does not meet required complexity"
+            return "Error, password does not meet required complexity"
         # checks database if email in it
         SignInAttempt = db.session.query(User).filter(
             User.email == entered_email).first()
@@ -150,11 +153,11 @@ class User(UserMixin, db.Model):
             # equals the password in database
             if SignInAttempt.password == entered_password:
                 User.authenticated = True
-                return True
+                return "Login, Successful."
             else:
-                return "Incorrect email and/or password, try again."
+                return "Error, incorrect email and/or password, try again."
         else:
-            return "Incorrect email and/or password, try again."
+            return "Error, incorrect email and/or password, try again."
 
     def __repr__(self):
         return '<User %r>' % self.username
