@@ -22,6 +22,14 @@ def home():
     return render_template('homepage.html')
 
 
+@app.route("/create")
+def create():
+    '''
+    Loads the page to create listing
+    '''
+
+    return render_template('create.html')
+
 @app.route("/listing/<id>")
 def listing(id):
     '''
