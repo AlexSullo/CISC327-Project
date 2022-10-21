@@ -18,6 +18,7 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
+
 @app.route("/")
 def home():
     '''
@@ -131,7 +132,7 @@ def update_profile(id):
     return redirect("/profile/" + str(id))  # Reload profile
 
 
-@app.route("/register", methods=['GET','POST'])
+@app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == "POST":
         userData = {
@@ -144,7 +145,7 @@ def register():
             'postalCode': request.form["postalCode"]
         }
         register_user = User(userData).registration(userData)
-        if register_user == True:
+        if register_user:
             login_user(db.session.query(User).filter_by(
                 email=request.form["email"]).first())
             return redirect("/")
@@ -201,26 +202,6 @@ def get_info():
     else:
         return [user, True]
 
-@login_manager.user_loader
-def load_user(id):
-    '''
-    Function required for login manager
-    '''
-    return db.session.query(User).get(id)
-
-
-def get_info():
-    '''
-    A function that returns the current user's information if they are signed
-    in, and returns other information if they aren't. This function is for
-    the navbar.
-    '''
-    user = db.session.query(User).get(current_user.get_id())
-    if user is None:
-        return [None, False]
-    else:
-        return [user, True]
-
 
 @login_manager.user_loader
 def load_user(id):
@@ -241,6 +222,28 @@ def get_info():
         return [None, False]
     else:
         return [user, True]
+
+
+@login_manager.user_loader
+def load_user(id):
+    '''
+    Function required for login manager
+    '''
+    return db.session.query(User).get(id)
+
+
+def get_info():
+    '''
+    A function that returns the current user's information if they are signed
+    in, and returns other information if they aren't. This function is for
+    the navbar.
+    '''
+    user = db.session.query(User).get(current_user.get_id())
+    if user is None:
+        return [None, False]
+    else:
+        return [user, True]
+
 
 if __name__ == '__ main__':
     app.run()
