@@ -12,7 +12,6 @@ greetings = [
     'Greetings'
 ]  # Greetings for profile
 
-# Set up Login Manager
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
@@ -129,13 +128,48 @@ def update_profile(id):
     return redirect("/profile/" + str(id))  # Reload profile
 
 
-@app.route("/register", methods=['GET', 'POST'])
+@app.route("/register", methods=['GET','POST'])
 def register():
-    '''
-    Allow a new user to register for an account
-    '''
-    return render_template("register.html",
-                           login=False)
+
+    if request.method == "POST":
+        userData = {
+            'username': request.form["username"],
+            'password': request.form["password"],
+            'firstName': request.form["firstName"],
+            'surname': request.form["surname"],
+            'email': request.form["email"],
+            'billingAddress': request.form["billingAddress"],
+            'postalCode': request.form["postalCode"]
+
+        }
+        register_user = User.registration(userData)
+        print(register_user)
+        if register_user == True:
+            return render_template('profile.html')
+        else:
+            print("you stupid")
+            render_template('register.html', message='You failed you dumb bitch!')
+    return render_template('register.html', message='Final return')
+
+    """
+        email = request.form.get("email")
+        attemptedUser = db.session.query(User).filter(email == email).first()
+        attemptedUser.password = request.form['password']
+        attempt = attemptedUser.registration(request.form['username'], request.form['password'], email)
+        if attempt:
+            newUser = User(username=request.form['username'],
+                 email=request.form['email'],
+                 firstName=request.form['firstName'],
+                 password=request.form['password'],
+                 surname=request.form['surname'],
+                 billingAddress=request.form['billingAddress'],
+                 postalCode=request.form['postalCode']
+                  )
+            db.session.add(newUser)
+            db.session.commit()
+            return redirect("/")
+        print(attempt)
+        """
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -161,6 +195,46 @@ def login():
         return render_template("register.html",
                                login=True)
 
+@login_manager.user_loader
+def load_user(id):
+    '''
+    Function required for login manager
+    '''
+    return db.session.query(User).get(id)
+
+
+def get_info():
+    '''
+    A function that returns the current user's information if they are signed
+    in, and returns other information if they aren't. This function is for
+    the navbar.
+    '''
+    user = db.session.query(User).get(current_user.get_id())
+    if user is None:
+        return [None, False]
+    else:
+        return [user, True]
+
+@login_manager.user_loader
+def load_user(id):
+    '''
+    Function required for login manager
+    '''
+    return db.session.query(User).get(id)
+
+
+def get_info():
+    '''
+    A function that returns the current user's information if they are signed
+    in, and returns other information if they aren't. This function is for
+    the navbar.
+    '''
+    user = db.session.query(User).get(current_user.get_id())
+    if user is None:
+        return [None, False]
+    else:
+        return [user, True]
+
 
 @login_manager.user_loader
 def load_user(id):
@@ -185,5 +259,3 @@ def get_info():
 
 if __name__ == '__ main__':
     app.run()
-    
-    
