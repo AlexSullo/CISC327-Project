@@ -30,6 +30,7 @@ def create():
 
     return render_template('create.html')
 
+
 @app.route("/listing/<id>")
 def listing(id):
     '''
