@@ -109,7 +109,8 @@ class User(UserMixin, db.Model):
             i += 1
         is_new_account = True
         try:
-            validation = validate_email(email, check_deliverability=is_new_account)
+            validation = validate_email(email, check_deliverability=
+                                       is_new_account)
             email = validation.email
             user = User(userData)
             user.billingAddress = userData['billingAddress']
@@ -120,7 +121,6 @@ class User(UserMixin, db.Model):
             print(str(e))
             return False
         
-
     def login(self, entered_email, entered_password):
         """
         Login function for the website. First checks if password/email
