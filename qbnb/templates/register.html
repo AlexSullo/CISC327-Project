@@ -44,7 +44,7 @@
                 <input type="text" minlength="4"class="textfield" name="email" placeholder="realemail@email.com" title="Enter a valid email." pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="{{ request.form['email'] }}"></input>    
                 <br>
                 <label for="password" class="input-label">Password</label><br>
-                <input type="text" minlength="4"class="textfield" name="password" placeholder="Password1234!" title="Enter a valid password" value="{{ request.form['password'] }}"></input>    
+                <input type="password" minlength="4"class="textfield" name="password" placeholder="Password1234!" title="Enter a valid password" value="{{ request.form['password'] }}"></input>    
                 <br>
                 <label for="billingAddress" class="input-label">Billing Address</label><br>
                 <input type="text" minlength="4" class="textfield" name="billingAddress" placeholder="123 Example St, City, PRV" value="{{ request.form['billingAddress'] }}"></input>
