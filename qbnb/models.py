@@ -1,9 +1,10 @@
 from curses.ascii import isalnum
 import datetime
+import email
 from enum import unique
 from flask import Flask, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_user
+from flask_login import UserMixin, LoginManager
 from qbnb import app
 import re
 
@@ -16,7 +17,7 @@ tables
 db = SQLAlchemy(app)
 
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer,
                    primary_key=True,
@@ -65,16 +66,27 @@ class User(db.Model):
         mat = re.search(pat, password)
         if username == "":
             print("Username can not be empty.")
-        if password == "":
+            return False
+        if userData['password'] == "":
             print("Password can not be empty.")
-        if not mat:
-            print("password is invalid, must contain one lower, \
-            one upper, one special char and at least 6 characters long")
-        if len(username) < 2 or len(username) > 20:
+            return False
+
+        passwordRules = [lambda s: any(
+            x.isupper() for x in s), lambda s: any(
+                x.islower() for x in s), lambda s: any(
+                x.isdigit() for x in s),
+            lambda s: len(s) >= 7]
+        if not all(rule(userData['password']) for rule in passwordRules):
+            print(userData['password'])
+            return "Error, password does not meet required complexity"
+
+        if len(userData['username']) < 2 or len(userData['username']) > 20:
             print("Username must be between 2 and 20 characters long")
+            return False
+
         i = 0
-        for c in username:
-            if (i == 0 or i == len(username) - 1): 
+        for c in userData['username']:
+            if (i == 0 or i == len(userData['username']) - 1): 
                 if (not c.isalnum()):  # If its not alphanumeric
                     print("Username: 'contains spaces on \
                     the ends or non-alphanumeric'")
@@ -129,7 +141,8 @@ class User(db.Model):
                 x.isdigit() for x in s),
             lambda s: len(s) >= 7]
         if not all(rule(entered_password) for rule in passwordRules):
-            return "Error, password does not meet required complexity"
+            pass
+            # return "Error, password does not meet required complexity"
         # checks database if email in it
         SignInAttempt = db.session.query(User).filter(
             User.email == entered_email).first()
@@ -138,27 +151,28 @@ class User(db.Model):
             # equals the password in database
             if SignInAttempt.password == entered_password:
                 User.authenticated = True
-                return "Login, Successful."
+                return True
             else:
-                return "Error, incorrect email and/or password, try again."
+                return "Incorrect email and/or password, try again."
         else:
-            return "Error, incorrect email and/or password, try again."
+            return "Incorrect email and/or password, try again."
 
     def __repr__(self):
         return '<User %r>' % self.username
 
-    def __init__(self, username, firstName, email, password):
-        self.firstName = firstName
-        self.email = email
-        self.password = password
+    def __init__(self, userInfo):
+        self.firstName = userInfo['firstName']
+        self.email = userInfo['email']
+        self.password = userInfo['password']
+        self.billingAddress = userInfo['billingAddress']
+        self.postalCode = userInfo['postalCode']
         self.rating = '5.0'
         self.balance = 100.0
         self.propertyReview = ''
-        self.userReview = ''
+        self.userReview = '0'
         self.billingAddress = ''
-        self.postalCode = ''
-        self.surname = ''
-        self.username = username
+        self.surname = userInfo['surname']
+        self.username = userInfo['username']
 
     def save_updated_info(self, updatedInfo):
         '''
