@@ -371,6 +371,7 @@ button {
     background-color: #FBFBFB;
     margin: 0 -25em 0 -25em;
     padding: 0 25em 0 25em;
+    min-height: 65vh;
 }
 
 .short-hr {
