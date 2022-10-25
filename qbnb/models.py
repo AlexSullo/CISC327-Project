@@ -4,6 +4,7 @@ from flask import Flask, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from qbnb import app
+from email_validator import validate_email, EmailNotValidError
 import re
 
 
@@ -106,12 +107,20 @@ class User(UserMixin, db.Model):
                 print("'non-alphanumeric'")
                 return False
             i += 1
-        user = User(userData)
-        user.billingAddress = userData['billingAddress']
-        db.session.add(user)
-        db.session.commit()
-        return True
-
+        is_new_account = True
+        try:
+            validation = validate_email(email,
+                                        check_deliverability=is_new_account)
+            email = validation.email
+            user = User(userData)
+            user.billingAddress = userData['billingAddress']
+            db.session.add(user)
+            db.session.commit()
+            return True
+        except EmailNotValidError as e:
+            print(str(e))
+            return False
+        
     def login(self, entered_email, entered_password):
         """
         Login function for the website. First checks if password/email
