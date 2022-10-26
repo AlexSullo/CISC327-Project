@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="changing-info-container">
+    <div class="profile-header">
+        <h1>Update Your Listing</h1>
+    </div>
+    <div class="login-container">
+
+        <br>
+        <form method="post">
+            <label for="title" class="input-label">Title</label><br>
+            <input type="text" minlength="4" class="textfield" name="title" pattern='^[A-Za-z0-9_-]*$' placeholder="{{ listingInfo.title }}" title="Title cannot have special characters."value="{{ request.form['title'] }}"></input>
+            <br>
+            <label for="description" class="input-label">Description</label><br>
+            <input type="text" minlength="0"class="textfield" name="description" placeholder="{{ listingInfo.description }}" title="Enter a description for your listing"  value="{{ request.form['description'] }}"></input>    
+            <!--
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            -->
+            <br>
+            <label for="price" class="input-label">Price</label><br>
+            <input type="text" minlength="4" class="textfield" name="price" placeholder="{{ listingInfo.price }}" value="{{ request.form['price'] }}"></input>
+            <br>
+            <label for="booked" class="input-label">Booked</label><br>
+            <input type="text" minlength="4" class="textfield" name="booked" placeholder="{{ listingInfo.booked }}" value="{{ request.form['booked'] }}"></input>
+            <br>
+            <label for="address" class="input-label">Address</label><br>
+            <input type="text" minlength="4" class="textfield" name="address" placeholder="{{ listingInfo.address }}" value="{{ request.form['address'] }}"></input>
+            <br>
+            <label for="owner" class="input-label">Owner</label><br>
+            <input type="text" minlength="4" class="textfield" name="owner" placeholder="{{ listingInfo.owner }}" value="{{ request.form['owner'] }}"></input>
+            <br>
+            <label for="dateAvailable" class="input-label">Date Available</label><br>
+            <input type="text" minlength="4" class="textfield" name="dateAvailable" placeholder="{{ listingInfo.dateAvailable }}" value="{{ request.form['dateAvailable'] }}"></input>
+            <br>
+            <label for="coverImage" class="input-label">Cover Image</label><br>
+            <input type="text" minlength="4" class="textfield" name="coverImage" placeholder="{{ listingInfo.coverImage }}" value="{{ request.form['coverImage'] }}"></input>
+            <br>
+            <button  class="standard-button" align="center" type="submit">Submit</button>
+            <br><br>
+        </form>
+    </div>
+    
+    
+
+</div>
+{% endblock %}

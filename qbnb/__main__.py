@@ -81,6 +81,71 @@ def profile(id):
                                user=userInfo[1],
                                idPass=idPass)
 
+@app.route("/updatelisting/<id>", methods=['GET', 'POST'])
+@login_required
+def update_listing(id):
+    '''
+    Allows the user to update information about their listing, generally
+    just the information that is changeable on websites like air bnb. Will be 
+    able to change fields like price, description, but won't be able to 
+    change fields like owner or listing id since the owner is you the user,
+    and the listing id shouldn't be changed for any reason.
+    '''
+    listing = db.session.query(Listing).get(id)
+    if listing.ownerId == current_user.get_id():
+        if request.method == 'GET':
+            # Gets the listing ID
+            # Dictionary of what should be changeable in a 
+            # Listing from a user
+            listingInfo = {
+                "title":listing.title,
+                "description":listing.description,
+                "price":listing.price,
+                "booked": listing.booked,
+                "address": listing.address,
+                "owner": listing.owner,
+                "dateAvailable": listing.dateAvailable,
+                "coverImage": listing.coverImage}
+
+            listingInfo = listing.getListing()
+            userData = get_info()
+            return render_template('updateListing.html',
+                                   userInformation=userData[0],
+                                   user=userData[1],
+                                   listingInfo=listingInfo)
+        elif request.method == "POST":
+            # checks for new listing information
+            if request.form['title'] != "":
+                listing.title = request.form['title']
+
+            if request.form['description'] != "":
+                listing.description = request.form['description']
+
+            if request.form['price'] != "":
+                listing.price = request.form['price']
+            
+            if request.form['owner'] != "":
+                listing.owner = request.form["owner"]
+                
+            if request.form['address'] != "":
+                listing.address = request.form['address']
+                
+            if request.form['booked'] != "":
+                listing.booked = request.form['booked']
+            
+            if request.form['coverImage'] != "":
+                listing.coverImage = request.form["coverImage"]
+            
+            if request.form['dateAvailable'] != "":
+                listing.dateAvailable = request.form['available']
+                
+            db.session.commit()
+        return redirect("/updateListing/" + str(id))
+    else:
+        return redirect("/listing/" + str(id))
+
+        
+
 
 @app.route("/update/<id>", methods=['GET', 'POST'])
 @login_required

@@ -5,6 +5,7 @@ from flask import Flask, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager
 from qbnb import app
+from flask_migrate import Migrate
 import re
 
 
@@ -14,6 +15,7 @@ tables
 '''
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 
 class User(UserMixin, db.Model):
@@ -226,7 +228,7 @@ class Listing(db.Model):
     """
 
     __tablename__ = 'listings'
-    listingId = db.Column(db.Integer,  # Unique number identifies the listing
+    id = db.Column(db.Integer,  # Unique number identifies the listing
                           primary_key=True,
                           unique=True,
                           nullable=False)
@@ -248,7 +250,6 @@ class Listing(db.Model):
                                  nullable=False)
 
     ownerId = db.Column(db.Integer,  # Unique number identifies the owner
-                        primary_key=True,
                         unique=True)
 
     booked = db.Column(db.Boolean,  # Determines if listing has been booked
@@ -368,6 +369,22 @@ class Listing(db.Model):
         # UPDATE LAST MODIFIED DATE
         self.lastModifiedDate = datetime.datetime.now()
         return True
+
+    def getListing(self):
+        '''
+        Returns relevant modifiable data in a dictionary.
+        '''
+        listingData = {
+            "title": self.title,
+            "description": self.description,
+            "price": self.price,
+            "booked": self.booked,
+            "address": self.address,
+            "owner": self.owner,
+            "dateAvailable": self.dateAvailable,
+            "coverImage": self.coverImage
+        }
+        return listingData
 
     def __repr__(self):
         """
