@@ -92,7 +92,7 @@ def update_listing(id):
     and the listing id shouldn't be changed for any reason.
     '''
     listing = db.session.query(Listing).get(id)
-    if listing.ownerId == current_user.get_id():
+    if str(listing.ownerId) == str(current_user.get_id()):
         if request.method == 'GET':
             # Gets the listing ID
             # Dictionary of what should be changeable in a 
@@ -140,7 +140,7 @@ def update_listing(id):
                 listing.dateAvailable = request.form['available']
                 
             db.session.commit()
-        return redirect("/updateListing/" + str(id))
+        return redirect("/updatelisting/" + str(id))
     else:
         return redirect("/listing/" + str(id))
 

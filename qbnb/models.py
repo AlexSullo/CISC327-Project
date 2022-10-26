@@ -250,7 +250,7 @@ class Listing(db.Model):
                                  nullable=False)
 
     ownerId = db.Column(db.Integer,  # Unique number identifies the owner
-                        unique=True)
+                        unique=False)
 
     booked = db.Column(db.Boolean,  # Determines if listing has been booked
                        unique=False,

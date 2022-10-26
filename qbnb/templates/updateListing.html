@@ -20,7 +20,7 @@
             -->
             <br>
             <label for="price" class="input-label">Price</label><br>
-            <input type="text" minlength="4" class="textfield" name="price" placeholder="{{ listingInfo.price }}" value="{{ request.form['price'] }}"></input>
+            <input type="number" minlength="4" class="textfield" name="price" placeholder="{{ listingInfo.price }}" value="{{ request.form['price'] }}"></input>
             <br>
             <label for="booked" class="input-label">Booked</label><br>
             <input type="text" minlength="4" class="textfield" name="booked" placeholder="{{ listingInfo.booked }}" value="{{ request.form['booked'] }}"></input>
