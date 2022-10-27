@@ -49,8 +49,8 @@ def create():
     userInfo = get_info()  # Checks if user is signed in
     if request.method == 'GET':
         return render_template('create.html',
-                            userInformation=userInfo[0],
-                            user=userInfo[1])
+                               userInformation=userInfo[0],
+                               user=userInfo[1])
     elif request.method == 'POST':
         file = request.files['inputFile']
         data = file.read()
@@ -88,11 +88,10 @@ def create():
                                    booked=newListing.booked,
                                    rating=newListing.rating,
                                    reviews=newListing.reviews)
-            #return redirect("/listing/" + newListing.__repr__())
+            # return redirect("/listing/" + newListing.__repr__())
         else:
             print("ERROR - LISTING NOT CREATED (see __main__.py create())")
             
-
 
 @app.route("/listing/<id>", methods=['GET', 'POST'])
 def listing(id):
@@ -102,8 +101,8 @@ def listing(id):
 
     userInfo = get_info()  # Check if user is signed in
     return render_template('listing.html',
-                            userInformation=userInfo[0],
-                            user=userInfo[1])
+                           userInformation=userInfo[0],
+                           user=userInfo[1])
     
 
 @app.route('/profile/<int:id>', methods=['GET', 'POST'])

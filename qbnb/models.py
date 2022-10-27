@@ -279,20 +279,20 @@ class Listing(db.Model):
                       nullable=False)
 
     propertyType1 = db.Column(db.String(30),  # The type of building
-                             unique=False,
-                             nullable=False)
+                              unique=False,
+                              nullable=False)
 
     propertyType2 = db.Column(db.String(30),  # Private/shared room/place
-                             unique=False,
-                             nullable=False)
+                              unique=False,
+                              nullable=False)
 
     propertyType3 = db.Column(db.Integer,  # Number of bedrooms
-                             unique=False,
-                             nullable=False)
+                              unique=False,
+                              nullable=False)
 
     propertyType4 = db.Column(db.Integer,  # Number of bathrooms
-                             unique=False,
-                             nullable=False)
+                              unique=False,
+                              nullable=False)
 
     rating = db.Column(db.Float,  # The rating from 0.0 - 5.0
                        unique=False,
@@ -306,12 +306,11 @@ class Listing(db.Model):
                               unique=False,
                               nullable=False)
 
-    imgData = db.Column(db.LargeBinary,  #Actual data, needed for Download
+    imgData = db.Column(db.LargeBinary,  # Actual data, needed for Download
                         nullable=False)
 
-    imgRenderedData = db.Column(db.Text,  #Data to render the pic in browser
+    imgRenderedData = db.Column(db.Text,  # Data to render the pic in browser
                                 nullable=False)
-
 
     def __init__(self, listingData):
         self.listingId = hash(listingData['title'])
@@ -421,7 +420,7 @@ class Listing(db.Model):
         """
         Returns the path name of the listing.
         """
-        return str(self.title)+str(self.listingId)
+        return str(self.title) + str(self.listingId)
 
 
 class BankTransfer(db.Model):
