@@ -110,7 +110,6 @@ class User(UserMixin, db.Model):
         user.billingAddress = userData['billingAddress']
         db.session.add(user)
         db.session.commit()
-        return True
 
     def login(self, entered_email, entered_password):
         """
@@ -242,12 +241,10 @@ class Listing(db.Model):
 
     __tablename__ = 'listings'
     id = db.Column(db.Integer,  # Unique number identifies the listing
-                          primary_key=True,
-                          unique=True,
-                          nullable=False)
+                   primary_key=True,
+                   nullable=False)
 
     title = db.Column(db.String(40),  # The title of the listing
-                      unique=True,
                       nullable=False)
 
     description = db.Column(db.String(2000),  # The description area of listing
@@ -271,7 +268,6 @@ class Listing(db.Model):
                        nullable=False)
 
     address = db.Column(db.String(120),  # Address of the listing
-                        unique=True,
                         nullable=False)
 
     owner = db.Column(db.String(20),  # Registered user who listed the property
@@ -313,6 +309,7 @@ class Listing(db.Model):
                                 nullable=False)
 
     def __init__(self, listingData):
+        self.id = hash(listingData['title'])
         self.title = listingData['title']
         self.description = listingData['description']
         self.price = float(listingData['price'])
@@ -328,8 +325,8 @@ class Listing(db.Model):
         self.rating = '0.0'
         self.reviews = ''
         self.dateAvailable = str(listingData['dateAvailable'])
-        db.session.add(self)
-        db.session.commit()
+        self.imgData = listingData['imgData']
+        self.imgRenderedData = listingData['imgRenderedData']
 
     def checkListing(self):
         """This function checks if the title, description, price, and

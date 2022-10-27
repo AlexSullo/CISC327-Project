@@ -70,6 +70,8 @@ def create():
             "imgRenderedData": render_file
         }
         newListing = Listing(listingData)  # Creates the new listing
+        db.session.add(newListing) # Adds listing to database
+        db.session.commit()
         if newListing.checkListing():  # If valid redirects to new listing page
             # Renders listing template and passes through values
             return render_template('listing.html',
