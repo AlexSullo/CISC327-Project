@@ -1,16 +1,15 @@
 {% extends 'base.html' %} {% block body %}
 <div class="changing-info-container">
     <div class="profile-header">
-        <h1>Welcome to QBNB</h1>
-        <p>Create a new experience!</p>
+        <h1>Create Your Listing</h1>
     </div>
-    <div class="changing-info-container">
-        <form method="post">
+    <div class="login-container">
+        <form method="post" action="/create" enctype="multipart/form-data">
             <label for="title" class="input-label">Title</label><br>
             <input type="text" minlength="4" class="textfield" name="title" placeholder="Title" title="Enter a valid Title" value="{{ request.form['title'] }}"></input>
             <br>
             <label for="description" class="input-label">Description</label><br>
-            <textarea class="textfield" name="description" placeholder="Description" value="{{ request.form['description'] }}"></textarea>
+            <textarea class="textfield" name="description" placeholder="Description" style="max-width: 33.2em;" value="{{ request.form['description'] }}"></textarea>
             <br>
             <label for="price" class="input-label">Price</label><br>
             <input type="text" class="textfield" name="price" placeholder="Price" title="Enter a valid price" value="{{ request.form['price'] }}"></input>
@@ -18,18 +17,23 @@
             <label for="address" class="input-label">Address</label><br>
             <input type="text" class="textfield" name="address" placeholder="Address" title="Enter a valid address" value="{{ request.form['address'] }}"></input>
             <br>
-            <label for="type" class="input-label">Type</label><br>
-            <select name="type" value="{{ request.form['propertyType'] }}">
-                <option value="entire_place">Entire Place</option>
-                <option value="private_room">Private Room</option>
-                <option value="shared_room">Shared Room</option>
-            </select>
+            <label for="propertyType1" class="input-label">Type of building?</label><br>
+            <input type="text" class="textfield" name="propertyType1" placeholder="House, hotel, apartment, boat, island, castle, etc." value="{{ request.form['propertyType1'] }}"></input>
             <br>
+            <label for="propertyType2" class="input-label">Entire place, private room, or shared room?</label><br>
+            <input type="text" class="textfield" name="propertyType2" placeholder="Entire place, private room, or shared room" value="{{ request.form['propertyType2'] }}"></input>
             <br>
-            <label for="start">Date Available:</label>
-            <input type="date" id="date" name="date" value="2022-10-20" min="2021-01-02" max="2025-01-02" value="{{ request.form['dateAvailable'] }}">
-            <label for="image" class="input-label">Cover Image</label><br>
-            <input type="file" class="textfield" name="img" accept="image/*" placeholder="Image" title="Enter a valid address" value="{{ request.form['coverImage'] }}"></input>
+            <label for="propertyType3" class="input-label">Number of bedrooms?</label><br>
+            <input type="text" class="textfield" name="propertyType3" placeholder="0" value="{{ request.form['propertyType2'] }}"></input>
+            <br>
+            <label for="propertyType4" class="input-label">Number of bathrooms?</label><br>
+            <input type="text" class="textfield" name="propertyType4" placeholder="0" value="{{ request.form['propertyType2'] }}"></input>
+            <br>
+            <label for="dateAvailable" class="input-label">Date Available:</label><br>
+            <input type="date" name="dateAvailable" value="2022-10-20" min="2021-01-02" max="2025-01-02" value="{{ request.form['dateAvailable'] }}">
+            <br>
+            <label for="inputFile" class="input-label">Cover Image</label><br>
+            <input type="file" class="textfield" name="inputFile" placeholder="Image" title="Enter a valid address" value="{{ request.form['coverImage'] }}"></input>
             <br>
             <button class="standard-button" align="center" type="submit">Create Listing</button>
             <br>

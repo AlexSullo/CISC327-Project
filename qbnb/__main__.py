@@ -1,3 +1,4 @@
+import base64
 from sqlite3 import IntegrityError
 from flask import Flask, redirect, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
@@ -39,23 +40,71 @@ def logout():
     return redirect("/")
 
 
-@app.route("/create")
+@app.route("/create", methods=['GET', 'POST'])
+@login_required
 def create():
     '''
     Loads the page to create listing
     '''
+    userInfo = get_info()  # Checks if user is signed in
+    if request.method == 'GET':
+        return render_template('create.html',
+                            userInformation=userInfo[0],
+                            user=userInfo[1])
+    elif request.method == 'POST':
+        file = request.files['inputFile']
+        data = file.read()
+        render_file = render_picture(data)
+        listingData = {
+            "owner": userInfo[0],
+            "title": request.form["title"],
+            "description": request.form["description"],
+            "price": request.form["price"],
+            "address": request.form["address"],
+            "propertyType1": request.form["propertyType1"],
+            "propertyType2": request.form["propertyType2"],
+            "propertyType3": request.form["propertyType3"],
+            "propertyType4": request.form["propertyType4"],
+            "dateAvailable": request.form["dateAvailable"],
+            "imgData": data,
+            "imgRenderedData": render_file
+        }
+        newListing = Listing(listingData)  # Creates the new listing
+        if newListing.checkListing():  # If valid redirects to new listing page
+            # Renders listing template and passes through values
+            return render_template('listing.html',
+                                   owner=newListing.owner,
+                                   title=newListing.title,
+                                   description=newListing.description,
+                                   price=newListing.price,
+                                   address=newListing.address,
+                                   pt1=newListing.propertyType1,
+                                   pt2=newListing.propertyType2,
+                                   pt3=newListing.propertyType3,
+                                   pt4=newListing.propertyType4,
+                                   date=newListing.dateAvailable,
+                                   lmd=newListing.lastModifiedDate,
+                                   file_render=newListing.imgRenderedData,
+                                   booked=newListing.booked,
+                                   rating=newListing.rating,
+                                   reviews=newListing.reviews)
+            #return redirect("/listing/" + newListing.__repr__())
+        else:
+            print("ERROR - LISTING NOT CREATED (see __main__.py create())")
+            
 
-    return render_template('create.html')
 
-
-@app.route("/listing/<id>")
+@app.route("/listing/<id>", methods=['GET', 'POST'])
 def listing(id):
     '''
     Loads the page of a listing based on its ID
     '''
 
-    return render_template('listing.html')
-
+    userInfo = get_info()  # Check if user is signed in
+    return render_template('listing.html',
+                            userInformation=userInfo[0],
+                            user=userInfo[1])
+    
 
 @app.route('/profile/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -212,46 +261,12 @@ def get_info():
         return [user, True]
 
 
-@login_manager.user_loader
-def load_user(id):
+def render_picture(data):
     '''
-    Function required for login manager
+    A function that renders the given listing picture.
     '''
-    return db.session.query(User).get(id)
-
-
-def get_info():
-    '''
-    A function that returns the current user's information if they are signed
-    in, and returns other information if they aren't. This function is for
-    the navbar.
-    '''
-    user = db.session.query(User).get(current_user.get_id())
-    if user is None:
-        return [None, False]
-    else:
-        return [user, True]
-
-
-@login_manager.user_loader
-def load_user(id):
-    '''
-    Function required for login manager
-    '''
-    return db.session.query(User).get(id)
-
-
-def get_info():
-    '''
-    A function that returns the current user's information if they are signed
-    in, and returns other information if they aren't. This function is for
-    the navbar.
-    '''
-    user = db.session.query(User).get(current_user.get_id())
-    if user is None:
-        return [None, False]
-    else:
-        return [user, True]
+    render_pic = base64.b64encode(data).decode('ascii') 
+    return render_pic
 
 
 if __name__ == '__ main__':
