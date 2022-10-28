@@ -111,7 +111,7 @@ class User(UserMixin, db.Model):
         db.session.add(user)
         db.session.commit()
         return True
-        
+
     def login(self, entered_email, entered_password):
         """
         Login function for the website. First checks if password/email
@@ -243,6 +243,7 @@ class Listing(db.Model):
     __tablename__ = 'listings'
     id = db.Column(db.Integer,  # Unique number identifies the listing
                    primary_key=True,
+                   unique=True,
                    nullable=False)
 
     title = db.Column(db.String(40),  # The title of the listing
