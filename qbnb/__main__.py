@@ -81,6 +81,7 @@ def profile(id):
                                user=userInfo[1],
                                idPass=idPass)
 
+
 @app.route("/updatelisting/<id>", methods=['GET', 'POST'])
 @login_required
 def update_listing(id):
@@ -98,9 +99,9 @@ def update_listing(id):
             # Dictionary of what should be changeable in a 
             # Listing from a user
             listingInfo = {
-                "title":listing.title,
-                "description":listing.description,
-                "price":listing.price,
+                "title": listing.title,
+                "description": listing.description,
+                "price": listing.price,
                 "booked": listing.booked,
                 "address": listing.address,
                 "owner": listing.owner,
@@ -143,8 +144,6 @@ def update_listing(id):
         return redirect("/updatelisting/" + str(id))
     else:
         return redirect("/listing/" + str(id))
-
-        
 
 
 @app.route("/update/<id>", methods=['GET', 'POST'])

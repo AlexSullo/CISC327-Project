@@ -229,9 +229,9 @@ class Listing(db.Model):
 
     __tablename__ = 'listings'
     id = db.Column(db.Integer,  # Unique number identifies the listing
-                          primary_key=True,
-                          unique=True,
-                          nullable=False)
+                   primary_key=True,
+                   unique=True,
+                   nullable=False)
 
     title = db.Column(db.String(40),  # The title of the listing
                       unique=True,
