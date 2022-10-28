@@ -307,8 +307,15 @@ class Listing(db.Model):
 
     imgRenderedData = db.Column(db.Text,  # Data to render the pic in browser
                                 nullable=False)
+    
+    location = db.Column(db.String(32),  # Location (Area, province)
+                         nullable=False)
 
     def __init__(self, listingData):
+        if listingData['location'] != "":
+            listingLoc = listingData['location']
+        else:
+            listingLoc = "Ontario, CAN"
         self.id = hash(listingData['title'])
         self.title = listingData['title']
         self.description = listingData['description']
@@ -322,8 +329,9 @@ class Listing(db.Model):
         self.propertyType2 = str(listingData['propertyType2'])
         self.propertyType3 = listingData['propertyType3']
         self.propertyType4 = listingData['propertyType4']
-        self.rating = '0.0'
+        self.rating = '5.0'
         self.reviews = ''
+        self.location = listingLoc
         self.dateAvailable = str(listingData['dateAvailable'])
         self.imgData = listingData['imgData']
         self.imgRenderedData = listingData['imgRenderedData']
@@ -418,7 +426,7 @@ class Listing(db.Model):
         """
         Returns the path name of the listing.
         """
-        return str(self.title) + str(self.listingId)
+        return str(self.title) + str(self.id)
 
 
 class BankTransfer(db.Model):

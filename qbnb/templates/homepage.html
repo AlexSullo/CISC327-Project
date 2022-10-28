@@ -18,201 +18,22 @@
       {% endif %}
     </div>
     <div class="listings-container">
+      {% for listing in listings %}
       <div class="listing">
-        <a href="/listing/1">
+        <a href="/listing/{{listing.id}}">
           <img
             class="listing-img"
-            src="{{url_for('static', filename='placeholder.jpg')}}"
+            src="data:;base64,{{listing.imgRenderedData}}"
           />
           <div class="loc-and-rating">
-            <p class="listing-location">Location, CAN</p>
-            <img
-              class="rating-img-listing"
-              src="{{url_for('static', filename='listing-rating.png')}}"
-            />
-            <p class="listing-rating">5.0</p>
+            <p class="listing-location">{{listing.location}}</p>
+            <p class="listing-rating">{{listing.rating}}</p>
           </div>
-          <p class="booking-date">Sept. 21 - Sept. 31</p>
-          <p class="cost-text"><b>$999</b> night</p>
+          <p class="booking-date">{{listing.dateAvailable}}</p>
+          <p class="cost-text"><b>${{listing.price}}</b> night</p>
         </a>
       </div>
-
-      <div class="listing">
-        <img
-          class="listing-img"
-          src="{{url_for('static', filename='placeholder.jpg')}}"
-        />
-        <div class="loc-and-rating">
-          <p class="listing-location">Location, CAN</p>
-          <img
-            class="rating-img-listing"
-            src="{{url_for('static', filename='listing-rating.png')}}"
-          />
-          <p class="listing-rating">5.0</p>
-        </div>
-        <p class="booking-date">Sept. 21 - Sept. 31</p>
-        <p class="cost-text"><b>$999</b> night</p>
-      </div>
-
-      <div class="listing">
-        <img
-          class="listing-img"
-          src="{{url_for('static', filename='placeholder.jpg')}}"
-        />
-        <div class="loc-and-rating">
-          <p class="listing-location">Location, CAN</p>
-          <img
-            class="rating-img-listing"
-            src="{{url_for('static', filename='listing-rating.png')}}"
-          />
-          <p class="listing-rating">5.0</p>
-        </div>
-        <p class="booking-date">Sept. 21 - Sept. 31</p>
-        <p class="cost-text"><b>$999</b> night</p>
-      </div>
-
-      <div class="listing">
-        <img
-          class="listing-img"
-          src="{{url_for('static', filename='placeholder.jpg')}}"
-        />
-        <div class="loc-and-rating">
-          <p class="listing-location">Location, CAN</p>
-          <p class="listing-rating">5.0</p>
-        </div>
-        <p class="booking-date">Sept. 21 - Sept. 31</p>
-        <p class="cost-text"><b>$999</b> night</p>
-      </div>
-
-      <div class="listing">
-        <img
-          class="listing-img"
-          src="{{url_for('static', filename='placeholder.jpg')}}"
-        />
-        <div class="loc-and-rating">
-          <p class="listing-location">Location, CAN</p>
-          <p class="listing-rating">5.0</p>
-        </div>
-        <p class="booking-date">Sept. 21 - Sept. 31</p>
-        <p class="cost-text"><b>$999</b> night</p>
-      </div>
-
-      <div class="listing">
-        <img
-          class="listing-img"
-          src="{{url_for('static', filename='placeholder.jpg')}}"
-        />
-        <div class="loc-and-rating">
-          <p class="listing-location">Location, CAN</p>
-          <p class="listing-rating">5.0</p>
-        </div>
-        <p class="booking-date">Sept. 21 - Sept. 31</p>
-        <p class="cost-text"><b>$999</b> night</p>
-      </div>
-
-      <div class="listing">
-        <img
-          class="listing-img"
-          src="{{url_for('static', filename='placeholder.jpg')}}"
-        />
-        <div class="loc-and-rating">
-          <p class="listing-location">Location, CAN</p>
-          <p class="listing-rating">5.0</p>
-        </div>
-        <p class="booking-date">Sept. 21 - Sept. 31</p>
-        <p class="cost-text"><b>$999</b> night</p>
-      </div>
-
-      <div class="listing">
-        <img
-          class="listing-img"
-          src="{{url_for('static', filename='placeholder.jpg')}}"
-        />
-        <div class="loc-and-rating">
-          <p class="listing-location">Location, CAN</p>
-          <p class="listing-rating">5.0</p>
-        </div>
-        <p class="booking-date">Sept. 21 - Sept. 31</p>
-        <p class="cost-text"><b>$999</b> night</p>
-      </div>
-
-      <div class="listing">
-        <img
-          class="listing-img"
-          src="{{url_for('static', filename='placeholder.jpg')}}"
-        />
-        <div class="loc-and-rating">
-          <p class="listing-location">Location, CAN</p>
-          <p class="listing-rating">5.0</p>
-        </div>
-        <p class="booking-date">Sept. 21 - Sept. 31</p>
-        <p class="cost-text"><b>$999</b> night</p>
-      </div>
-
-      <div class="listing">
-        <img
-          class="listing-img"
-          src="{{url_for('static', filename='placeholder.jpg')}}"
-        />
-        <div class="loc-and-rating">
-          <p class="listing-location">Location, CAN</p>
-          <p class="listing-rating">5.0</p>
-        </div>
-        <p class="booking-date">Sept. 21 - Sept. 31</p>
-        <p class="cost-text"><b>$999</b> night</p>
-      </div>
-
-      <div class="listing">
-        <img
-          class="listing-img"
-          src="{{url_for('static', filename='placeholder.jpg')}}"
-        />
-        <div class="loc-and-rating">
-          <p class="listing-location">Location, CAN</p>
-          <p class="listing-rating">5.0</p>
-        </div>
-        <p class="booking-date">Sept. 21 - Sept. 31</p>
-        <p class="cost-text"><b>$999</b> night</p>
-      </div>
-
-      <div class="listing">
-        <img
-          class="listing-img"
-          src="{{url_for('static', filename='placeholder.jpg')}}"
-        />
-        <div class="loc-and-rating">
-          <p class="listing-location">Location, CAN</p>
-          <p class="listing-rating">5.0</p>
-        </div>
-        <p class="booking-date">Sept. 21 - Sept. 31</p>
-        <p class="cost-text"><b>$999</b> night</p>
-      </div>
-
-      <div class="listing">
-        <img
-          class="listing-img"
-          src="{{url_for('static', filename='placeholder.jpg')}}"
-        />
-        <div class="loc-and-rating">
-          <p class="listing-location">Location, CAN</p>
-          <p class="listing-rating">5.0</p>
-        </div>
-        <p class="booking-date">Sept. 21 - Sept. 31</p>
-        <p class="cost-text"><b>$999</b> night</p>
-      </div>
-
-      <div class="listing">
-        <img
-          class="listing-img"
-          src="{{url_for('static', filename='placeholder.jpg')}}"
-        />
-        <div class="loc-and-rating">
-          <p class="listing-location">Location, CAN</p>
-          <p class="listing-rating">5.0</p>
-        </div>
-        <p class="booking-date">Sept. 21 - Sept. 31</p>
-        <p class="cost-text"><b>$999</b> night</p>
-      </div>
+      {% endfor %}
     </div>
   </div>
 </div>

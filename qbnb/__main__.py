@@ -20,13 +20,21 @@ login_manager.init_app(app)
 login_manager.login_view = "login"
 
 
+def load_listings():
+    '''
+    Loads listings to show in homepage
+    '''
+    return db.session.query(Listing).all()
+
 @app.route("/")
 def home():
     '''
     Renders the homepage for QBNB
     '''
+    listings = load_listings()
     userInfo = get_info()  # Check if user is signed in
     return render_template("homepage.html",
+                           listings=listings,
                            userInformation=userInfo[0],
                            user=userInfo[1])
 
@@ -55,17 +63,19 @@ def create():
         file = request.files['inputFile']
         data = file.read()
         render_file = render_picture(data)
+        date = request.form["dateAvailableStart"] + " to " + request.form["dateAvailableEnd"]
         listingData = {
-            "owner": userInfo[0],
+            "owner": userInfo[0].id,
             "title": request.form["title"],
             "description": request.form["description"],
-            "price": request.form["price"],
+            "price": float(request.form["price"]),
             "address": request.form["address"],
             "propertyType1": request.form["propertyType1"],
             "propertyType2": request.form["propertyType2"],
             "propertyType3": request.form["propertyType3"],
             "propertyType4": request.form["propertyType4"],
-            "dateAvailable": request.form["dateAvailable"],
+            "dateAvailable": date,
+            "location": request.form["location"],
             "imgData": data,
             "imgRenderedData": render_file
         }
@@ -74,25 +84,11 @@ def create():
         db.session.commit()
         if newListing.checkListing():  # If valid redirects to new listing page
             # Renders listing template and passes through values
-            return render_template('listing.html',
-                                   owner=newListing.owner,
-                                   title=newListing.title,
-                                   description=newListing.description,
-                                   price=newListing.price,
-                                   address=newListing.address,
-                                   pt1=newListing.propertyType1,
-                                   pt2=newListing.propertyType2,
-                                   pt3=newListing.propertyType3,
-                                   pt4=newListing.propertyType4,
-                                   date=newListing.dateAvailable,
-                                   lmd=newListing.lastModifiedDate,
-                                   file_render=newListing.imgRenderedData,
-                                   booked=newListing.booked,
-                                   rating=newListing.rating,
-                                   reviews=newListing.reviews)
+            return redirect("/listing/" + str(newListing.id))
             # return redirect("/listing/" + newListing.__repr__())
         else:
             print("ERROR - LISTING NOT CREATED (see __main__.py create())")
+            return redirect("/create")
             
 
 @app.route("/listing/<id>", methods=['GET', 'POST'])
@@ -100,9 +96,28 @@ def listing(id):
     '''
     Loads the page of a listing based on its ID
     '''
-
+    newListing = db.session.query(Listing).filter_by(id=id).first()
+    listingOwner = (db.session.query(User).get(newListing.owner))
+    ownerStr = listingOwner.firstName + " " + listingOwner.surname
+    listingData = {
+                   "owner": ownerStr,
+                   "title": newListing.title,
+                   "description": newListing.description,
+                   "price": newListing.price,
+                   "address": newListing.address,
+                   "pt1": newListing.propertyType1,
+                   "pt2": newListing.propertyType2,
+                   "pt3": newListing.propertyType3,
+                   "pt4": newListing.propertyType4,
+                   "date": newListing.dateAvailable,
+                   "lmd": newListing.lastModifiedDate,
+                   "file_render": newListing.imgRenderedData,
+                   "booked": newListing.booked,
+                   "rating": newListing.rating,
+                   "reviews":newListing.reviews}
     userInfo = get_info()  # Check if user is signed in
     return render_template('listing.html',
+                           listingData=listingData,
                            userInformation=userInfo[0],
                            user=userInfo[1])
     
