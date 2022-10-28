@@ -422,7 +422,7 @@ class Listing(db.Model):
             "address": self.address,
             "owner": self.owner,
             "dateAvailable": self.dateAvailable,
-            "coverImage": self.coverImage
+            "imgRenderedData": self.imgRenderedData
         }
         return listingData
 

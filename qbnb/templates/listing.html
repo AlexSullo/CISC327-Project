@@ -50,6 +50,12 @@
                     </div>
                 </div>                
             </div>
+            {% if idPass %}
+                <div class="login-container">
+                    <p>Update Your Listing?</p>
+                    <a href="/updatelisting/{{ listingData.id }}"><button class="standard-button">Edit</button></a>
+                </div>
+            {% endif %}
             <div class="listing-main-info">
                 <p>More information regarding the property like images,
                     ratings, sleeping arrangemnets, and a calendar (maybe)

@@ -11,7 +11,7 @@
         <br>
         <form method="post">
             <label for="title" class="input-label">Title</label><br>
-            <input type="text" minlength="4" class="textfield" name="title" pattern='^[A-Za-z0-9_-]*$' placeholder="{{ listingInfo.title }}" title="Title cannot have special characters."value="{{ request.form['title'] }}"></input>
+            <input type="text" minlength="4" class="textfield" name="title" placeholder="{{ listingInfo.title }}" title="Title cannot have special characters."value="{{ request.form['title'] }}"></input>
             <br>
             <label for="description" class="input-label">Description</label><br>
             <input type="text" minlength="0"class="textfield" name="description" placeholder="{{ listingInfo.description }}" title="Enter a description for your listing"  value="{{ request.form['description'] }}"></input>    

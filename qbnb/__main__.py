@@ -100,8 +100,14 @@ def listing(id):
     '''
     newListing = db.session.query(Listing).filter_by(id=id).first()
     listingOwner = (db.session.query(User).get(newListing.owner))
+    if str(current_user.get_id()) == str(listingOwner.id):
+        # Checks if signed in user is owner of profile
+        idPass = True
+    else:
+        idPass = False
     ownerStr = listingOwner.firstName + " " + listingOwner.surname
     listingData = {"owner": ownerStr,
+                   "id": newListing.id,
                    "title": newListing.title,
                    "description": newListing.description,
                    "price": newListing.price,
@@ -120,7 +126,8 @@ def listing(id):
     return render_template('listing.html',
                            listingData=listingData,
                            userInformation=userInfo[0],
-                           user=userInfo[1])
+                           user=userInfo[1],
+                           idPass=idPass)
     
 
 @app.route('/profile/<int:id>', methods=['GET', 'POST'])
@@ -170,8 +177,9 @@ def update_listing(id):
     change fields like owner or listing id since the owner is you the user,
     and the listing id shouldn't be changed for any reason.
     '''
-    listing = db.session.query(Listing).get(id)
+    listing = db.session.query(Listing).filter_by(id=id).first()
     if str(listing.ownerId) == str(current_user.get_id()):
+        # idPass = True
         if request.method == 'GET':
             # Gets the listing ID
             # Dictionary of what should be changeable in a 
@@ -184,7 +192,8 @@ def update_listing(id):
                 "address": listing.address,
                 "owner": listing.owner,
                 "dateAvailable": listing.dateAvailable,
-                "coverImage": listing.coverImage}
+                "imgData": listing.imgData,
+                "coverImage": listing.imgRenderedData}
 
             listingInfo = listing.getListing()
             userData = get_info()
@@ -212,26 +221,26 @@ def update_listing(id):
             if request.form['booked'] != "":
                 listing.booked = request.form['booked']
             
-            if request.form['imgData'] != "":
-                listing.imgData = request.form["imgData"]
+            # if request.form['imgData'] != "":
+            #     listing.imgData = request.form["imgData"]
 
-            if request.form['imgRenderedData'] != "":
-                listing.imgRenderedData = request.form["imgRenderedData"]
+            # if request.form['imgRenderedData'] != "":
+            #     listing.imgRenderedData = request.form["imgRenderedData"]
             
             if request.form['dateAvailable'] != "":
                 listing.dateAvailable = request.form['dateAvailable']
 
-            if request.form['proprtyType1'] != "":
-                listing.proprtyType1 = request.form['proprtyType1']
+            if request.form['propertyType1'] != "":
+                listing.propertyType1 = request.form['propertyType1']
 
-            if request.form['proprtyType2'] != "":
-                listing.proprtyType2 = request.form['proprtyType2']
+            if request.form['propertyType2'] != "":
+                listing.propertyType2 = request.form['propertyType2']
             
-            if request.form['proprtyType3'] != "":
-                listing.proprtyType3 = request.form['proprtyType3']
+            if request.form['propertyType3'] != "":
+                listing.propertyType3 = request.form['propertyType3']
             
-            if request.form['proprtyType4'] != "":
-                listing.proprtyType4 = request.form['proprtyType4']
+            if request.form['propertyType4'] != "":
+                listing.propertyType4 = request.form['propertyType4']
 
             if request.form['location'] != "":
                 listing.location = request.form['location']
@@ -239,6 +248,7 @@ def update_listing(id):
             db.session.commit()
         return redirect("/updatelisting/" + str(id))
     else:
+        # idPass = False
         return redirect("/listing/" + str(id))
 
 
