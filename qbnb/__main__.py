@@ -26,6 +26,7 @@ def load_listings():
     '''
     return db.session.query(Listing).all()
 
+
 @app.route("/")
 def home():
     '''
