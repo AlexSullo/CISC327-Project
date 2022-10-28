@@ -250,13 +250,12 @@ class Listing(db.Model):
     """
 
     __tablename__ = 'listings'
-    listingId = db.Column(db.Integer,  # Unique number identifies the listing
-                          primary_key=True,
-                          unique=True,
-                          nullable=False)
+    id = db.Column(db.Integer,  # Unique number identifies the listing
+                   primary_key=True,
+                   unique=True,
+                   nullable=False)
 
     title = db.Column(db.String(40),  # The title of the listing
-                      unique=True,
                       nullable=False)
 
     description = db.Column(db.String(2000),  # The description area of listing
@@ -267,7 +266,7 @@ class Listing(db.Model):
                       unique=False,
                       nullable=False)
 
-    lastModifiedDate = db.Column(db.DateTime,  # The date changes were made
+    lastModifiedDate = db.Column(db.String(60),  # The date changes were made
                                  unique=False,
                                  nullable=False)
 
@@ -280,16 +279,27 @@ class Listing(db.Model):
                        nullable=False)
 
     address = db.Column(db.String(120),  # Address of the listing
-                        unique=True,
                         nullable=False)
 
     owner = db.Column(db.String(20),  # Registered user who listed the property
                       unique=False,
                       nullable=False)
 
-    propertyType = db.Column(db.String(80),  # The type of property
-                             unique=False,
-                             nullable=False)
+    propertyType1 = db.Column(db.String(30),  # The type of building
+                              unique=False,
+                              nullable=False)
+
+    propertyType2 = db.Column(db.String(30),  # Private/shared room/place
+                              unique=False,
+                              nullable=False)
+
+    propertyType3 = db.Column(db.Integer,  # Number of bedrooms
+                              unique=False,
+                              nullable=False)
+
+    propertyType4 = db.Column(db.Integer,  # Number of bathrooms
+                              unique=False,
+                              nullable=False)
 
     rating = db.Column(db.Float,  # The rating from 0.0 - 5.0
                        unique=False,
@@ -299,13 +309,43 @@ class Listing(db.Model):
                         unique=False,
                         nullable=True)
 
-    dateAvailable = db.Column(db.DateTime,  # Range when the property is avail.
+    dateAvailable = db.Column(db.String(60),  # When the property is avail.
                               unique=False,
                               nullable=False)
 
-    coverImage = db.Column(db.String(120),  # The url for the listing image
-                           unique=False,
-                           nullable=False)
+    imgData = db.Column(db.LargeBinary,  # Actual data, needed for Download
+                        nullable=False)
+
+    imgRenderedData = db.Column(db.Text,  # Data to render the pic in browser
+                                nullable=False)
+    
+    location = db.Column(db.String(32),  # Location (Area, province)
+                         nullable=False)
+
+    def __init__(self, listingData):
+        if listingData['location'] != "":
+            listingLoc = listingData['location']
+        else:
+            listingLoc = "Ontario, CAN"
+        self.id = hash(listingData['title'])
+        self.title = listingData['title']
+        self.description = listingData['description']
+        self.price = float(listingData['price'])
+        self.lastModifiedDate = datetime.datetime.now()
+        self.ownerId = hash(listingData['owner'])
+        self.booked = False
+        self.address = listingData['address']
+        self.owner = str(listingData['owner'])
+        self.propertyType1 = str(listingData['propertyType1'])
+        self.propertyType2 = str(listingData['propertyType2'])
+        self.propertyType3 = listingData['propertyType3']
+        self.propertyType4 = listingData['propertyType4']
+        self.rating = '5.0'
+        self.reviews = ''
+        self.location = listingLoc
+        self.dateAvailable = str(listingData['dateAvailable'])
+        self.imgData = listingData['imgData']
+        self.imgRenderedData = listingData['imgRenderedData']
 
     def checkListing(self):
         """This function checks if the title, description, price, and
@@ -395,9 +435,9 @@ class Listing(db.Model):
 
     def __repr__(self):
         """
-        Returns the id of the listing.
+        Returns the path name of the listing.
         """
-        return '<Listing %r>' % self.listingId
+        return str(self.title) + str(self.id)
 
 
 class BankTransfer(db.Model):
