@@ -115,7 +115,7 @@ def update_listing(id):
                                    user=userData[1],
                                    listingInfo=listingInfo)
         elif request.method == "POST":
-            # checks for new listing information
+            # Listing info that can be changed by the owner
             if request.form['title'] != "":
                 listing.title = request.form['title']
 
@@ -134,11 +134,29 @@ def update_listing(id):
             if request.form['booked'] != "":
                 listing.booked = request.form['booked']
             
-            if request.form['coverImage'] != "":
-                listing.coverImage = request.form["coverImage"]
+            if request.form['imgData'] != "":
+                listing.imgData = request.form["imgData"]
+
+            if request.form['imgRenderedData'] != "":
+                listing.imgRenderedData = request.form["imgRenderedData"]
             
             if request.form['dateAvailable'] != "":
-                listing.dateAvailable = request.form['available']
+                listing.dateAvailable = request.form['dateAvailable']
+
+            if request.form['proprtyType1'] != "":
+                listing.proprtyType1 = request.form['proprtyType1']
+
+            if request.form['proprtyType2'] != "":
+                listing.proprtyType2 = request.form['proprtyType2']
+            
+            if request.form['proprtyType3'] != "":
+                listing.proprtyType3 = request.form['proprtyType3']
+            
+            if request.form['proprtyType4'] != "":
+                listing.proprtyType4 = request.form['proprtyType4']
+
+            if request.form['location'] != "":
+                listing.location = request.form['location']
                 
             db.session.commit()
         return redirect("/updatelisting/" + str(id))
