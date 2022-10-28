@@ -110,7 +110,8 @@ class User(UserMixin, db.Model):
         user.billingAddress = userData['billingAddress']
         db.session.add(user)
         db.session.commit()
-
+        return True
+        
     def login(self, entered_email, entered_password):
         """
         Login function for the website. First checks if password/email
