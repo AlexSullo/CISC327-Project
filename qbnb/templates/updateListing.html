@@ -15,45 +15,34 @@
             <br>
             <label for="description" class="input-label">Description</label><br>
             <input type="text" minlength="0"class="textfield" name="description" placeholder="{{ listingInfo.description }}" title="Enter a description for your listing"  value="{{ request.form['description'] }}"></input>    
-            <!--
-                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-            -->
             <br>
             <label for="price" class="input-label">Price</label><br>
             <input type="number" minlength="4" class="textfield" name="price" placeholder="{{ listingInfo.price }}" value="{{ request.form['price'] }}"></input>
             <br>
             <label for="booked" class="input-label">Booked</label><br>
-            <input type="text" minlength="4" class="textfield" name="booked" placeholder="{{ listingInfo.booked }}" value="{{ request.form['booked'] }}"></input>
+            <p class="tiny">Is somebody currently staying at your property?</p>
+            <input type="checkbox" class="checkbox" name="booked" placeholder="{{ listingInfo.booked }}" value="{{ request.form['booked'] }}"></input><br>
             <br>
             <label for="address" class="input-label">Address</label><br>
             <input type="text" minlength="4" class="textfield" name="address" placeholder="{{ listingInfo.address }}" value="{{ request.form['address'] }}"></input>
             <br>
-            <label for="owner" class="input-label">Owner</label><br>
-            <input type="text" minlength="4" class="textfield" name="owner" placeholder="{{ listingInfo.owner }}" value="{{ request.form['owner'] }}"></input>
-            <br>
             <label for="dateAvailable" class="input-label">Date Available</label><br>
             <input type="text" minlength="4" class="textfield" name="dateAvailable" placeholder="{{ listingInfo.dateAvailable }}" value="{{ request.form['dateAvailable'] }}"></input>
             <br>
-            <label for="propertyType1" class="input-label">Property Type 1</label><br>
+            <label for="propertyType1" class="input-label">Building Type</label><br>
             <input type="text" minlength="4" class="textfield" name="propertyType1" placeholder="{{ listingInfo.propertyType1 }}" value="{{ request.form['propertyType1'] }}"></input>
             <br>
-            <label for="propertyType2" class="input-label">Property Type 2</label><br>
+            <label for="propertyType2" class="input-label">Stay Type</label><br>
             <input type="text" minlength="4" class="textfield" name="propertyType2" placeholder="{{ listingInfo.propertyType2 }}" value="{{ request.form['propertyType2'] }}"></input>
             <br>
-            <label for="propertyType3" class="input-label">Property Type 3</label><br>
+            <label for="propertyType3" class="input-label">Bedroom Amount</label><br>
             <input type="text" minlength="4" class="textfield" name="propertyType3" placeholder="{{ listingInfo.propertyType3 }}" value="{{ request.form['propertyType3'] }}"></input>
             <br>
-            <label for="propertyType4" class="input-label">Property Type 4</label><br>
+            <label for="propertyType4" class="input-label">Bathroom Amount</label><br>
             <input type="text" minlength="4" class="textfield" name="propertyType4" placeholder="{{ listingInfo.propertyType4 }}" value="{{ request.form['propertyType4'] }}"></input>
             <br>
-            <label for="propertyType4" class="input-label">Property Type 4</label><br>
-            <input type="text" minlength="4" class="textfield" name="propertyType4" placeholder="{{ listingInfo.propertyType4 }}" value="{{ request.form['propertyType4'] }}"></input>
-            <br>
-            <label for="imgData" class="input-label">Image Data</label><br>
-            <input type="text" minlength="4" class="textfield" name="Image Data" placeholder="{{ listingInfo.imgData }}" value="{{ request.form['imgData'] }}"></input>
-            <br>
-            <label for="imgRenderedData" class="input-label">Image Rendered Data</label><br>
-            <input type="text" minlength="4" class="textfield" name="imgRenderedData" placeholder="{{ listingInfo.imgRenderedData }}" value="{{ request.form['imgRenderedData'] }}"></input>
+            <label for="inputFile" class="input-label">Image</label><br>
+            <input type="file" class="textfield" name="inputFile" placeholder={{ listingInfo.coverImage }} title="Enter a valid address" value="{{ request.form['coverImage'] }}"></input>
             <br>
             <label for="location" class="input-label">Location</label><br>
             <input type="text" minlength="4" class="textfield" name="location" placeholder="{{ listingInfo.location }}" value="{{ request.form['location'] }}"></input>

@@ -141,7 +141,7 @@ class User(UserMixin, db.Model):
             # equals the password in database
             if SignInAttempt.password == entered_password:
                 User.authenticated = True
-                return True
+                return 'Login, Successful.'
             else:
                 return "Incorrect email and/or password, try again."
         else:
@@ -430,7 +430,7 @@ class Listing(db.Model):
         """
         Returns the id of the listing.
         """
-        return '<Listing %r>' % self.listingId
+        return '<Listing %r>' % self.id
 
 
 class BankTransfer(db.Model):

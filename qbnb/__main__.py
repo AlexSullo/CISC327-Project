@@ -184,18 +184,21 @@ def update_listing(id):
             # Gets the listing ID
             # Dictionary of what should be changeable in a 
             # Listing from a user
+            print(listing.propertyType1)
             listingInfo = {
                 "title": listing.title,
                 "description": listing.description,
                 "price": listing.price,
                 "booked": listing.booked,
                 "address": listing.address,
-                "owner": listing.owner,
                 "dateAvailable": listing.dateAvailable,
                 "imgData": listing.imgData,
-                "coverImage": listing.imgRenderedData}
-
-            listingInfo = listing.getListing()
+                "coverImage": listing.imgRenderedData,
+                "propertyType1": listing.propertyType1,
+                "propertyType2": listing.propertyType2,
+                "propertyType3": listing.propertyType3,
+                "propertyType4": listing.propertyType4,
+                "location": listing.location}
             userData = get_info()
             return render_template('updateListing.html',
                                    userInformation=userData[0],
@@ -203,6 +206,7 @@ def update_listing(id):
                                    listingInfo=listingInfo)
         elif request.method == "POST":
             # Listing info that can be changed by the owner
+            print(request.form)
             if request.form['title'] != "":
                 listing.title = request.form['title']
 
@@ -211,22 +215,23 @@ def update_listing(id):
 
             if request.form['price'] != "":
                 listing.price = request.form['price']
-            
-            if request.form['owner'] != "":
-                listing.owner = request.form["owner"]
                 
             if request.form['address'] != "":
                 listing.address = request.form['address']
-                
-            if request.form['booked'] != "":
-                listing.booked = request.form['booked']
+            try: 
+                if request.form['booked'] != "":
+                    listing.booked = request.form['booked']
+            except:
+                pass
             
             # if request.form['imgData'] != "":
             #     listing.imgData = request.form["imgData"]
-
-            # if request.form['imgRenderedData'] != "":
-            #     listing.imgRenderedData = request.form["imgRenderedData"]
-            
+            try:
+                if request.form['imgRenderedData'] != "":
+                    listing.imgRenderedData = request.form["imgRenderedData"]
+            except:
+                pass
+              
             if request.form['dateAvailable'] != "":
                 listing.dateAvailable = request.form['dateAvailable']
 
@@ -335,7 +340,6 @@ def login():
         attemptedUser = db.session.query(User).filter_by(email=str(email))
         attemptedUser = attemptedUser.first()  # So that code matches PEP8
         attempt = attemptedUser.login(email, password)
-        print(attempt)
         if attempt == 'Login, Successful.':
             # If email/password combo is correct
             login_user(attemptedUser)        
