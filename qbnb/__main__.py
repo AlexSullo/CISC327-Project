@@ -63,7 +63,8 @@ def create():
         file = request.files['inputFile']
         data = file.read()
         render_file = render_picture(data)
-        date = request.form["dateAvailableStart"] + " to " + request.form["dateAvailableEnd"]
+        date = request.form["dateAvailableStart"] + " to " 
+        date += request.form["dateAvailableEnd"]
         listingData = {
             "owner": userInfo[0].id,
             "title": request.form["title"],
@@ -99,8 +100,7 @@ def listing(id):
     newListing = db.session.query(Listing).filter_by(id=id).first()
     listingOwner = (db.session.query(User).get(newListing.owner))
     ownerStr = listingOwner.firstName + " " + listingOwner.surname
-    listingData = {
-                   "owner": ownerStr,
+    listingData = {"owner": ownerStr,
                    "title": newListing.title,
                    "description": newListing.description,
                    "price": newListing.price,
@@ -114,7 +114,7 @@ def listing(id):
                    "file_render": newListing.imgRenderedData,
                    "booked": newListing.booked,
                    "rating": newListing.rating,
-                   "reviews":newListing.reviews}
+                   "reviews": newListing.reviews}
     userInfo = get_info()  # Check if user is signed in
     return render_template('listing.html',
                            listingData=listingData,
