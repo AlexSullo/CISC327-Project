@@ -1,36 +1,69 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>QBNB - Search for a New Experience</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
-    <link rel="icon" href="{{url_for('static',filename='favicon.ico')}}">
-</head>
-<body> 
-<div class="navbar-container">
-        <div class="navbar">
-            <div class="logo-container">
-                <a href="/"><img id="logo" src="{{url_for('static', filename='QBNBLogo.jpg')}}" align="left"/></a>
-            </div>
-            <div class="searchbar-container">
-                <input class="searchbar" placeholder="Search for a New Experience..." type="text" >
-            </div>
-            <div class="login-container">
-                {% if user %}
-                    <a href="/profile/{{ userInformation.id }}"><button style="margin-left:5em;" class="standard-button">View Profile</button></a>
-                    <a href="/logout"><button class="logout-button">Logout</button></a>
-                {% else %}
-                    <a href="/login"><button style="margin-left:5em;" class="standard-button">Sign In</button></a>
-                {% endif %}
-            </div>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='styles.css')}}"
+    />
+    <link rel="icon" href="{{url_for('static',filename='favicon.ico')}}" />
+  </head>
+  <body>
+    <div class="navbar-container">
+      <div class="navbar">
+        <div class="logo-container">
+          <a href="/"
+            ><img
+              id="logo"
+              src="{{url_for('static', filename='QBNBLogo.jpg')}}"
+              align="left"
+          /></a>
         </div>
-</div>
-<br>
-{% block body %}{% endblock %}
-</body><span>
-<footer style="background:#e2e2e2;height:5vh;width:100%;margin:1.5vh 0 -5em -5em;padding:5vh 15em 5vh 15em;color: gray;position: absolute;">
-    QBNB is not a real service. We are not liable for any losses, financial
-    or otherwise, that may occur as a result of transactions on our site. Each
-    user is fully responsible for their own actions.
-</footer></span>
+        <div class="searchbar-container">
+          <input
+            class="searchbar"
+            placeholder="Search for a New Experience..."
+            type="text"
+          />
+        </div>
+        <div class="login-container">
+          {% if user %}
+          <a href="/profile/{{ userInformation.id }}"
+            ><button style="margin-left: 5em" class="standard-button">
+              View Profile
+            </button></a
+          >
+          <a href="/logout"><button class="logout-button">Logout</button></a>
+
+          {% else %}
+          <a href="/login"
+            ><button style="margin-left: 5em" class="standard-button">
+              Sign In
+            </button></a
+          >
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <br />
+    {% block body %}{% endblock %}
+  </body>
+  <span>
+    <footer
+      style="
+        background: #e2e2e2;
+        height: 5vh;
+        width: 100%;
+        margin: 1.5vh 0 -5em -5em;
+        padding: 5vh 15em 5vh 15em;
+        color: gray;
+        position: absolute;
+      "
+    >
+      QBNB is not a real service. We are not liable for any losses, financial or
+      otherwise, that may occur as a result of transactions on our site. Each
+      user is fully responsible for their own actions.
+    </footer></span
+  >
 </html>

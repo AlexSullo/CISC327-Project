@@ -7,44 +7,37 @@
                 <ul class="listing-basic-info" 
                 style="justify-content:center; font-size:24px; margin-bottom: -2vh;">
                     <li style="list-style: none;">
-                        <b>Gorgeous Oceanside Villa with Patio</b><br></li>
-                    <li>5 Stars<br></li>
-                    <li>Duggaro, Maldives</li>
+                        <b>{{ listingData.title }}</b><br>
+                    </li>
+                    <li>{{ listingData.rating }} Stars<br></li>
+                    <li>{{ listingData.address }}</li>
                 </ul>
                 
             </p>
             <div class="listing-main-info">
-                
-                <img class='listing-page-main-img' src="{{url_for('static',filename='placeholder.jpg')}}">
+                <img class='listing-page-main-img' src="data:;base64,{{listingData.file_render}}" alt="{FAILED TO RENDER}">
                 <div class="listing-page-main-basic-info">
-                    <h1 class="host-txt">Entire villa hosted by Gregory</h1><br>
+                    <h1 class="host-txt">{{ listingData.pt1 }} hosted by {{ listingData.owner }}</h1><br> <!--entire/room-->
                     <ul class="listing-basic-info">
-                        <li>2 guests</li>
-                        <li>1 room</li>
-                        <li>2 baths</li>
+                        <li>{{ listingData.pt2 }}</li> <!--House type-->
+                        <li>{{ listingData.pt3 }} bedrooms</li> <!--# rooms-->
+                        <li>{{ listingData.pt4 }} bathrooms</li> <!--# bath-->
                         
                     </ul>
                     <hr class="listing-info-hr">
                     <p class="listing-page-description">
-                        This beautiful villa in the Maldives is the perfect
-                        getaway for you and your significant other. Enjoy the
-                        spectacular views of the Indian Ocean and a fully
-                        specced out villa with everything you could possibly
-                        need for your stay. His and Hers pools, high end BBQs,
-                        several docks for tanning, and direct access to the
-                        ocean. Make a memorable experience in the Maldives!
-
+                        {{ listingData.description }}
                     </p>
                     <hr class="listing-info-hr">
                     <div class="listing-page-more-info">
-                        <h1 class="listing-page-text"><b>$750</b> night</h1>
+                        <h1 class="listing-page-text"><b>${{ listingData.price }}</b> a night</h1>
                         <br>
                         <ul class="listing-page-visitation-info">
                             <li class="listing-page-text">
                                 Check yourself in with the lockbox
                             </li>
                             <li class="listing-page-text">
-                                Gregory is a certified Gael Host!
+                                {{ listingData.owner }} is a certified Gael Host!
                                 <p class="subtext">A Gael host is a host who
                                     is dedicated to providing you with a
                                     spectacular experience during your stay!
