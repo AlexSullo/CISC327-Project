@@ -251,8 +251,8 @@ class Listing(db.Model):
                         primary_key=True,
                         unique=True)
     booked = db.Column(db.Boolean,  # Determines if listing has been booked
-                        unique=False,
-                        nullable=False)
+                       unique=False,
+                       nullable=False)
 
     address = db.Column(db.String(120),  # Address of the listing
                         nullable=False)
