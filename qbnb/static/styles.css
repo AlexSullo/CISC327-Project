@@ -102,8 +102,7 @@ button {
   font-family: "Poppins", sans-serif;
   padding-left: 1em;
   border-width: 2px;
-  border: none;
-  color: gray;
+  border-color: #e2e2e2;
   background-color: #fbfbfb;
   padding-left: 1em;
   margin-left: -0.25em;
@@ -345,18 +344,12 @@ button {
   border-radius: 15px;
 }
 
-.checkbox {
-  width: 1.5em;
-  height: 1.5em;
-}
-
 .logout-button {
   transition: all 100ms ease-in-out;
   color: gray;
   border: none;
   border-radius: 15px;
   margin-right: -10em;
-  border: 2px solid #f0f0f0;
 }
 
 .logout-button:hover {

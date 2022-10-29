@@ -1,11 +1,10 @@
 from curses.ascii import isalnum
 import datetime
-from enum import unique
 from flask import Flask, jsonify, make_response
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager
+from flask_login import UserMixin
 from qbnb import app
-from flask_migrate import Migrate
+from email_validator import validate_email, EmailNotValidError
 import re
 
 
@@ -15,7 +14,6 @@ tables
 '''
 
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
 
 class User(UserMixin, db.Model):
@@ -70,24 +68,35 @@ class User(UserMixin, db.Model):
 
     authenticated = db.Column(db.Boolean,
                               default=False)
-
-    def registration(self, username, password, email):
+        
+    def registration(self, userData):
         reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&])\
         [A-Za-z\d@$!#%*?&]{6,20}$"
         pat = re.compile(reg)
-        mat = re.search(pat, password)
-        if username == "":
+        mat = re.search(pat, userData['password'])
+        if userData['username'] == "":
             print("Username can not be empty.")
-        if password == "":
+            return False
+        if userData['password'] == "":
             print("Password can not be empty.")
-        if not mat:
-            print("password is invalid, must contain one lower, \
-            one upper, one special char and at least 6 characters long")
-        if len(username) < 2 or len(username) > 20:
+            return False
+
+        passwordRules = [lambda s: any(
+            x.isupper() for x in s), lambda s: any(
+                x.islower() for x in s), lambda s: any(
+                x.isdigit() for x in s),
+            lambda s: len(s) >= 7]
+        if not all(rule(userData['password']) for rule in passwordRules):
+            print(userData['password'])
+            return "Error, password does not meet required complexity"
+
+        if len(userData['username']) < 2 or len(userData['username']) > 20:
             print("Username must be between 2 and 20 characters long")
+            return False
+
         i = 0
-        for c in username:
-            if (i == 0 or i == len(username) - 1): 
+        for c in userData['username']:
+            if (i == 0 or i == len(userData['username']) - 1): 
                 if (not c.isalnum()):  # If its not alphanumeric
                     print("Username: 'contains spaces on \
                     the ends or non-alphanumeric'")
@@ -98,15 +107,20 @@ class User(UserMixin, db.Model):
                 print("'non-alphanumeric'")
                 return False
             i += 1
-        self.balance = 100
+        is_new_account = True
         try:
-            # Check that the email address is valid.
-            validation = validate_email(email, check_deliverability=unique)  
+            validation = validate_email(email,
+                                        check_deliverability=is_new_account)
             email = validation.email
+            user = User(userData)
+            user.billingAddress = userData['billingAddress']
+            db.session.add(user)
+            db.session.commit()
+            return True
         except EmailNotValidError as e:
-            # Email is not valid.
             print(str(e))
-    
+            return False
+        
     def login(self, entered_email, entered_password):
         """
         Login function for the website. First checks if password/email
@@ -120,6 +134,14 @@ class User(UserMixin, db.Model):
             return "Error, Email/password should not be empty"
         # checks if email meets addr-spec defined
         # in RFC 5322 convention using regex
+        userAttempt = db.session.query(User).filter_by(email=entered_email)
+        userAttempt = userAttempt.first()
+        if entered_password != userAttempt.password:
+            return 'Password is incorrect.'
+        userAttempt = db.session.query(User).filter_by(email=entered_email)
+        userAttempt = userAttempt.first()
+        if entered_password != userAttempt.password:
+            return 'Password is incorrect.'
         r = r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+'
         regex = re.compile(r)
         if not re.fullmatch(regex, entered_email):
@@ -131,8 +153,7 @@ class User(UserMixin, db.Model):
                 x.isdigit() for x in s),
             lambda s: len(s) >= 7]
         if not all(rule(entered_password) for rule in passwordRules):
-            pass
-            # return "Error, password does not meet required complexity"
+            return "Error, password does not meet required complexity"
         # checks database if email in it
         SignInAttempt = db.session.query(User).filter(
             User.email == entered_email).first()
@@ -141,27 +162,28 @@ class User(UserMixin, db.Model):
             # equals the password in database
             if SignInAttempt.password == entered_password:
                 User.authenticated = True
-                return 'Login, Successful.'
+                return "Login, Successful."
             else:
-                return "Incorrect email and/or password, try again."
+                return "Error, incorrect email and/or password, try again."
         else:
-            return "Incorrect email and/or password, try again."
+            return "Error, incorrect email and/or password, try again."
 
     def __repr__(self):
         return '<User %r>' % self.username
 
-    def __init__(self, username, firstName, email, password):
-        self.firstName = firstName
-        self.email = email
-        self.password = password
+    def __init__(self, userInfo):
+        self.firstName = userInfo['firstName']
+        self.email = userInfo['email']
+        self.password = userInfo['password']
+        self.billingAddress = userInfo['billingAddress']
+        self.postalCode = userInfo['postalCode']
         self.rating = '5.0'
         self.balance = 100.0
         self.propertyReview = ''
-        self.userReview = ''
+        self.userReview = '0'
         self.billingAddress = ''
-        self.postalCode = ''
-        self.surname = ''
-        self.username = username
+        self.surname = userInfo['surname']
+        self.username = userInfo['username']
 
     def save_updated_info(self, updatedInfo):
         '''
@@ -251,6 +273,7 @@ class Listing(db.Model):
     ownerId = db.Column(db.Integer,  # Unique number identifies the owner
                         primary_key=True,
                         unique=True)
+
     booked = db.Column(db.Boolean,  # Determines if listing has been booked
                        unique=False,
                        nullable=False)
@@ -410,27 +433,11 @@ class Listing(db.Model):
         self.lastModifiedDate = datetime.datetime.now()
         return True
 
-    def getListing(self):
-        '''
-        Returns relevant modifiable data in a dictionary.
-        '''
-        listingData = {
-            "title": self.title,
-            "description": self.description,
-            "price": self.price,
-            "booked": self.booked,
-            "address": self.address,
-            "owner": self.owner,
-            "dateAvailable": self.dateAvailable,
-            "imgRenderedData": self.imgRenderedData
-        }
-        return listingData
-
     def __repr__(self):
         """
-        Returns the id of the listing.
+        Returns the path name of the listing.
         """
-        return '<Listing %r>' % self.id
+        return str(self.title) + str(self.id)
 
 
 class BankTransfer(db.Model):
@@ -457,27 +464,3 @@ class BankTransfer(db.Model):
     transactionAmount = db.Column(db.Float,
                                   unique=False,
                                   nullable=False)
-
-
-"""
-* Sprint two: user registration
-* Checks all cases to insure the account is made correctly
-* Initializes balance to 100
-
-pas = "alexSulloin"
-ema = "alexsullo67@gmail.com"
-use = "SuBooks"
-user = User(username=use, password=pas, email=ema)
-print(user.registration(use, pas, ema))
-
-Sprint 2: Listing Test Code
-oldT = "This is a sample title"
-oldD = "This is a sample description for testing purposes."
-oldP = 99.99
-oldList = Listing(title=oldT,description=oldD,price=oldP)
-print("oldList valid:", oldList.checkListing())
-newT = "This is the updated title"
-newD = "This is the updated description for testing purposes."
-newP = 100.99
-print("newList updated:", oldList.updateListing(newT, newD, newP))
-"""

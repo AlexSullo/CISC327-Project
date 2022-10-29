@@ -1,5 +1,4 @@
 import base64
-from http.client import BAD_REQUEST
 from sqlite3 import IntegrityError
 from flask import Flask, redirect, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
@@ -7,7 +6,6 @@ from flask_login import *
 from qbnb import *
 from curses.ascii import isalnum
 from qbnb.models import *
-from werkzeug.exceptions import BadRequestKeyError
 import random
 
 greetings = [
@@ -102,14 +100,8 @@ def listing(id):
     '''
     newListing = db.session.query(Listing).filter_by(id=id).first()
     listingOwner = (db.session.query(User).get(newListing.owner))
-    if str(current_user.get_id()) == str(listingOwner.id):
-        # Checks if signed in user is owner of profile
-        idPass = True
-    else:
-        idPass = False
     ownerStr = listingOwner.firstName + " " + listingOwner.surname
     listingData = {"owner": ownerStr,
-                   "id": newListing.id,
                    "title": newListing.title,
                    "description": newListing.description,
                    "price": newListing.price,
@@ -128,8 +120,7 @@ def listing(id):
     return render_template('listing.html',
                            listingData=listingData,
                            userInformation=userInfo[0],
-                           user=userInfo[1],
-                           idPass=idPass)
+                           user=userInfo[1])
     
 
 @app.route('/profile/<int:id>', methods=['GET', 'POST'])
@@ -167,94 +158,6 @@ def profile(id):
                                userInformation=userInfo[0],
                                user=userInfo[1],
                                idPass=idPass)
-
-
-@app.route("/updatelisting/<id>", methods=['GET', 'POST'])
-@login_required
-def update_listing(id):
-    '''
-    Allows the user to update information about their listing, generally
-    just the information that is changeable on websites like air bnb. Will be 
-    able to change fields like price, description, but won't be able to 
-    change fields like owner or listing id since the owner is you the user,
-    and the listing id shouldn't be changed for any reason.
-    '''
-    listing = db.session.query(Listing).filter_by(id=id).first()
-    if str(listing.ownerId) == str(current_user.get_id()):
-        # idPass = True
-        if request.method == 'GET':
-            # Gets the listing ID
-            # Dictionary of what should be changeable in a 
-            # Listing from a user
-            print(listing.propertyType1)
-            listingInfo = {
-                "title": listing.title,
-                "description": listing.description,
-                "price": listing.price,
-                "booked": listing.booked,
-                "address": listing.address,
-                "dateAvailable": listing.dateAvailable,
-                "imgData": listing.imgData,
-                "coverImage": listing.imgRenderedData,
-                "propertyType1": listing.propertyType1,
-                "propertyType2": listing.propertyType2,
-                "propertyType3": listing.propertyType3,
-                "propertyType4": listing.propertyType4,
-                "location": listing.location}
-            userData = get_info()
-            return render_template('updateListing.html',
-                                   userInformation=userData[0],
-                                   user=userData[1],
-                                   listingInfo=listingInfo)
-        elif request.method == "POST":
-            # Listing info that can be changed by the owner
-            print(request.form)
-            if request.form['title'] != "":
-                listing.title = request.form['title']
-
-            if request.form['description'] != "":
-                listing.description = request.form['description']
-
-            if request.form['price'] != "":
-                listing.price = request.form['price']
-                
-            if request.form['address'] != "":
-                listing.address = request.form['address']
-            try: 
-                if request.form['booked'] != "":
-                    listing.booked = request.form['booked']
-            except BadRequestKeyError:
-                pass
-            
-            try:
-                if request.form['imgRenderedData']:
-                    listing.imgRenderedData = request.form["imgRenderedData"]
-            except BadRequestKeyError:
-                pass
-              
-            if request.form['dateAvailable'] != "":
-                listing.dateAvailable = request.form['dateAvailable']
-
-            if request.form['propertyType1'] != "":
-                listing.propertyType1 = request.form['propertyType1']
-
-            if request.form['propertyType2'] != "":
-                listing.propertyType2 = request.form['propertyType2']
-            
-            if request.form['propertyType3'] != "":
-                listing.propertyType3 = request.form['propertyType3']
-            
-            if request.form['propertyType4'] != "":
-                listing.propertyType4 = request.form['propertyType4']
-
-            if request.form['location'] != "":
-                listing.location = request.form['location']
-                
-            db.session.commit()
-        return redirect("/updatelisting/" + str(id))
-    else:
-        # idPass = False
-        return redirect("/listing/" + str(id))
 
 
 @app.route("/update/<id>", methods=['GET', 'POST'])
@@ -340,6 +243,7 @@ def login():
         attemptedUser = db.session.query(User).filter_by(email=str(email))
         attemptedUser = attemptedUser.first()  # So that code matches PEP8
         attempt = attemptedUser.login(email, password)
+        print(attempt)
         if attempt == 'Login, Successful.':
             # If email/password combo is correct
             login_user(attemptedUser)        
