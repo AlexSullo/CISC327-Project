@@ -1,4 +1,5 @@
 import base64
+from http.client import BAD_REQUEST
 from sqlite3 import IntegrityError
 from flask import Flask, redirect, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
@@ -6,6 +7,7 @@ from flask_login import *
 from qbnb import *
 from curses.ascii import isalnum
 from qbnb.models import *
+from werkzeug.exceptions import BadRequestKeyError
 import random
 
 greetings = [
@@ -221,15 +223,13 @@ def update_listing(id):
             try: 
                 if request.form['booked'] != "":
                     listing.booked = request.form['booked']
-            except:
+            except BadRequestKeyError:
                 pass
             
-            # if request.form['imgData'] != "":
-            #     listing.imgData = request.form["imgData"]
             try:
-                if request.form['imgRenderedData'] != "":
+                if request.form['imgRenderedData']:
                     listing.imgRenderedData = request.form["imgRenderedData"]
-            except:
+            except BadRequestKeyError:
                 pass
               
             if request.form['dateAvailable'] != "":
