@@ -1,0 +1,40 @@
+{% extends 'base.html' %} {% block body %}
+<div class="main-container">
+  <div class="main">
+    <div class="filters">
+      <div class="bnb-btn">
+        <button class="filter-button">BEDS AND BATHS</button>
+        <input class="bnb-select" value="1" type="number" />
+        <input class="bnb-select" value="2" type="number" />
+      </div>
+
+      <button class="filter-button">LOCATION</button>
+      <button class="filter-button">AMENITIES</button>
+      <button class="filter-button">PROPERTY TYPE</button>
+      {% if user %}
+      <a href="/create"
+        ><button class="logout-button">Create Listing</button></a
+      >
+      {% endif %}
+    </div>
+    <div class="listings-container">
+      {% for listing in listings %}
+      <div class="listing">
+        <a href="/listing/{{listing.id}}">
+          <img
+            class="listing-img"
+            src="data:;base64,{{listing.imgRenderedData}}"
+          />
+          <div class="loc-and-rating">
+            <p class="listing-location">{{listing.location}}</p>
+            <p class="listing-rating">{{listing.rating}}</p>
+          </div>
+          <p class="booking-date">{{listing.dateAvailable}}</p>
+          <p class="cost-text"><b>${{listing.price}}</b> night</p>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
