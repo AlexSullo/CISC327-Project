@@ -1,5 +1,4 @@
 import base64
-from http.client import BAD_REQUEST
 from sqlite3 import IntegrityError
 from flask import Flask, redirect, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
