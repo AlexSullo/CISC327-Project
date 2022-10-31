@@ -41,7 +41,7 @@ def home():
                            user=userInfo[1])
 
 
-@app.route("/profile/<id>/addbalance", methods=["GET","POST"])
+@app.route("/profile/<id>/addbalance", methods=["GET", "POST"])
 @login_required
 def addbalance(id):
     '''
