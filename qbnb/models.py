@@ -498,5 +498,5 @@ class BankTransfer(db.Model):
             self.TransferUser = data['user']
             self.transactionAmount = float(data['amount'])
         except ValueError:
-            return False
+            return None
 
