@@ -231,6 +231,18 @@ class Transaction(db.Model):
                                  nullable=False
                                  )
 
+    def __init__(self, transactionInfo):
+        '''
+        Creates a Transaction object
+        '''
+        try:
+            self.DateOfTransaction = datetime.datetime.now()
+            self.payee = transactionInfo['payee']
+            self.recipient = transactionInfo['recipient']
+            self.transactionPrice = float(transactionInfo['amount'])
+        except ValueError:
+            return False
+
     def __repr__(self):
         return '<Transaction %r>' % self.id
 
@@ -476,26 +488,15 @@ class BankTransfer(db.Model):
                                   unique=False,
                                   nullable=False)
 
+    def __init__(self, data):
+        '''
+        Creates a BankTransfer object
+        '''
+        try:
+            self.dateOfTransaction = datetime.datetime.now()
+            self.bank = data['bank']
+            self.TransferUser = data['user']
+            self.transactionAmount = float(data['amount'])
+        except ValueError:
+            return False
 
-"""
-* Sprint two: user registration
-* Checks all cases to insure the account is made correctly
-* Initializes balance to 100
-
-pas = "alexSulloin"
-ema = "alexsullo67@gmail.com"
-use = "SuBooks"
-user = User(username=use, password=pas, email=ema)
-print(user.registration(use, pas, ema))
-
-Sprint 2: Listing Test Code
-oldT = "This is a sample title"
-oldD = "This is a sample description for testing purposes."
-oldP = 99.99
-oldList = Listing(title=oldT,description=oldD,price=oldP)
-print("oldList valid:", oldList.checkListing())
-newT = "This is the updated title"
-newD = "This is the updated description for testing purposes."
-newP = 100.99
-print("newList updated:", oldList.updateListing(newT, newD, newP))
-"""

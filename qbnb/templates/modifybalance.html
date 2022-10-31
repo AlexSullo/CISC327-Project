@@ -1,0 +1,80 @@
+{% extends 'base.html' %} {% block body %}
+<div class="container-row">
+  <div class="container-col">
+    <h1>Select Your Banking Provider</h1>
+    <p>Here are QBNB's Supported Banking Establishments.</p>
+    <form method="POST">
+      <div class="container-row">
+        <input
+          type="radio"
+          name="bank"
+          id="rbc"
+          class="banking-check"
+          value="Royal Bank of Canada"
+        /><label for="bank"></label>
+        <input
+          type="radio"
+          name="bank"
+          id="cibc"
+          class="banking-check"
+          value="CIBC"
+        /><label for="bank"></label>
+        <input
+          type="radio"
+          name="bank"
+          id="scot"
+          class="banking-check"
+          value="Scotiabank"
+        /><label for="bank"></label>
+      </div>
+      <div class="container-row">
+        <input
+          type="radio"
+          name="bank"
+          id="bmo"
+          class="banking-check"
+          value="Bank of Montreal"
+        /><label for="bank"></label>
+        <input
+          type="radio"
+          name="bank"
+          id="td"
+          class="banking-check"
+          value="TD Bank"
+        /><label for="bank"></label>
+        <input
+          type="radio"
+          name="bank"
+          id="wefa"
+          class="banking-check"
+          value="Wells Fargo"
+        /><label for="bank"></label>
+      </div>
+      <input type="radio" name="bank" id="moneyorder" value="Money Order" />
+      <label for="bank"> Can't find your bank? Send a money order.* </label
+      ><br />
+      <label for="amount">Amount ($CAD)</label><br />
+      <input
+        class="textfield"
+        style="width: 5em"
+        type="number"
+        name="amount"
+        placeholder="$"
+        value="{{ request.form['amount'] }}"
+      /><br />
+      <button type="submit" class="standard-button">Transfer Balance</button>
+    </form>
+    <br />
+    <h3>
+      QBNB uses the newest and safest encryption<br />
+      techniques for all transactions, and does not save any banking
+      information.
+    </h3>
+    <p class="tiny">
+      *If money orders are not received within 7 business days, your account
+      will be permanently banned.
+    </p>
+  </div>
+</div>
+
+{% endblock %}

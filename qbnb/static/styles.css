@@ -232,6 +232,134 @@ button {
   margin-top: -1vh;
 }
 
+.container-row {
+  display: flex;
+  text-align: center;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.container-col {
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+.banking-check[type="radio"] {
+  transition: all 250ms ease-in-out;
+  object-fit: cover;
+  border: 2px solid white;
+  border-radius: 15px;
+}
+
+.banking-check:hover {
+  transition: all 250ms ease-in-out;
+  background-size: 128px 128px;
+  border: 2px solid black;
+  border-radius: 15px;
+  filter: saturate(250%);
+}
+
+.banking-check#rbc[type="radio"] + label {
+  background-size: 128px 128px;
+  background-image: url("banks/rbc.png");
+  height: 128px;
+  object-fit: fill;
+  border: 2px solid white;
+  border-radius: 15px;
+  width: 128px;
+}
+
+.banking-check#cibc[type="radio"] + label {
+  background-size: 128px 128px;
+  background-image: url("banks/cibc.png");
+  height: 128px;
+  object-fit: fill;
+  border: 2px solid white;
+  border-radius: 15px;
+  width: 128px;
+}
+
+.banking-check#scot[type="radio"] + label {
+  background-size: 128px 128px;
+  background-image: url("banks/scotiabank.png");
+  height: 128px;
+  object-fit: fill;
+  border: 2px solid white;
+  border-radius: 15px;
+  width: 128px;
+}
+
+.banking-check#bmo[type="radio"] + label {
+  background-size: 128px 128px;
+  background-image: url("banks/BMO.jpg");
+  height: 128px;
+  object-fit: fill;
+  border: 2px solid white;
+  border-radius: 15px;
+  width: 128px;
+}
+
+.banking-check#td[type="radio"] + label {
+  background-size: 128px 128px;
+  background-image: url("banks/td.png");
+  height: 128px;
+  object-fit: fill;
+  border: 2px solid white;
+  border-radius: 15px;
+  width: 128px;
+}
+
+.banking-check#wefa[type="radio"] + label {
+  background-size: 128px 128px;
+  background-image: url("banks/wellsfargo.png");
+  height: 128px;
+  object-fit: fill;
+  border: 2px solid white;
+  border-radius: 15px;
+  width: 128px;
+}
+
+/* SELECTED BANKS */
+.banking-check#rbc[type="radio"] + label:hover {
+  transition: all 250ms ease-in-out;
+  border: 2px solid white;
+  filter: saturate(250%);
+}
+
+.banking-check#cibc[type="radio"] + label:hover {
+  transition: all 250ms ease-in-out;
+  border: 2px solid white;
+  filter: saturate(250%);
+}
+
+.banking-check#scot[type="radio"] + label:hover {
+  transition: all 250ms ease-in-out;
+  border: 2px solid white;
+  filter: saturate(250%);
+}
+
+.banking-check#bmo[type="radio"] + label:hover {
+  transition: all 250ms ease-in-out;
+  border: 2px solid white;
+  filter: saturate(250%);
+}
+
+.banking-check#td[type="radio"] + label:hover {
+  transition: all 250ms ease-in-out;
+  border: 2px solid white;
+  filter: saturate(250%);
+}
+
+.banking-check#wefa[type="radio"] + label:hover {
+  transition: all 250ms ease-in-out;
+  border: 2px solid white;
+  filter: saturate(250%);
+}
+
 .listing-main-info {
   display: flex;
   flex-direction: row;

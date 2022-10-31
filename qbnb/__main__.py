@@ -41,6 +41,39 @@ def home():
                            user=userInfo[1])
 
 
+@app.route("/profile/<id>/addbalance", methods=["GET","POST"])
+@login_required
+def addbalance(id):
+    '''
+    Allows the signed in user to add to their balance
+    '''
+    userInfo = get_info()
+    if str(current_user.get_id()) == str(id):  # User is on their page
+        if request.method == "GET":
+            return render_template("modifybalance.html",
+                                   userInformation=userInfo[0],
+                                   user=userInfo[1])
+        elif request.method == "POST":
+            transactionInfo = {"amount": request.form['amount'],
+                               "bank": request.form['bank'],
+                               "user": userInfo[0].id}
+            newTransfer = BankTransfer(transactionInfo)
+            if newTransfer:
+                userInfo[0].balance += float(request.form['amount'])
+                db.session.add(newTransfer)
+                db.session.commit()
+                return redirect("/profile/" + str(id))
+            else:
+                return render_template("404.html",
+                                       userInformation=userInfo[0],
+                                       user=userInfo[1])
+    else:
+        return render_template("404.html",
+                               userInformation=userInfo[0],
+                               user=userInfo[1])
+
+
+
 @app.route("/logout")
 def logout():
     '''
