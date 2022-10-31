@@ -62,14 +62,14 @@ def addbalance(id):
 
             try:
                 transactionInfo = {"amount": amount,
-                                "bank": request.form['bank'],
-                                "user": userInfo[0].id}
+                                   "bank": request.form['bank'],
+                                   "user": userInfo[0].id}
             
             except BadRequestKeyError:
                 # User did not pick a bank
                 transactionInfo = {"amount": amount,
-                                "bank": 'Money Order',
-                                "user": userInfo[0].id}
+                                   "bank": 'Money Order',
+                                   "user": userInfo[0].id}
             newTransfer = BankTransfer(transactionInfo)
             if newTransfer:
                 userInfo[0].balance += float(amount)
@@ -87,7 +87,6 @@ def addbalance(id):
         return render_template("404.html",
                                userInformation=userInfo[0],
                                user=userInfo[1])
-
 
 
 @app.route("/logout")
