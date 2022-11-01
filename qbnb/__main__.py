@@ -41,6 +41,54 @@ def home():
                            user=userInfo[1])
 
 
+@app.route("/profile/<id>/addbalance", methods=["GET", "POST"])
+@login_required
+def addbalance(id):
+    '''
+    Allows the signed in user to add to their balance
+    '''
+    userInfo = get_info()
+    if str(current_user.get_id()) == str(id):  # User is on their page
+        if request.method == "GET":
+            return render_template("modifybalance.html",
+                                   userInformation=userInfo[0],
+                                   user=userInfo[1])
+        elif request.method == "POST":
+            if request.form['amount'] != "":
+                # User did not enter an amount
+                amount = request.form['amount']
+            else:
+                amount = '0.00'
+
+            try:
+                transactionInfo = {"amount": amount,
+                                   "bank": request.form['bank'],
+                                   "user": userInfo[0].id}
+            
+            except BadRequestKeyError:
+                # User did not pick a bank
+                transactionInfo = {"amount": amount,
+                                   "bank": 'Money Order',
+                                   "user": userInfo[0].id}
+            newTransfer = BankTransfer(transactionInfo)
+            if newTransfer:
+                userInfo[0].balance += float(amount)
+                if newTransfer.transactionAmount != 0.00:
+                    # Does not add transaction to database if there is
+                    # no amount.
+                    db.session.add(newTransfer)
+                    db.session.commit()
+                return redirect("/profile/" + str(id))
+            else:
+                return render_template("404.html",
+                                       userInformation=userInfo[0],
+                                       user=userInfo[1])
+    else:
+        return render_template("404.html",
+                               userInformation=userInfo[0],
+                               user=userInfo[1])
+
+
 @app.route("/logout")
 def logout():
     '''
