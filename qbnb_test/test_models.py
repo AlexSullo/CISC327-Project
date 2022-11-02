@@ -111,26 +111,26 @@ def r2_2_fail():
         rngPassword += key
 
     print("Testing password Regex...")
-    attempt = user.login("automatedtestuser@email.com",invalRegExPass)
-    assert user.authenticated == False
-    print("CORRECT EMAIL & CORRECT PASSWORD W/ INVALID REGEX:",attempt)
+    attempt = user.login("automatedtestuser@email.com", invalRegExPass)
+    assert user.authenticated is False
+    print("CORRECT EMAIL & CORRECT PASSWORD W/ INVALID REGEX:", attempt)
     attempt = user.login("automatedtestuser@email.com", rngPassword)
-    assert user.authenticated == False
-    print("CORRECT EMAIL & INCORRECT PASSWORD W/ INVALID REGEX:",attempt)
+    assert user.authenticated is False
+    print("CORRECT EMAIL & INCORRECT PASSWORD W/ INVALID REGEX:", attempt)
     attempt = user.login("automatedtestuser@email.com",valRegExPass)
-    assert user.authenticated == False
-    print("CORRECT EMAIL & INCORRECT PASSWORD W/ VALID REGEX:",attempt)
+    assert user.authenticated is False
+    print("CORRECT EMAIL & INCORRECT PASSWORD W/ VALID REGEX:", attempt)
     
     print("\nTesting email Regex...")
     attempt = user.login(invalRegExEmail, "testedPassword1!")
-    assert user.authenticated == False
-    print("INCORRECT EMAIL & CORRECT PASSWORD W/ INVALID REGEX:",attempt)
+    assert user.authenticated is False
+    print("INCORRECT EMAIL & CORRECT PASSWORD W/ INVALID REGEX:", attempt)
     attempt = user.login(invalRegExEmail, valRegExPass)
-    assert user.authenticated == False
-    print("INCORRECT EMAIL & INCORRECT PASSWORD W/ INVALID REGEX:",attempt)
+    assert user.authenticated is False
+    print("INCORRECT EMAIL & INCORRECT PASSWORD W/ INVALID REGEX:", attempt)
     attempt = user.login(valRegExEmail, valRegExPass)
-    assert user.authenticated == False
-    print("INCORRECT EMAIL & INCORRECT PASSWORD W/ VALID REGEX:",attempt)
+    assert user.authenticated is False
+    print("INCORRECT EMAIL & INCORRECT PASSWORD W/ VALID REGEX:", attempt)
     r2_2_pass()
 
 
@@ -150,7 +150,7 @@ def r2_2_pass():
     attempt = user.login("automatedtestuser@email.com", "testedPassword1!")
     print("-- CORRECT PASSWORD & VALID REGEX --", attempt)
     assert user.username == 'automateduser'
-    assert user.authenticated == True
+    assert user.authenticated is True
     print("\nR2_2 Tests complete.")
 
 # TEARDOWN
@@ -183,7 +183,7 @@ ACTUAL TESTING
 '''
 
 
-userID = createNewUser()
-updateInformation(userID)
-delete_test_user(userID)
+createNewUser()
+r2_2_fail()
+delete_test_user()
 shutdown()
