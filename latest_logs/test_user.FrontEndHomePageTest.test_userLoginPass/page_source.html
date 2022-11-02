@@ -1,0 +1,73 @@
+<base href="http://127.0.0.1:5000">
+<html><head>
+    <title>QBNB - Search for a New Experience</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0">
+    <link rel="icon" href="/static/favicon.ico">
+  </head>
+  <body>
+    <div class="navbar-container">
+      <div class="navbar">
+        <div class="logo-container">
+          <a href="/"><img id="logo" src="/static/QBNBLogo.jpg" align="left"></a>
+        </div>
+        <div style="margin-right: 2em" class="searchbar-container">
+          <input class="searchbar" placeholder="Search for a New Experience..." type="text">
+        </div>
+        <div class="login-container">
+          
+          <a href="/login"><button class="standard-button">Sign In</button></a>
+          
+        </div>
+      </div>
+    </div>
+    <br>
+    
+<div class="changing-info-container">
+    <div class="profile-header">
+        <h1>Welcome to QBNB</h1>
+        <p>Search for a new experience!</p>
+        <b></b>
+    </div>
+    
+    <div class="login-container">
+        
+        
+            <br>
+            <form method="post">
+                <label for="email" class="input-label">Email</label><br>
+                <input type="text" minlength="4" class="textfield" name="email" placeholder="Email" title="Enter a valid email." pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="">    
+                <br>
+                <label for="password" class="input-label">Password</label><br>
+                <input type="password" minlength="4" class="textfield" name="password" placeholder="Password" value="">
+                <br>
+                <button class="standard-button" align="center" type="submit">Sign In</button>
+                <p>Haven't signed up yet? <a class="register-text" href="/register">Register now!</a></p>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            </form>
+        
+    </div>
+</div>
+
+  
+  <span>
+    <footer style="
+        background: #e2e2e2;
+        height: 5vh;
+        margin: 1.5vh 0 0 -3em;
+        padding: 5vh 15em 5vh 15em;
+        color: gray;
+        position: absolute;
+      ">
+      QBNB is not a real service. We are not liable for any losses, financial or
+      otherwise, that may occur as a result of transactions on our site. Each
+      user is fully responsible for their own actions.
+    </footer></span>
+</body></html>

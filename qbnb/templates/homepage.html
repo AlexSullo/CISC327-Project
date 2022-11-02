@@ -11,15 +11,10 @@
       <button class="filter-button">LOCATION</button>
       <button class="filter-button">AMENITIES</button>
       <button class="filter-button">PROPERTY TYPE</button>
-      {% if user %}
-      <a href="/create"
-        ><button class="logout-button">Create Listing</button></a
-      >
-      {% endif %}
     </div>
     <div class="listings-container">
       {% for listing in listings %}
-      <div class="listing">
+      <div class="listing" style="--index: {{loop.index}}">
         <a href="/listing/{{listing.id}}">
           <img
             class="listing-img"

@@ -61,11 +61,40 @@
                 </div>
             {% endif %}
             <div class="listing-main-info">
-                <p>More information regarding the property like images,
-                    ratings, sleeping arrangemnets, and a calendar (maybe)
-                    will be available to click on and use down here once
-                    full development of the frontend is underway.
+                <p>Want to stay at {{ listingData.address }}? It is currently available from <b>{{ listingData.date}}</b>!<br><br>
+                   <a href="/listing/{{ listingData.id }}/book"><button class="standard-button">Book Now</button></a>
                 </p>
+            </div>
+            <div id="review-container-container" class="container-row">
+                <div class="container-col">
+                    
+                
+                
+                    {% if reviewer %}
+                    <div id="review" class="container-col">
+                        <h2>Write your own review!</h2>
+                        <p>We see that you've stayed at this property.
+                            Why not leave a review of your experience?</p>
+                        <a href="/postreview/{{ listingData.id }}/1"><button class="standard-button">Post Review</button></a>
+                    </div>
+                    {% endif %}
+                    <h2>Reviews about the Property</h2>
+                    <p class="tiny" style="margin-top:-2vh">Here's what people had to say about {{ listingData.address }}</p>
+                    {% if listingData.reviews %}
+                        {% for review in propertyReviews %}
+                        <div id="review"class="container-col">
+                            <p style="text-align: left;margin-top: -3vh;margin-left: -1.5em;"><b>Rating: {{ review.rating }}</b> — <a href="/profile/{{review.author}}">{{ review.authorName }}</a><i style="color:gray"> written on {{ review.date }}</i></p>
+                            <p style="text-align: left;">{{ review.content }}</p>
+
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                    <br>
+                        <div class="container-col">
+                            There are no reviews about this property yet.
+                        </div><br>
+                    {% endif %}
+                </div>
             </div>
             
         </div>

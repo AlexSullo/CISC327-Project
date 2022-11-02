@@ -13,12 +13,12 @@
             <br>
             <form method="post">
                 <label for="email" class="input-label">Email</label><br>
-                <input id="email" type="text" minlength="4"class="textfield" name="email" placeholder="Email" title="Enter a valid email." pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="{{ request.form['email'] }}"></input>    
+                <input type="text" minlength="4"class="textfield" name="email" placeholder="Email" title="Enter a valid email." pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="{{ request.form['email'] }}"></input>    
                 <br>
                 <label for="password" class="input-label">Password</label><br>
-                <input id="password" type="password" minlength="4" class="textfield" name="password" placeholder="Password" value="{{ request.form['billingAddress'] }}"></input>
+                <input type="password" minlength="4" class="textfield" name="password" placeholder="Password" value="{{ request.form['billingAddress'] }}"></input>
                 <br>
-                <button id="login-button" class="standard-button" align="center" type="submit">Sign In</button>
+                <button  class="standard-button" align="center" type="submit">Sign In</button>
                 <p>Haven't signed up yet? <a class="register-text" href="/register">Register now!</a></p>
                 <br>
                 <br>
