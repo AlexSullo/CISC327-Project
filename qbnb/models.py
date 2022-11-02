@@ -73,7 +73,7 @@ class User(UserMixin, db.Model):
                               default=False)
 
     def registration(self, userData):
-        reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&])\
+        reg = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&])\
         [A-Za-z\d@$!#%*?&]{6,20}$"
         pat = re.compile(reg)
         mat = re.search(pat, userData['password'])
