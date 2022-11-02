@@ -3,11 +3,12 @@ from qbnb_test.conftest import base_url
 from unittest.mock import patch
 from qbnb.models import User
 
+
 def FrontEndUserTest(BaseCase):
 
     # Login Tests
     def userLoginPass(self, *_):
-        self.open(base_url+ '/login')
+        self.open(base_url + '/login')
 
         self.type("#email", "sebsemail@email.com")
         self.type("#password", "Password1!")
