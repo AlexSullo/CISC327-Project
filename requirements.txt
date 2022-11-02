@@ -5,7 +5,6 @@ flake8
 seleniumbase
 validate-email
 flask_migrate
-re
 base64
 flask_login
 random
