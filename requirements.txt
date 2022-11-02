@@ -2,3 +2,13 @@ Flask
 Flask-SQLAlchemy
 pytest
 flake8
+seleniumbase
+validate-email
+windows-curses
+enum
+flask_migrate
+re
+base64
+flask_login
+random
+werkzeug
