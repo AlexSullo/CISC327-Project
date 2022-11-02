@@ -30,6 +30,7 @@ def createNewUser():
     db.session.commit()
     return testUser.id
 
+
 # TESTS
 
 '''
@@ -103,10 +104,10 @@ def r2_2_fail():
     valRegExEmail = "thisisnotmyemail@email.com"  # Meets RegEx
     user = db.session.query(User) \
         .filter_by(email="automatedtestuser@email.com").first()
-    passwordLen = random.randint(8,16)
+    passwordLen = random.randint(8, 16)
     rngPassword = ''  # The randomly-generated password
     for x in range(passwordLen):
-        val = random.randint(1,len(choicesStr))
+        val = random.randint(1, len(choicesStr))
         key = alpha[0][val]
         rngPassword += key
 
@@ -117,7 +118,7 @@ def r2_2_fail():
     attempt = user.login("automatedtestuser@email.com", rngPassword)
     assert user.authenticated is False
     print("CORRECT EMAIL & INCORRECT PASSWORD W/ INVALID REGEX:", attempt)
-    attempt = user.login("automatedtestuser@email.com",valRegExPass)
+    attempt = user.login("automatedtestuser@email.com", valRegExPass)
     assert user.authenticated is False
     print("CORRECT EMAIL & INCORRECT PASSWORD W/ VALID REGEX:", attempt)
     

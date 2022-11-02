@@ -156,7 +156,7 @@ class User(UserMixin, db.Model):
             # once user email checked, checks if entered password
             # equals the password in database
             if SignInAttempt.password == entered_password:
-                User.authenticated = True
+                self.authenticated = True
                 return 'Login, Successful.'
             else:
                 return "Incorrect email and/or password, try again."
