@@ -4,7 +4,6 @@ pytest
 flake8
 seleniumbase
 validate-email
-enum
 flask_migrate
 re
 base64
