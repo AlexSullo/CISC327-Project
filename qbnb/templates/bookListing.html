@@ -1,0 +1,89 @@
+{% extends 'base.html' %} {% block body %}
+<div class="container-row">
+  <div class="container-col">
+    <h2>Book Your Getaway!</h2>
+    <p class="tiny">
+      You are currently in the process of booking a stay at {{ listing.address
+      }}, hosted by {{ owner }}.
+    </p>
+    <br />
+    <br />
+    <div class="container-row">
+      <img
+        class="booking-img"
+        style="margin-top: -4vh"
+        src="data:;base64,{{ listing.imgRenderedData }}"
+        alt="Image Could Not Load"
+      />
+    </div>
+    <br />
+    <div class="container-row" style="margin-left: -10em; margin-right: -10em">
+      <div
+        style="
+          margin-right: 2em;
+          max-width: 40em;
+          min-width: 40em;
+          display: block;
+        "
+        class="container-col"
+      >
+        <h2>Pick Getaway Duration</h2>
+        <p class="tiny">
+          Choose the days you'll be staying here during your trip to {{
+          listing.location }}!
+        </p>
+      </div>
+      <br />
+      <div
+        style="
+          display: block;
+          margin-left: 2em;
+          max-width: 40em;
+          min-width: 40em;
+          background-color: white;
+          border: 1px solid #e2e2e2;
+          border-radius: 15px;
+          padding: 0 0.5em 0.5em 0.5em;
+          top: 0;
+          filter: drop-shadow(2px 2px 4px gray);
+          height: 60vh;
+        "
+        class="container-col"
+      >
+        <div class="container-col">
+          <h2>Stay Cost</h2>
+          <p class="tiny">Here's the current subtotal of your trip so far!</p>
+          <div class="container-row">
+            <div style="margin-right: 5em; width: 15em" class="container-col">
+              <p>Here are the charges being added to your stay:</p>
+              <ul style="text-align: left">
+                <li>
+                  Nightly Cost<br /><i
+                    >{{ listing.price }} x{{nights}} = ${{ listing.price *
+                    nights}}</i
+                  >
+                </li>
+                <br />
+                <li>Cleaning Fees<br /><i> $85.15 </i></li>
+              </ul>
+            </div>
+            <br />
+            <div
+              style="
+                margin-left: 5em;
+                background-color: #fafafafa;
+                border-radius: 15px;
+                width: 15em;
+                display: block;
+              "
+              class="container-col"
+            >
+              <h4>Checkout</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

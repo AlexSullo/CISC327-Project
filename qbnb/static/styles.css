@@ -51,6 +51,10 @@ button {
   animation-duration: 4s;
 }
 
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+}
+
 .bg3 {
   animation-duration: 5s;
 }
@@ -146,6 +150,41 @@ button {
   flex-direction: row;
 }
 
+.dropdown-content {
+  animation: fade 200ms;
+  animation-direction: reverse;
+  animation-fill-mode: forwards;
+  background-color: #fafafa;
+  display: none;
+  position: absolute;
+  margin-top: 6vh;
+  border: 2px solid #e2e2e2;
+  border-radius: 15px;
+  font-size: medium;
+  font-weight: bold;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+.login-container:hover .dropdown-content {
+  display: block;
+  animation: fade 200ms;
+  animation-fill-mode: forwards;
+}
+
+.dropdown-content a {
+  transition: all 250ms ease-in-out;
+  display: block;
+  color: black;
+  padding: 1em;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  transition: all 250ms ease-in-out;
+  background-color: #e2e2e2;
+}
+
 .register-text {
   color: blue;
 }
@@ -159,6 +198,10 @@ button {
   font-family: "Poppins", sans-serif;
   background-color: #fafafafa;
   width: 40.2em;
+}
+
+.textfield textarea {
+  resize: none;
 }
 
 .textfield:active {
@@ -184,6 +227,11 @@ button {
 
 .listing {
   transition: all 250ms ease-in-out;
+  animation: fade 200ms;
+  animation-fill-mode: forwards;
+  visibility: hidden;
+  --index: 0;
+  animation-delay: calc(0.05s * var(--index));
   margin: 1em;
 }
 
@@ -473,6 +521,15 @@ button {
   border-radius: 15px;
 }
 
+.standard-button select {
+  display: inline;
+}
+
+.standard-button select:before {
+  content: "Hello";
+  color: white;
+}
+
 .checkbox {
   width: 1.5em;
   height: 1.5em;
@@ -537,6 +594,75 @@ button {
   display: flex;
   justify-content: center;
   padding-bottom: 1vh;
+}
+
+#review {
+  margin: 1vh 2em 2em 1vh;
+  padding: 2em;
+  border: 2px solid gray;
+  border-radius: 15px;
+  filter: drop-shadow(2px 2px 4px gray);
+  max-width: 50em;
+  --index: 0;
+  animation-delay: calc(0.05s * var(--index));
+  min-width: 50em;
+}
+
+#review:nth-of-type(odd) {
+  animation: swipeLeft 250ms ease;
+  background-color: #e2e2e2;
+}
+
+.booking-img {
+  height: 600px;
+  width: 600px;
+  object-fit: cover;
+  border: 4px solid rgb(157, 25, 57);
+  border-radius: 15px;
+  filter: drop-shadow(2px 2px 4px gray);
+}
+
+#review:nth-of-type(even) {
+  animation: swipeRight 250ms ease;
+  background-color: #fefefe;
+  border-color: #e2e2e2;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@keyframes swipeLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-5em);
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0px);
+    visibility: visible;
+  }
+}
+
+@keyframes swipeRight {
+  0% {
+    opacity: 0;
+    transform: translateX(5em);
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    visibility: visible;
+  }
 }
 
 @keyframes slide {

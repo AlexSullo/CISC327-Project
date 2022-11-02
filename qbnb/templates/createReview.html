@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% block body %}
+<div class="container-row">
+  <div class="container-col">
+    <h2>How Was Your Experience?</h2>
+    <p class="tiny" style="margin-top: -2vh">
+      {% if '1' == revType %} You are reviewing {{ listing.address }}, titled
+      <i>'{{ listing.title }}'</i>, and hosted by {{ owner }} {% elif '2' ==
+      revType %} You are reviewing {{listing.firstName}} {{listing.surname}}. {%
+      endif %}
+    </p>
+    <div id="review" class="container-col">
+      <h3 style="margin-top: -3vh">Write Your Review</h3>
+      <p
+        class="tiny"
+        style="position: absolute; margin-top: -32vh; color: gray"
+      >
+        260 Character Limit -- Minimum 32 Character Length
+      </p>
+      <form method="post">
+        <div class="container-col">
+          <textarea
+            maxlength="260"
+            minlength="32"
+            style="margin-bottom: -3vh"
+            class="textfield"
+            rows="5"
+            type="textarea"
+            name="content"
+            placeholder="Describe your stay..."
+            value="{{
+          request.form['content'] }}"
+          ></textarea
+          ><br />
+          <h4 style="margin-bottom: -1vh; text-align: left">Rating</h4>
+          <input
+            type="number"
+            name="rating"
+            min="0"
+            max="5"
+            class="textfield"
+            step="0.5"
+            style="max-width: 5em; align-self: left"
+            placeholder="5.0"
+            oninput="validity.valid||(value='');"
+            value="{{ request.form['rating'] }}"
+          />
+          <button type="submit" class="standard-button">Post Review</button>
+        </div>
+      </form>
+    </div>
+    <div class="container-row">
+      <p class="tiny" style="max-width: 30em">
+        Please note that your review will be visible both on {{ owner }}'s
+        listing at {{ listing.address }} and on your profile, and that any
+        reviews containing any form of language that violates our Terms of
+        Service will be removed and the Reviewer will be penalized.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}
