@@ -1,12 +1,12 @@
 Documents/Coding/Work/SentryHealth
 --------------------------------------------------------------------
 Last Page: http://127.0.0.1:5000/login
- Duration: 12.23s
+ Duration: 12.20s
   Browser: Chrome 106.0.5249.121
    Driver: chromedriver 106.0.5249.61
-Timestamp: 1667421621  (Unix Timestamp)
+Timestamp: 1667422449  (Unix Timestamp)
      Date: Wednesday, November 2, 2022
-     Time: 4:40:21 PM  (Eastern Daylight Time, UTC-05:00)
+     Time: 4:54:09 PM  (Eastern Daylight Time, UTC-05:00)
 --------------------------------------------------------------------
 Traceback: File "C:\Program Files\Python310\lib\unittest\case.py", line 591, in run
     self._callTestMethod(testMethod)

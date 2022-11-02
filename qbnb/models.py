@@ -747,4 +747,5 @@ class Review(db.Model):
         else:  # Requester is not author of Review
             return 'Denied.'
 
+
 db.create_all()

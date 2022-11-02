@@ -16,9 +16,9 @@ class FrontEndHomePageTest(BaseCase):
     db.session.add(testUser)
     db.session.commit()
     
-    
     # Login Tests
     def test_userLoginPass(self, *_):
+        
         base_url = 'http://127.0.0.1:{}'.format(5000)
         self.open(base_url + '/login')
 
