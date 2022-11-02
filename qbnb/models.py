@@ -148,8 +148,7 @@ class User(UserMixin, db.Model):
                 x.isdigit() for x in s),
             lambda s: len(s) >= 7]
         if not all(rule(entered_password) for rule in passwordRules):
-            pass
-            # return "Error, password does not meet required complexity"
+            return "Error, password does not meet required complexity"
         # checks database if email in it
         SignInAttempt = db.session.query(User).filter(
             User.email == entered_email).first()
