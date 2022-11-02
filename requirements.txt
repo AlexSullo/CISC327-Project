@@ -4,7 +4,7 @@ pytest
 flake8
 seleniumbase
 validate-email
-windows-curses
+curses
 enum
 flask_migrate
 re
