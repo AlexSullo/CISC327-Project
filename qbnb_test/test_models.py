@@ -97,7 +97,6 @@ def r2_2_fail():
     '''
     choicesStr = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
     choicesStr += '0123456789!#@-'
-    alpha = [choicesStr]  # All possible characters needed to rng pass.
     invalRegExPass = 'testedpassword1!'  # No capitals
     valRegExPass = ' passWord1!2woohoo'  # Meets RegEx
     invalRegExEmail = "woohoo!!!@@@email.com"  # Not an email
@@ -108,7 +107,7 @@ def r2_2_fail():
     rngPassword = ''  # The randomly-generated password
     for x in range(passwordLen):
         val = random.randint(1, len(choicesStr))
-        key = alpha[0][val]
+        key = choicesStr[val - 1]
         rngPassword += key
 
     print("Testing password Regex...")

@@ -5,8 +5,7 @@ import tempfile
 import threading
 from werkzeug.serving import make_server
 from qbnb import app
-from qbnb.models import *
-from qbnb_test import *
+from .frontend import test_user
 
 
 def pytest_sessionstart():
@@ -25,22 +24,23 @@ def pytest_sessionfinish():
     '''
     When
     '''
+    pass
 
-
-base_url = 'http://127.0.0.1:{}'.format(8081)
+base_url = 'http://127.0.0.1:{}'.format(5000)
 
 
 class ServerThread(threading.Thread):
 
     def __init__(self):
         threading.Thread.__init__(self)
-        self.srv = make_server('127.0.0.1', 8081, app)
+        # import necessary routes
+        self.srv = make_server('127.0.0.1', 5000, app)
         self.ctx = app.app_context()
         self.ctx.push()
 
     def run(self):
-        print("Server running...")
-        self.srv.serve_forver()
+        print('running')
+        self.srv.serve_forever()
 
     def shutdown(self):
         self.srv.shutdown()
@@ -48,6 +48,8 @@ class ServerThread(threading.Thread):
 
 @pytest.fixture(scope="session", autouse=True)
 def server():
+    # create a live server for testing
+    # with a temporary file as database
     server = ServerThread()
     server.start()
     time.sleep(5)

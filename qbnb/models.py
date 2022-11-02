@@ -499,3 +499,4 @@ class BankTransfer(db.Model):
         except ValueError:
             return None
 
+db.create_all()
