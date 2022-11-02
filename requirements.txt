@@ -3,6 +3,6 @@ Flask-SQLAlchemy
 pytest
 flake8
 seleniumbase
-validate-email
+email-validator
 flask_migrate
 flask_login
