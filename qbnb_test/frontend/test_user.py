@@ -140,7 +140,7 @@ class FrontEndHomePageTest(BaseCase):
         # Generate a random username
         choicesStr = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
         choicesStr += '0123456789!#@-'
-        usernameLen = random.randint(8,16)
+        usernameLen = random.randint(8, 16)
         rngUsername = ' '  # The randomly-generated password
         for x in range(usernameLen):
             val = random.randint(1, len(choicesStr))
@@ -177,7 +177,7 @@ class FrontEndHomePageTest(BaseCase):
         # Generate a random username
         choicesStr = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
         choicesStr += '0123456789!#@-'
-        usernameLen = random.randint(8,16)
+        usernameLen = random.randint(8, 16)
         rngUsername = ''  # The randomly-generated password
         for x in range(usernameLen):
             if x == usernameLen // 2:
@@ -258,7 +258,7 @@ class FrontEndHomePageTest(BaseCase):
 
         # Generate a random username
         choicesStr = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        usernameLen = random.randint(21,32)
+        usernameLen = random.randint(21, 32)
         rngUsername = ''  # The randomly-generated password
         for x in range(usernameLen):
             if x == usernameLen // 2:
@@ -296,7 +296,7 @@ class FrontEndHomePageTest(BaseCase):
 
         # Generate a random username
         choicesStr = 'abcdefghijklmnopqrstuvwxyz'
-        usernameLen = random.randint(8,16)
+        usernameLen = random.randint(8, 16)
         rngUsername = ''  # The randomly-generated password
         for x in range(usernameLen):
             if x == usernameLen // 2:
