@@ -82,10 +82,18 @@
                     <p class="tiny" style="margin-top:-2vh">Here's what people had to say about {{ listingData.address }}</p>
                     {% if listingData.reviews %}
                         {% for review in propertyReviews %}
-                        <div id="review"class="container-col">
-                            <p style="text-align: left;margin-top: -3vh;margin-left: -1.5em;"><b>Rating: {{ review.rating }}</b> — <a href="/profile/{{review.author}}">{{ review.authorName }}</a><i style="color:gray"> written on {{ review.date }}</i></p>
-                            <p style="text-align: left;">{{ review.content }}</p>
-
+                        <div class="review" style="--index: {{loop.index}}">
+                            <div id="review-content">
+                            <p style="text-align: left;margin-top: -2vh;color:rgb(238, 189, 49);font-size: large;"><b>Rating: {{ review.rating }}</b><span style="position: absolute;margin-top: -0.15vh;"class="material-symbols-outlined">
+                                star
+                                </span> <a href="/profile/{{review.author}}"style="margin-left:1.5em;color:rgb(238, 189, 49);">{{review.authorName}}</a></p>
+                            
+                                <p style="text-align: left;">{{ review.content }}</p>
+                            <p class="tiny" style="right:0;position:absolute;font-size:small;margin-right: 1em;"><i> written on {{ review.date }}</i></p>
+                            </div>
+                            
+                            </a>
+                            
                         </div>
                         {% endfor %}
                     {% else %}

@@ -1,13 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
-
-a {
+.listing a {
   text-decoration: none;
   color: black;
 }
 
-a:visited {
-  color: black;
+.review a {
+  text-decoration: none;
 }
+
+/* a:visited {
+  color: black;
+} */
 
 body {
   font-family: "Poppins", sans-serif;
@@ -157,7 +160,7 @@ button {
   background-color: #fafafa;
   display: none;
   position: absolute;
-  margin-top: 6vh;
+  margin-top: 5.5vh;
   border: 2px solid #e2e2e2;
   border-radius: 15px;
   font-size: medium;
@@ -510,6 +513,10 @@ button {
   text-align: center;
 }
 
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 48;
+}
+
 .standard-button {
   transition: all 250ms ease-in-out;
 
@@ -556,8 +563,7 @@ button {
   transform: scale(1.15);
 }
 
-.profile-quick-container {
-  text-align: center;
+#profile-quick-container {
   background-color: #fbfbfb;
   margin: 0 -25em 0 -25em;
   padding: 0 25em 0 25em;
@@ -583,6 +589,7 @@ button {
 }
 
 .profile-picture {
+  animation: fade 500ms;
   width: 15em;
   border-width: 2px;
   border-radius: 100%;
@@ -590,16 +597,13 @@ button {
   border: solid 4px rgb(157, 25, 57);
 }
 
-.pfp-container {
-  display: flex;
-  justify-content: center;
-  padding-bottom: 1vh;
-}
-
-#review {
+.review {
+  animation: swipeDown 500ms forwards;
+  transition: all 250ms ease-in-out;
   margin: 1vh 2em 2em 1vh;
   padding: 2em;
-  border: 2px solid gray;
+  border: 4px solid transparent;
+  background-color: rgb(157, 25, 57);
   border-radius: 15px;
   filter: drop-shadow(2px 2px 4px gray);
   max-width: 50em;
@@ -608,9 +612,16 @@ button {
   min-width: 50em;
 }
 
-#review:nth-of-type(odd) {
-  animation: swipeLeft 250ms ease;
-  background-color: #e2e2e2;
+.review:hover {
+  transition: all 250ms ease-in-out;
+  transform: scale(1.15);
+  border: rgb(238, 189, 49) 4px solid;
+  color: black;
+}
+
+#review-content {
+  transition: all 250ms ease-in-out;
+  color: white;
 }
 
 .booking-img {
@@ -620,12 +631,6 @@ button {
   border: 4px solid rgb(157, 25, 57);
   border-radius: 15px;
   filter: drop-shadow(2px 2px 4px gray);
-}
-
-#review:nth-of-type(even) {
-  animation: swipeRight 250ms ease;
-  background-color: #fefefe;
-  border-color: #e2e2e2;
 }
 
 @keyframes fade {
@@ -639,28 +644,15 @@ button {
   }
 }
 
-@keyframes swipeLeft {
+@keyframes swipeDown {
   0% {
     opacity: 0;
-    transform: translateX(-5em);
+    transform: translateY(-5em);
     visibility: hidden;
   }
   100% {
     opacity: 1;
-    transform: translateX(0px);
-    visibility: visible;
-  }
-}
-
-@keyframes swipeRight {
-  0% {
-    opacity: 0;
-    transform: translateX(5em);
-    visibility: hidden;
-  }
-  100% {
-    opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0px);
     visibility: visible;
   }
 }
@@ -671,5 +663,17 @@ button {
   }
   100% {
     transform: translateX(25%);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotateY(0);
+  }
+  95% {
+    transform: rotateY(400);
+  }
+  100% {
+    transform: rotateY(360);
   }
 }
