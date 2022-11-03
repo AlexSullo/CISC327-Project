@@ -59,8 +59,9 @@ def server():
     time.sleep(5)
     yield
     server.shutdown()
-    time.sleep(2)
     restoredb()
+    time.sleep(2)
+    
 
 
 def restoredb():
