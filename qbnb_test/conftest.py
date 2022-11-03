@@ -24,9 +24,19 @@ def pytest_sessionstart():
 
 def pytest_sessionfinish():
     '''
-    When
+    Reset database
     '''
-    pass
+    print("Tearing down testing environment...")
+    db_file = 'db.sqlite'
+    os.remove(db_file)
+    print("Testing Database removed.")
+    os.system('copy db_copy.sqlite db.sqlite')
+    print("Original database copied to db.sqlite.")
+    time.sleep(2)
+    os.remove('db_copy.sqlite')
+    print("Database copy removed.")
+    app.app_context().push()
+    print("App context pushed.")
         
 
 base_url = 'http://127.0.0.1:{}'.format(5000)
@@ -43,7 +53,6 @@ class ServerThread(threading.Thread):
         self.ctx.push()
 
     def run(self):
-        print('running')
         self.srv.serve_forever()
 
     def shutdown(self):
@@ -59,20 +68,3 @@ def server():
     time.sleep(5)
     yield
     server.shutdown()
-    restoredb()
-    time.sleep(2)
-    
-
-def restoredb():
-    print("Tearing down testing environment...")
-    db_file = 'db.sqlite'
-    if os.path.exists(db_file):
-        os.remove(db_file)
-        print("Testing Database removed.")
-        os.system('copy db_copy.sqlite db.sqlite')
-        print("Original database copied to db.sqlite.")
-        time.sleep(2)
-        os.remove('db_copy.sqlite')
-        print("Database copy removed.")
-    app.app_context().push()
-    print("App context pushed.")
