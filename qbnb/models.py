@@ -192,7 +192,6 @@ class User(UserMixin, db.Model):
             if 2 < len(updatedInfo.username) < 20:
                 self.username = updatedInfo.username
             
-
         if updatedInfo.email:
             r = r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\
                 .[A-Z|a-z]{2,})+'
@@ -200,10 +199,9 @@ class User(UserMixin, db.Model):
             if not re.fullmatch(regex, updatedInfo.email):
                 pass
             else:
-                if len(db.session.query(User)\
-                    .filter_by(email=updatedInfo.email)).first() == None:
+                if len(db.session.query(User)
+                   .filter_by(email=updatedInfo.email)).first() is None:
                     self.email = updatedInfo.email
-
 
         if updatedInfo.billingAddress:
             self.billingAddress = updatedInfo.billingAddress

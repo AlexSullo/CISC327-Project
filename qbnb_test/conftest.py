@@ -63,7 +63,6 @@ def server():
     time.sleep(2)
     
 
-
 def restoredb():
     print("Tearing down testing environment...")
     db_file = 'db.sqlite'
