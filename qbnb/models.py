@@ -189,16 +189,30 @@ class User(UserMixin, db.Model):
         have, update their information.
         '''
         if updatedInfo.username:
-            self.username = updatedInfo.username
-
+            if 2 < len(updatedInfo.username) < 20:
+                self.username = updatedInfo.username
+            
         if updatedInfo.email:
-            self.email = updatedInfo.email
+            r = r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\
+                .[A-Z|a-z]{2,})+'
+            regex = re.compile(r)
+            if not re.fullmatch(regex, updatedInfo.email):
+                pass
+            else:
+                if len(db.session.query(User)
+                   .filter_by(email=updatedInfo.email)).first() is None:
+                    self.email = updatedInfo.email
 
         if updatedInfo.billingAddress:
             self.billingAddress = updatedInfo.billingAddress
 
         if updatedInfo.postalCode:
-            self.postalCode = updatedInfo.postalCode
+            r = r'^([A-Za-z]\d[A-Za-z][-]?\d[A-Za-z]\d)'
+            regex = re.compile(r)
+            if not re.fullmatch(regex, updatedInfo.postalCode):
+                pass
+            else:
+                self.postalCode = updatedInfo.postalCode
 
         return '<User %r Updated.>' % self.id
 

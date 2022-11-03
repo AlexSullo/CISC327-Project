@@ -109,14 +109,14 @@
                     </div>
                     <hr>
                     <div class="profile-changables-container">
-                        <h2 class="profile-head"><b>Display Name: </b>{{ userData.username }}</h2>
-                        <h2 class="profile-head"><b>Email: </b>{{ userData.email }}</h2>
-                        <h2 class="profile-head"><b>Address: </b>{{ userData.billingAddress }}</h2>
-                        <h2 class="profile-head"><b>Postal Code: </b>{{ userData.postalCode }}</h2>
+                        <h2 id="username" class="profile-head"><b>Display Name: </b>{{ userData.username }}</h2>
+                        <h2 id="email" class="profile-head"><b>Email: </b>{{ userData.email }}</h2>
+                        <h2 id="address" class="profile-head"><b>Address: </b>{{ userData.billingAddress }}</h2>
+                        <h2 id="postalcode" class="profile-head"><b>Postal Code: </b>{{ userData.postalCode }}</h2>
                     </div>
                     <div class="profile-header">
                         <p>Edit Your Information?</p>
-                        <a href="/update/{{ userInformation.id }}"><button class="standard-button">Edit</button></a>
+                        <a href="/update/{{ userInformation.id }}"><button id="edit-profile-info" class="standard-button">Edit</button></a>
                     </div>
                 </div>
             </div>

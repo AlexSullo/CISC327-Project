@@ -12,18 +12,18 @@
         <br>
         <form method="post">
             <label for="username" class="input-label">Username</label><br>
-            <input type="text" minlength="4" class="textfield" name="username" pattern='^[A-Za-z0-9_-]*$' placeholder="{{ userData.username }}" title="Usernames cannot have special characters."value="{{ request.form['username'] }}"></input>
+            <input id="username" type="text" minlength="3" maxlength="19" class="textfield" name="username" pattern='^[A-Za-z0-9_-]*$' placeholder="{{ userData.username }}" title="Usernames cannot have special characters."value="{{ request.form['username'] }}"></input>
             <br>
             <label for="email" class="input-label">Email</label><br>
-            <input type="text" minlength="4"class="textfield" name="email" placeholder="{{ userData.email }}" title="Enter a valid email." pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="{{ request.form['email'] }}"></input>    
+            <input id="email" type="text" minlength="4"class="textfield" name="email" placeholder="{{ userData.email }}" title="Enter a valid email." pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="{{ request.form['email'] }}"></input>    
             <br>
             <label for="billingAddress" class="input-label">Billing Address</label><br>
-            <input type="text" minlength="4" class="textfield" name="billingAddress" placeholder="{{ userData.billingAddress }}" value="{{ request.form['billingAddress'] }}"></input>
+            <input id="billingaddress" type="text" minlength="4" class="textfield" name="billingAddress" placeholder="{{ userData.billingAddress }}" value="{{ request.form['billingAddress'] }}"></input>
             <br>
             <label for="postalCode" class="input-label">Postal Code</label><br>
-            <input type="text" minlength="6" maxlength=6 class="textfield" name="postalCode" placeholder="{{ userData.postalCode }}" title="Postal Codes can't contain special characters and must follow the Canadian Postal Code format." pattern='^([A-Za-z]\d[A-Za-z][-]?\d[A-Za-z]\d)' value="{{ request.form['postalCode'] }}"></input>
+            <input id="postalcode" type="text" minlength="6" maxlength=6 class="textfield" name="postalCode" placeholder="{{ userData.postalCode }}" title="Postal Codes can't contain special characters and must follow the Canadian Postal Code format." pattern='^([A-Za-z]\d[A-Za-z][-]?\d[A-Za-z]\d)' value="{{ request.form['postalCode'] }}"></input>
             <br>
-            <button  class="standard-button" align="center" type="submit">Submit</button>
+            <button  id="submit-edits" class="standard-button" align="center" type="submit">Submit</button>
             <br><br>
         </form>
     </div>

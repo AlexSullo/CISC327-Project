@@ -331,7 +331,6 @@ def profile(id):
             "balance": user.balance
         }  # Get user information from DB
         userInfo = get_info()  # Check if user is signed in
-        print(userReviews[1], 'balls')
         return render_template('profile.html',
                                userData=userData,
                                greeting=pickedGreeting,
