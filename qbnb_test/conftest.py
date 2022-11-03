@@ -33,7 +33,10 @@ def pytest_sessionfinish():
     os.system('copy db_copy.sqlite db.sqlite')
     print("Original database copied to db.sqlite.")
     time.sleep(2)
-    os.remove('db_copy.sqlite')
+    try:
+        os.remove('db_copy.sqlite')
+    except FileNotFoundError:
+        pass
     print("Database copy removed.")
     app.app_context().push()
     print("App context pushed.")
