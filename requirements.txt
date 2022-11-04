@@ -2,3 +2,7 @@ Flask
 Flask-SQLAlchemy
 pytest
 flake8
+seleniumbase
+email-validator
+flask_migrate
+flask_login

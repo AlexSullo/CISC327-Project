@@ -26,29 +26,29 @@ class User(UserMixin, db.Model):
                    autoincrement=True,
                    unique=True)
 
-    username = db.Column(db.String(80),
+    username = db.Column(db.String(80),  # Display name of user
                          unique=True,
                          nullable=False)
 
-    email = db.Column(db.String(120),
+    email = db.Column(db.String(120),  # Email of user
                       unique=True,
                       nullable=False)
 
-    password = db.Column(db.String(120),
+    password = db.Column(db.String(120),  # Password of user
                          unique=False,
                          nullable=False)
 
-    rating = db.Column(db.String(120),
+    rating = db.Column(db.String(120),  # Rating of User
                        unique=False,
                        nullable=False)
 
-    propertyReview = db.Column(db.String(120),
+    writtenReviews = db.Column(db.Text,
                                unique=False,
                                nullable=True)
 
-    userReview = db.Column(db.String(120),
-                           unique=False,
-                           nullable=True)
+    reviewsAbout = db.Column(db.Text,
+                             unique=False,
+                             nullable=True)
 
     balance = db.Column(db.Float,
                         nullable=False)
@@ -104,8 +104,10 @@ class User(UserMixin, db.Model):
                     print("Username: 'contains spaces on \
                     the ends or non-alphanumeric'")
                     return False
+
             elif (c == " "):  # Or if its a space within the title
                 pass
+
             elif (not c.isalnum()):  # Or if its not alphanumeric
                 print("'non-alphanumeric'")
                 return False
@@ -175,8 +177,8 @@ class User(UserMixin, db.Model):
         self.postalCode = userInfo['postalCode']
         self.rating = '5.0'
         self.balance = 100.0
-        self.propertyReview = ''
-        self.userReview = '0'
+        self.writtenReviews = ''
+        self.reviewsAbout = ''
         self.billingAddress = ''
         self.surname = userInfo['surname']
         self.username = userInfo['username']
@@ -187,18 +189,56 @@ class User(UserMixin, db.Model):
         have, update their information.
         '''
         if updatedInfo.username:
-            self.username = updatedInfo.username
-
+            if 2 < len(updatedInfo.username) < 20:
+                self.username = updatedInfo.username
+            
         if updatedInfo.email:
-            self.email = updatedInfo.email
+            r = r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\
+                .[A-Z|a-z]{2,})+'
+            regex = re.compile(r)
+            if not re.fullmatch(regex, updatedInfo.email):
+                pass
+            else:
+                if len(db.session.query(User)
+                   .filter_by(email=updatedInfo.email)).first() is None:
+                    self.email = updatedInfo.email
 
         if updatedInfo.billingAddress:
             self.billingAddress = updatedInfo.billingAddress
 
         if updatedInfo.postalCode:
-            self.postalCode = updatedInfo.postalCode
+            r = r'^([A-Za-z]\d[A-Za-z][-]?\d[A-Za-z]\d)'
+            regex = re.compile(r)
+            if not re.fullmatch(regex, updatedInfo.postalCode):
+                pass
+            else:
+                self.postalCode = updatedInfo.postalCode
 
         return '<User %r Updated.>' % self.id
+
+    def getReviews(self):
+        '''
+        Returns all reviews written by and about a user
+        '''
+        writtenCheck = self.writtenReviews.split(",")
+        aboutCheck = self.reviewsAbout.split(",")
+        writtenCheck.reverse()
+        aboutCheck.reverse()
+        if len(writtenCheck) != 0 and writtenCheck[0] != "":
+            written = []
+            for x in writtenCheck:
+                rev = db.session.query(Review).get(x) 
+                written.append(rev)
+        else:
+            written = None
+        if len(aboutCheck) != 0 and aboutCheck[0] != "":
+            about = []
+            for y in aboutCheck:
+                rev = db.session.query(Review).get(y)
+                about.append(rev)
+        else:
+            about = None
+        return [written, about]
 
 
 class Transaction(db.Model):
@@ -312,7 +352,7 @@ class Listing(db.Model):
                        unique=False,
                        nullable=True)
 
-    reviews = db.Column(db.String(120),  # The reviews of the listing
+    reviews = db.Column(db.Text,  # The reviews of the listing
                         unique=False,
                         nullable=True)
 
@@ -328,6 +368,9 @@ class Listing(db.Model):
     
     location = db.Column(db.String(32),  # Location (Area, province)
                          nullable=False)
+
+    tenants = db.Column(db.Text,
+                        nullable=False)
 
     def __init__(self, listingData):
         if listingData['location'] != "":
@@ -353,6 +396,7 @@ class Listing(db.Model):
         self.dateAvailable = str(listingData['dateAvailable'])
         self.imgData = listingData['imgData']
         self.imgRenderedData = listingData['imgRenderedData']
+        self.tenants = ''
 
     def checkListing(self):
         """This function checks if the title, description, price, and
@@ -462,6 +506,68 @@ class Listing(db.Model):
         """
         return '<Listing %r>' % self.id
 
+    def getReviews(self):
+        '''
+        Returns all reviews about a listing
+        '''
+        reviews = []
+        reviewCheck = self.reviews.split(",")
+        if len(reviewCheck) != 0 and reviewCheck[0] != "":
+            for review in reviewCheck:
+                rev = db.session.query(Review).get(review)
+                reviews.append(rev)
+        reviews.reverse()
+        return reviews
+    
+    def getReviewAuthors(self):
+        '''
+        Returns the ID of everyone who has written a review
+        '''
+        authors = []
+        reviewCheck = self.reviews.split(",")
+        print(reviewCheck)
+        if len(reviewCheck) != 0 and reviewCheck[0] != "":
+            for review in reviewCheck:
+                rev = db.session.query(Review).get(review)
+                authors.append(rev.author)
+        return authors
+
+    def getPreviousTenants(self):
+        '''
+        Returns the ID of everyone who has stayed at the property
+        '''
+        tenants = []
+        tenantCheck = self.tenants.split(",")
+        if len(tenantCheck) != 0 and tenantCheck[0] != "":
+            for tenant in tenantCheck:
+                ten = db.session.query(User).get(tenant)
+                tenants.append(ten.id)
+        return tenants
+
+    def updateRating(self):
+        '''
+        Updates the rating of a property
+        '''
+        try:
+            allReviews = self.reviews.split(",")
+            print(allReviews)
+            numOfReviews = len(allReviews)
+            overallRating = 0
+            for review in allReviews:
+                review = db.session.query(Review).get(int(review))
+                overallRating += review.rating
+            overallRating /= numOfReviews  # Det. average rating
+            self.rating = overallRating            
+            db.session.commit()  # Save updated Review in DB
+        except AttributeError:
+            # No Reviews
+            self.rating = 5.0
+            return 'No Reviews'
+
+        except ValueError:
+            # Also no reviews
+            self.rating = 5.0
+
 
 class BankTransfer(db.Model):
     """
@@ -500,3 +606,160 @@ class BankTransfer(db.Model):
         except ValueError:
             return None
 
+
+class Review(db.Model):
+    '''
+    An object that contains a review, either about a property, or a user.
+
+    author: Author of the review (User id)
+    authorName: Name of Author (str)
+    reviewType: What the review is about (Host/Tenant/Property) (str)
+    recipient: Who the review is about (User id or Listing id)
+    content: Content of the review (str)
+    rating: Number rating of the recipient (float)
+    '''
+    __tablename__ = 'reviews'
+    id = db.Column(db.Integer,
+                   primary_key=True,
+                   unique=True)
+
+    author = db.Column(db.String(32),  # Author of review
+                       nullable=False)
+
+    authorName = db.Column(db.String(64),
+                           nullable=False)
+
+    reviewType = db.Column(db.String(32),  # Type of review
+                           nullable=False)
+
+    recipient = db.Column(db.String(32),  # Who/What
+                          nullable=False)
+
+    content = db.Column(db.Text,  # Content of the review
+                        nullable=False)
+
+    rating = db.Column(db.Float,  # Rating of the Review
+                       nullable=False)
+
+    date = db.Column(db.String(32),  # Date of Writing
+                     nullable=False)
+
+    def __init__(self, reviewData):
+        '''
+        Construct the Review Object
+
+        reviewData: Dictionary object containing all information
+                    required to construct the review. (Dict)
+        '''
+        if reviewData['author'] != "" and reviewData['author'] != "" \
+            and reviewData['recipient'] != "" \
+                and reviewData['rating'] != "":
+            # If no fields are empty
+            auth = db.session.query(User).get(reviewData['author'])
+            authorName = auth.firstName + " " + auth.surname
+            # Creates a string that has the name of the author
+            
+            self.authorName = authorName
+            self.author = reviewData['author']
+            self.reviewType = reviewData['type']
+            self.recipient = reviewData['recipient']
+            self.rating = reviewData['rating']
+            self.content = reviewData['content']
+            self.id = hash(self.content)
+            self.date = datetime.date.today()
+
+            if reviewData['type'] == "Property":
+                # If the review is on a property
+                listing = db.session.query(Listing) \
+                    .filter_by(id=reviewData['recipient']).first()
+                if len(listing.reviews) == 0:
+                    listing.reviews += str(self.id)  # Append review
+                else:
+                    listing.reviews += "," + str(self.id)  # Append review
+
+                if len(auth.writtenReviews) == 0:
+                    auth.writtenReviews += str(self.id)  # Append rev.
+                else:
+                    auth.writtenReviews += "," + str(self.id)  # Append rev.
+                listing.updateRating()
+
+            elif (
+                reviewData['type'] == 'Host' or
+                reviewData['type'] == 'Tenant'
+            ):
+                # Review is on a user
+                user = db.session.query(User).get(reviewData['recipient'])
+                if len(user.reviewsAbout) == 0:
+                    user.reviewsAbout += str(self.id)  # Append review
+                else:
+                    user.reviewsAbout += "," + str(self.id)  # Append review
+
+                if len(auth.writtenReviews) == 0:
+                    auth.writtenReviews += str(self.id)  # Append rev.
+                else:
+                    auth.writtenReviews += "," + str(self.id)  # Append rev.
+
+            db.session.commit()
+        else:
+            return 'Missing Information.'
+
+    def deleteReview(self, requester):
+        '''
+        Deletes the review object if the requestor is the creator
+
+        requestor: ID of the user requesting deletion. (int)
+        '''
+        if str(requester) == str(self.author):
+            # Requester of deletion is author of review
+            if self.reviewType == "Property":
+                recipient = db.session.query(Listing) \
+                    .filter_by(id=int(self.recipient)).first()
+
+                # Remove Review from Property's Reviews
+                reviews = recipient.reviews.split(",")
+                loc = reviews.index(str(self.id))
+                del (reviews[loc])
+                if len(reviews) == 1:
+                    recipient.reviews = reviews[0]
+                else:
+                    revString = ''
+                    for x in reviews:
+                        revString += x + ","
+                    recipient.reviews = revString[:-1]
+            else:
+                recipient = db.session.query(User) \
+                    .filter_by(id=int(self.recipient)).first()
+
+                # Remove Review from Recipient's Reviews
+                reviews = recipient.reviewsAbout.split(",")
+                loc = reviews.index(str(self.id))
+                del (reviews[loc])
+                if len(reviews) == 1:
+                    recipient.reviews = reviews[0]
+                else:
+                    revString = ''
+                    for x in reviews:
+                        revString += x + ","
+                    recipient.reviews = revString[:-1]
+            
+            # Remove review from Author's Reviews
+            author = db.session.query(User).get(int(self.author))
+            reviews = author.writtenReviews.split(",")
+            loc = reviews.index(str(self.id))
+            del (reviews[loc])
+            if len(reviews) == 1:
+                author.writtenReviews = reviews[0]
+            else:
+                revString = ''
+                for x in reviews:
+                    revString += x + ","
+                author.writtenReviews = revString[:-1]
+                
+            db.session.delete(self)
+            db.session.commit()  # Update DB
+            return 'Review Deleted'
+        else:  # Requester is not author of Review
+            return 'Denied.'
+
+
+db.create_all()

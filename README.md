@@ -1,5 +1,7 @@
-# CISC324-Project
+# CISC327-Project: QBNB
 
-The user registration function, checks for the validity
-of all the different required entities that a user must fill
-out when registering on Qbnb.
+[![Python PEP8](https://github.com/AlexSullo/CISC327-Project/actions/workflows/style_check.yml/badge.svg)](https://github.com/AlexSullo/CISC327-Project/actions/workflows/style_check.yml)
+
+QBNB Created by ALSA Technologies. A room-sharing service with the consumer's best interests at heart.
+
+QBNB -- Search for a new experience!

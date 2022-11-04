@@ -37,11 +37,25 @@
                             </div>
                         </div>
                         <hr class="short-hr">
-                        {% if userData.propertyReviews %}
+                        {% if writtenRevs %}
                             <div class="reviews-container">
                                 <h2>Your Reviews</h2>
+                                <p class="tiny">Click on a review to be brought to it's subject.</p>
+                                {% for review in writtenRevs %}
+                                    <div id="review"class="container-col">
+                                        {% if 'Property' == review.reviewType %}
+                                        <a href="/listing/{{ review.recipient }}">
+                                        {% else %}
+                                        <a href="/profile/{{ review.recipient }}">
+                                        {% endif %}
+                                        <p style="text-align: left;margin-top: -3vh;margin-left: -1.5em;"><b>Rating: {{ review.rating }}</b> — {{ review.authorName }}<i style="color:gray"> written on {{ review.date }}</i></p>
+                                        <p style="text-align: left;">{{ review.content }}</p>
+                                        </a>
+                                        
+                                    </div>
+                                {% endfor %}
                                                                     
-                                    <p>You haven't made any reviews yet!</p>
+                                    
                                 
                                 
                             </div>
@@ -49,22 +63,26 @@
                             <div class="reviews-container">
                                 <h2>Your Reviews</h2>
                                 
-                                    <p>Not coded yet.</p>
+                                    <p>You haven't made any reviews yet!</p>
                                 
                                 
                             </div>
                             
                         {% endif %}
 
-                        {% if userData.userReviews %}
-                            <div class="reviews-container">
-                                <h2>Reviews About You</h2>
-                                                                    
-                                    <p>Here's what people had to say about you!</p>
-                                
-                                
-                            </div>
-                            <hr>
+                        {% if reviewsAbt %}
+                        <div class="reviews-container">
+                            <h2>Your Reviews</h2>
+                            <p class="tiny">Click on a review to be brought to the profile of who posted it.</p>
+                            {% for review in reviewsAbt %}
+                                <div id="review"class="container-col">
+                                    <a href="/profile/{{ review.author }}">
+                                    <p style="text-align: left;margin-top: -3vh;margin-left: -1.5em;"><b>Rating: {{ review.rating }}</b> — {{ review.authorName }}<i style="color:gray"> written on {{ review.date }}</i></p>
+                                    <p style="text-align: left;">{{ review.content }}</p>
+                                    </a>
+                                    
+                                </div>
+                                {% endfor %}
                         {% else %}
                             <div class="reviews-container">
                                 <h2>Reviews About You</h2>
@@ -91,14 +109,14 @@
                     </div>
                     <hr>
                     <div class="profile-changables-container">
-                        <h2 class="profile-head"><b>Display Name: </b>{{ userData.username }}</h2>
-                        <h2 class="profile-head"><b>Email: </b>{{ userData.email }}</h2>
-                        <h2 class="profile-head"><b>Address: </b>{{ userData.billingAddress }}</h2>
-                        <h2 class="profile-head"><b>Postal Code: </b>{{ userData.postalCode }}</h2>
+                        <h2 id="username" class="profile-head"><b>Display Name: </b>{{ userData.username }}</h2>
+                        <h2 id="email" class="profile-head"><b>Email: </b>{{ userData.email }}</h2>
+                        <h2 id="address" class="profile-head"><b>Address: </b>{{ userData.billingAddress }}</h2>
+                        <h2 id="postalcode" class="profile-head"><b>Postal Code: </b>{{ userData.postalCode }}</h2>
                     </div>
                     <div class="profile-header">
                         <p>Edit Your Information?</p>
-                        <a href="/update/{{ userInformation.id }}"><button class="standard-button">Edit</button></a>
+                        <a href="/update/{{ userInformation.id }}"><button id="edit-profile-info" class="standard-button">Edit</button></a>
                     </div>
                 </div>
             </div>
@@ -107,33 +125,48 @@
 
                     
                     <div class="profile-changables-container" style="text-align:left">
-                        {% if userData.propertyReviews %}
+                        {% if writtenRevs %}
                             <div class="reviews-container">
-                                <h2>{{ userData.username}}'s Reviews</h2>
-                                                                    
-                                    <p>They haven't made any reviews yet!</p>
-                                
+                                <h2>Your Reviews</h2>
+                                <p class="tiny">Click on a review to be brought to it's subject.</p>
+                                {% for review in writtenRevs %}
+                                    <div id="review"class="container-col">
+                                        {% if 'Property' == review.reviewType %}
+                                        <a href="/listing/{{ review.recipient }}">
+                                        {% else %}
+                                        <a href="/profile/{{ review.recipient }}">
+                                        {% endif %}
+                                        <p style="text-align: left;margin-top: -3vh;margin-left: -1.5em;"><b>Rating: {{ review.rating }}</b> — {{ review.authorName }}<i style="color:gray"> written on {{ review.date }}</i></p>
+                                        <p style="text-align: left;">{{ review.content }}</p>
+                                        </a>
+                                        
+                                    </div>
+                                {% endfor %}
                                 
                             </div>
                         {% else %}
                             <div class="reviews-container">
                                 <h2>{{ userData.username}}'s Reviews</h2>
                                 
-                                    <p>Not coded yet.</p>
+                                <p>They haven't made any reviews yet!</p>
                                 
                                 
                             </div>
                             
                         {% endif %}
-
-                        {% if userData.userReviews %}
+                        {% if reviewsAbt %}
                             <div class="reviews-container">
-                                <h2>Reviews About {{ userData.username}}</h2>
-                                                                    
-                                    <p>Here's what people had to say about {{ userData.firstName}} {{userData.surname}}!</p>
-                                
-                                
-                            </div>
+                                <h2>Your Reviews</h2>
+                                <p class="tiny">Click on a review to be brought to the profile of who posted it.</p>
+                                {% for review in reviewsAbt %}
+                                    <div id="review"class="container-col">
+                                        <a href="/profile/{{ review.author }}">
+                                        <p style="text-align: left;margin-top: -3vh;margin-left: -1.5em;"><b>Rating: {{ review.rating }}</b> — {{ review.authorName }}<i style="color:gray"> written on {{ review.date }}</i></p>
+                                        <p style="text-align: left;">{{ review.content }}</p>
+                                        </a>
+                                        
+                                    </div>
+                                {% endfor %}
                         {% else %}
                             <div class="reviews-container">
                                 <h2>Reviews About {{ userData.username}}</h2>
