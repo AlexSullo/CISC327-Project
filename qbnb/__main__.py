@@ -1,4 +1,5 @@
 import base64
+import datetime
 from sqlite3 import IntegrityError
 from flask import Flask, redirect, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
@@ -297,6 +298,7 @@ def update_listing(id):
             if request.form['location'] != "":
                 listing.location = request.form['location']
                 
+            listing.lastModifiedDate = datetime.datetime.now()
             db.session.commit()
         return redirect("/updatelisting/" + str(id))
     else:

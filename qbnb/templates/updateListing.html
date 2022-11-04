@@ -17,7 +17,7 @@
             <input type="text" minlength="0"class="textfield" name="description" placeholder="{{ listingInfo.description }}" title="Enter a description for your listing"  value="{{ request.form['description'] }}"></input>    
             <br>
             <label for="price" class="input-label">Price</label><br>
-            <input type="number" minlength="4" class="textfield" name="price" placeholder="{{ listingInfo.price }}" value="{{ request.form['price'] }}"></input>
+            <input type="number" minlength="4" class="textfield" name="price" step="0.01" min="{{listingInfo.info}}" max="10000.00" placeholder="{{ listingInfo.price }}" value="{{ request.form['price'] }}"></input>
             <br>
             <label for="booked" class="input-label">Booked</label><br>
             <p class="tiny">Is somebody currently staying at your property?</p>
