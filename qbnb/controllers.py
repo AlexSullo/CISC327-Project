@@ -1,4 +1,5 @@
 import base64
+import datetime
 from flask import Flask, redirect, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import *
@@ -388,7 +389,8 @@ def update_listing(id):
                 listing.description = request.form['description']
 
             if request.form['price'] != "":
-                listing.price = request.form['price']
+                if float(request.form['price']) > float(listing.price):
+                    listing.price = request.form['price']
                 
             if request.form['address'] != "":
                 listing.address = request.form['address']
@@ -422,6 +424,7 @@ def update_listing(id):
             if request.form['location'] != "":
                 listing.location = request.form['location']
                 
+            listing.lastModifiedDate = datetime.datetime.now()
             db.session.commit()
         return redirect("/updatelisting/" + str(id))
     else:
