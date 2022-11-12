@@ -76,7 +76,7 @@ class ListingCreationTest(BaseCase):
         """
         # GENERATION
         choices = "abcdefghijklmnopqrstuvwxyz0123456789"
-        length = random.randint(5,20)
+        length = random.randint(5, 20)
         title = " "
         for x in range(length):
             val = random.randint(1, len(choices))
@@ -112,10 +112,10 @@ class ListingCreationTest(BaseCase):
         # enter num of bathrooms
         self.type("#propertyType4", 2)
         # enter date
-        self.type("#dateAvailableStart","2022")
-        self.type("#dateAvailableStart","1212")
-        self.type("#dateAvailableEnd","2023")
-        self.type("#dateAvailableEnd","0212")
+        self.type("#dateAvailableStart", "2022")
+        self.type("#dateAvailableStart", "1212")
+        self.type("#dateAvailableEnd", "2023")
+        self.type("#dateAvailableEnd", "0212")
         # submit form
         self.click("#create-listing")
 
@@ -126,7 +126,7 @@ class ListingCreationTest(BaseCase):
         """
         # GENERATION
         choices = "abcdefghijklmnopqrstuvwxyz0123456789"
-        length = random.randint(5,20)
+        length = random.randint(5, 20)
         title = ""
         for x in range(length):
             val = random.randint(1, len(choices))
@@ -163,10 +163,10 @@ class ListingCreationTest(BaseCase):
         # enter num of bathrooms
         self.type("#propertyType4", 2)
         # enter date
-        self.type("#dateAvailableStart","2022")
-        self.type("#dateAvailableStart","1212")
-        self.type("#dateAvailableEnd","2023")
-        self.type("#dateAvailableEnd","0212")
+        self.type("#dateAvailableStart", "2022")
+        self.type("#dateAvailableStart", "1212")
+        self.type("#dateAvailableEnd", "2023")
+        self.type("#dateAvailableEnd", "0212")
         # submit form
         self.click("#create-listing")
 
@@ -215,10 +215,10 @@ class ListingCreationTest(BaseCase):
         # enter num of bathrooms
         self.type("#propertyType4", 2)
         # enter date
-        self.type("#dateAvailableStart","2022")
-        self.type("#dateAvailableStart","1212")
-        self.type("#dateAvailableEnd","2023")
-        self.type("#dateAvailableEnd","0212")
+        self.type("#dateAvailableStart", "2022")
+        self.type("#dateAvailableStart", "1212")
+        self.type("#dateAvailableEnd", "2023")
+        self.type("#dateAvailableEnd", "0212")
         # submit form
         self.click("#create-listing")
 
@@ -260,10 +260,10 @@ class ListingCreationTest(BaseCase):
         # enter num of bathrooms
         self.type("#propertyType4", 2)
         # enter date
-        self.type("#dateAvailableStart","2022")
-        self.type("#dateAvailableStart","1212")
-        self.type("#dateAvailableEnd","2023")
-        self.type("#dateAvailableEnd","0212")
+        self.type("#dateAvailableStart", "2022")
+        self.type("#dateAvailableStart", "1212")
+        self.type("#dateAvailableEnd", "2023")
+        self.type("#dateAvailableEnd", "0212")
         # submit form
         self.click("#create-listing")
 
@@ -304,10 +304,10 @@ class ListingCreationTest(BaseCase):
         # enter num of bathrooms
         self.type("#propertyType4", 2)
         # enter date
-        self.type("#dateAvailableStart","2022")
-        self.type("#dateAvailableStart","1212")
-        self.type("#dateAvailableEnd","2023")
-        self.type("#dateAvailableEnd","0212")
+        self.type("#dateAvailableStart", "2022")
+        self.type("#dateAvailableStart", "1212")
+        self.type("#dateAvailableEnd", "2023")
+        self.type("#dateAvailableEnd", "0212")
         # submit form
         self.click("#create-listing")
 
@@ -318,7 +318,7 @@ class ListingCreationTest(BaseCase):
         """
         # GENERATION
         choices = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(),./;:\'\""
-        length = random.randint(13, 19) # so description bigger than title
+        length = random.randint(13, 19)  # so description bigger than title
         description = ""
         for x in range(length):
             val = random.randint(1, len(choices))
@@ -354,10 +354,10 @@ class ListingCreationTest(BaseCase):
         # enter num of bathrooms
         self.type("#propertyType4", 2)
         # enter date
-        self.type("#dateAvailableStart","2022")
-        self.type("#dateAvailableStart","1212")
-        self.type("#dateAvailableEnd","2023")
-        self.type("#dateAvailableEnd","0212")
+        self.type("#dateAvailableStart", "2022")
+        self.type("#dateAvailableStart", "1212")
+        self.type("#dateAvailableEnd", "2023")
+        self.type("#dateAvailableEnd", "0212")
         # submit form
         self.click("#create-listing")
 
@@ -404,10 +404,10 @@ class ListingCreationTest(BaseCase):
         # enter num of bathrooms
         self.type("#propertyType4", 2)
         # enter date
-        self.type("#dateAvailableStart","2022")
-        self.type("#dateAvailableStart","1212")
-        self.type("#dateAvailableEnd","2023")
-        self.type("#dateAvailableEnd","0212")
+        self.type("#dateAvailableStart", "2022")
+        self.type("#dateAvailableStart", "1212")
+        self.type("#dateAvailableEnd", "2023")
+        self.type("#dateAvailableEnd", "0212")
         # submit form
         self.click("#create-listing")
 
@@ -454,10 +454,10 @@ class ListingCreationTest(BaseCase):
         # enter num of bathrooms
         self.type("#propertyType4", 2)
         # enter date
-        self.type("#dateAvailableStart","2022")
-        self.type("#dateAvailableStart","1212")
-        self.type("#dateAvailableEnd","2023")
-        self.type("#dateAvailableEnd","0212")
+        self.type("#dateAvailableStart", "2022")
+        self.type("#dateAvailableStart", "1212")
+        self.type("#dateAvailableEnd", "2023")
+        self.type("#dateAvailableEnd", "0212")
         # submit form
         self.click("#create-listing")
 
@@ -499,10 +499,10 @@ class ListingCreationTest(BaseCase):
         # enter num of bathrooms
         self.type("#propertyType4", 2)
         # enter date
-        self.type("#dateAvailableStart","2022")
-        self.type("#dateAvailableStart","1212")
-        self.type("#dateAvailableEnd","2023")
-        self.type("#dateAvailableEnd","0212")
+        self.type("#dateAvailableStart", "2022")
+        self.type("#dateAvailableStart", "1212")
+        self.type("#dateAvailableEnd", "2023")
+        self.type("#dateAvailableEnd", "0212")
         # submit form
         self.click("#create-listing")
 
@@ -513,7 +513,7 @@ class ListingCreationTest(BaseCase):
         """
         # GENERATION
         title = "this title has 28 characters"
-        description = "this description fails" # 22 characters
+        description = "this description fails"  # 22 characters
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
@@ -544,10 +544,10 @@ class ListingCreationTest(BaseCase):
         # enter num of bathrooms
         self.type("#propertyType4", 2)
         # enter date
-        self.type("#dateAvailableStart","2022")
-        self.type("#dateAvailableStart","1212")
-        self.type("#dateAvailableEnd","2023")
-        self.type("#dateAvailableEnd","0212")
+        self.type("#dateAvailableStart", "2022")
+        self.type("#dateAvailableStart", "1212")
+        self.type("#dateAvailableEnd", "2023")
+        self.type("#dateAvailableEnd", "0212")
         # submit form
         self.click("#create-listing")
 
@@ -557,7 +557,7 @@ class ListingCreationTest(BaseCase):
         10
         """
         # GENERATION
-        price = random.randint(0,9)
+        price = random.randint(0, 9)
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
@@ -588,10 +588,10 @@ class ListingCreationTest(BaseCase):
         # enter num of bathrooms
         self.type("#propertyType4", 2)
         # enter date
-        self.type("#dateAvailableStart","2022")
-        self.type("#dateAvailableStart","1212")
-        self.type("#dateAvailableEnd","2023")
-        self.type("#dateAvailableEnd","0212")
+        self.type("#dateAvailableStart", "2022")
+        self.type("#dateAvailableStart", "1212")
+        self.type("#dateAvailableEnd", "2023")
+        self.type("#dateAvailableEnd", "0212")
         # submit form
         self.click("#create-listing")
 
@@ -601,7 +601,7 @@ class ListingCreationTest(BaseCase):
         10 and 10000
         """
         # GENERATION
-        price = random.randint(10,10000)
+        price = random.randint(10, 10000)
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
@@ -632,10 +632,10 @@ class ListingCreationTest(BaseCase):
         # enter num of bathrooms
         self.type("#propertyType4", 2)
         # enter date
-        self.type("#dateAvailableStart","2022")
-        self.type("#dateAvailableStart","1212")
-        self.type("#dateAvailableEnd","2023")
-        self.type("#dateAvailableEnd","0212")
+        self.type("#dateAvailableStart", "2022")
+        self.type("#dateAvailableStart", "1212")
+        self.type("#dateAvailableEnd", "2023")
+        self.type("#dateAvailableEnd", "0212")
         # submit form
         self.click("#create-listing")
 
@@ -645,7 +645,7 @@ class ListingCreationTest(BaseCase):
         than 10000
         """
         # GENERATION
-        price = random.randint(10001,10002)
+        price = random.randint(10001, 10002)
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
@@ -676,9 +676,9 @@ class ListingCreationTest(BaseCase):
         # enter num of bathrooms
         self.type("#propertyType4", 2)
         # enter date
-        self.type("#dateAvailableStart","2022")
-        self.type("#dateAvailableStart","1212")
-        self.type("#dateAvailableEnd","2023")
-        self.type("#dateAvailableEnd","0212")
+        self.type("#dateAvailableStart", "2022")
+        self.type("#dateAvailableStart", "1212")
+        self.type("#dateAvailableEnd", "2023")
+        self.type("#dateAvailableEnd", "0212")
         # submit form
         self.click("#create-listing")
