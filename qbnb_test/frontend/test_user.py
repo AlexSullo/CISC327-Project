@@ -32,7 +32,8 @@ class FrontEndHomePageTest(BaseCase):
     #     self.open(base_url)
     #     self.assert_element(".standard-button")
     """
-    This is the testing for the frontend registration page by Alessandro Sullo (#20236304).
+    This is the testing for the frontend registration 
+    page by Alessandro Sullo (#20236304).
 
     The three tests I used are:
         1.input partitioning
@@ -219,7 +220,8 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#billingAddress", "100 real st")
         self.type("#postalCode", "N7L1W9")
         self.click("#register-button")
-        self.save_screenshot('registerPassword_lengthShortFail', 'test_screenshots')
+        self.save_screenshot('registerPassword_lengthShortFail'
+        , 'test_screenshots')
 
     """
     USERNAME: uses Systematic Shotgun Testing & Boundary Testing (2&3)
@@ -266,7 +268,8 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#postalCode", "N7L1W9")
         self.click("#register-button")
         self.wait(3)
-        self.save_screenshot('registerUsername_regexEmptyfail', 'test_screenshots')
+        self.save_screenshot('registerUsername_regexEmptyfail', 
+        'test_screenshots')
 
     def test_Username_LengthOverFalse(self, *_):
         """
@@ -293,7 +296,8 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#postalCode", "N7L1W9")
         self.click("#register-button")
         self.wait(3)
-        self.save_screenshot('registerUsername_lengthOverfail', 'test_screenshots')
+        self.save_screenshot('registerUsername_lengthOverfail', 
+        'test_screenshots')
 
     def test_Username_LengthShortFalse(self, *_):
         """
@@ -318,7 +322,8 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#postalCode", "N7L1W9")
         self.click("#register-button")
         self.wait(3)
-        self.save_screenshot('registerUsername_lengthShortfail', 'test_screenshots')
+        self.save_screenshot('registerUsername_lengthShortfail', 
+        'test_screenshots')
 
     def test_Username_SpacePreFalse(self, *_):
         """
@@ -344,7 +349,8 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#postalCode", "N7L1W9")
         self.click("#register-button")
         self.wait(3)
-        self.save_screenshot('registerUsername_SpacePrefail', 'test_screenshots')
+        self.save_screenshot('registerUsername_SpacePrefail',
+         'test_screenshots')
     
     '''
     User Updating Tests (Sebastian Deluca #20250909)
