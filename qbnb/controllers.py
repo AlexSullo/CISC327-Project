@@ -150,22 +150,29 @@ def listing(id):
     listingOwner = (db.session.query(User).get(newListing.owner))
     newListing.updateRating()
     reviews = newListing.getReviews()
-    if int(current_user.get_id()) in newListing.getPreviousTenants():
-        # Checks if user has stayed at the property
-        print("User in tenants")
-        if str(current_user.get_id()) not in newListing.getReviewAuthors():
-            # Checks if user has already reviewed the property
-            print("User not in reviewers") 
-            reviewer = True  # user can review property
+    try:
+        if int(current_user.get_id()) in newListing.getPreviousTenants():
+            # Checks if user has stayed at the property
+            print("User in tenants")
+            if str(current_user.get_id()) not in newListing.getReviewAuthors():
+                # Checks if user has already reviewed the property
+                print("User not in reviewers") 
+                reviewer = True  # user can review property
+            else:
+                reviewer = False  # User can't review property
         else:
-            reviewer = False  # User can't review property
-    else:
-        reviewer = False  # user can't review property
+            reviewer = False  # user can't review property
+    except TypeError:
+        reviewer = False
+    
     print("Reviewer:" + str(reviewer))
-    if str(current_user.get_id()) == str(listingOwner.id):
-        # Checks if signed in user is owner of profile
-        idPass = True
-    else:
+    try:
+        if str(current_user.get_id()) == str(listingOwner.id):
+            # Checks if signed in user is owner of profile
+            idPass = True
+        else:
+            idPass = False
+    except TypeError:
         idPass = False
     ownerStr = listingOwner.firstName + " " + listingOwner.surname
     listingData = {"owner": ownerStr,
