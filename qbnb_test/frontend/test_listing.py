@@ -1,9 +1,15 @@
 from seleniumbase import BaseCase
 from unittest.mock import patch
 from qbnb.models import Listing, User,db
+from flask import Flask, redirect, render_template, jsonify, request
 import random
 from random import uniform
 import datetime
+from curses.ascii import isalnum
+import base64
+import os
+import sys
+# from PIL import Image
 
 class updateListingPageTest(BaseCase):
     # python -m pytest qbnb_test\frontend
@@ -21,30 +27,31 @@ class updateListingPageTest(BaseCase):
     testUser = User(testUserInfo)
     testUser.billingAddress = testUserInfo["billingAddress"]
     db.session.add(testUser)
-    db.session.commit()
+    # db.session.commit()
 
+    im = open(os.path.join(sys.path[0], "test.jpg"),"rb")
+    data = im.read()
+    render_pic = base64.b64encode(data).decode('ascii')
     testListingInfo = {"title": "Automated",
                        "owner": testUser.id,
                        "description": "Test description",
-                       "price": "10.01",
-                       "booked": "False",
+                       "price": float(10.01),
+                       "booked": False,
                        "address": "1313 TestHouse dr.",
-                       "dateAvailable": "2022-11-29 13:20:11.558674",
-                       "imgData": "",
-                       "coverImage": "image.png",
+                       "dateAvailable": datetime.datetime.now(),
+                       "imgData": data,
+                       "imgRenderedData" : render_pic,
                        "propertyType1": "House",
                        "propertyType2": "apartment",
                        "propertyType3": "room",
                        "propertyType4": "bathroom",
                        "location": "1234 Kingston Ave"}
-
+    # "imgRenderedData" : "",
     testListing = Listing(testListingInfo)
-    # testListing.owner = testUser.id
+    # testListing.imgRenderedData = testListing['imgRenderedData']
     db.session.add(testListing)
     db.session.commit()
-
-    
-
+    print(testListing.id)
     # def test_UpdateAllAtributes(self, *_):
     #     """
     #     R5-1, Tests that all atributes can be updated except for owner_id
@@ -69,7 +76,7 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/updatelisting" + "/" + testListing.id + "/")
+        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
         self.click("#edit") #BlackBox testcity
         r = 10
         testList = []
@@ -78,12 +85,12 @@ class updateListingPageTest(BaseCase):
             n = round(uniform(10,10000),2)
             testList.append(n)
         print(testList)
-        listing = db.session.query(Listing).filter_by(id=-5944238697326520506).first()
+        listing = db.session.query(Listing).filter_by(id=-9223363241709886771).first()
         currentListingPrice = float(listing.price)
         print(currentListingPrice)
 
         for i in testList:
-            
+
             if i > currentListingPrice and i < 10000:
                 self.type("#price", float(i))
                 self.click("#submit-edits")

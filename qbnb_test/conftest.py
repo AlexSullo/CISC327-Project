@@ -22,24 +22,24 @@ def pytest_sessionstart():
     print("App context pushed.")
 
 
-def pytest_sessionfinish():
-    '''
-    Reset database
-    '''
-    print("Tearing down testing environment...")
-    db_file = 'db.sqlite'
-    os.remove(db_file)
-    print("Testing Database removed.")
-    os.system('copy db_copy.sqlite db.sqlite')
-    print("Original database copied to db.sqlite.")
-    time.sleep(2)
-    try:
-        os.remove('db_copy.sqlite')
-    except FileNotFoundError:
-        pass
-    print("Database copy removed.")
-    app.app_context().push()
-    print("App context pushed.")
+# def pytest_sessionfinish():
+#     '''
+#     Reset database
+#     '''
+#     print("Tearing down testing environment...")
+#     db_file = 'db.sqlite'
+#     os.remove(db_file)
+#     print("Testing Database removed.")
+#     os.system('copy db_copy.sqlite db.sqlite')
+#     print("Original database copied to db.sqlite.")
+#     time.sleep(2)
+#     try:
+#         os.remove('db_copy.sqlite')
+#     except FileNotFoundError:
+#         pass
+#     print("Database copy removed.")
+#     app.app_context().push()
+#     print("App context pushed.")
         
 
 base_url = 'http://127.0.0.1:{}'.format(5000)
