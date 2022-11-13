@@ -153,7 +153,6 @@ def listing(id):
     reviews = newListing.getReviews()
     try:
         if int(current_user.get_id()) in newListing.getPreviousTenants():
-            
             # Checks if user has stayed at the property
             print("User in tenants")
             if str(current_user.get_id()) not in newListing.getReviewAuthors():
@@ -165,8 +164,8 @@ def listing(id):
         else:
             reviewer = False  # user can't review property
     except TypeError:
-        # User not signed in
         reviewer = False
+    
     print("Reviewer:" + str(reviewer))
     try:
         if str(current_user.get_id()) == str(listingOwner.id):
@@ -175,7 +174,6 @@ def listing(id):
         else:
             idPass = False
     except TypeError:
-        # User not signed in
         idPass = False
     ownerStr = listingOwner.firstName + " " + listingOwner.surname
     listingData = {"owner": ownerStr,
