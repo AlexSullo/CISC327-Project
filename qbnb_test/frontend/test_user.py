@@ -226,8 +226,8 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#billingAddress", "100 real st")
         self.type("#postalCode", "N7L1W9")
         self.click("#register-button")
-        self.save_screenshot('registerPassword_lengthShortFail'
-        , 'test_screenshots')
+        self.save_screenshot('registerPassword_lengthShortFail',
+                             'test_screenshots')
 
     """
     USERNAME: uses Systematic Shotgun Testing & Boundary Testing (2&3)
