@@ -2,15 +2,26 @@
 <div class="main-container">
   <div class="main">
     <div class="filters">
-      <div class="bnb-btn">
-        <button class="filter-button">BEDS AND BATHS</button>
-        <input class="bnb-select" value="1" type="number" />
-        <input class="bnb-select" value="2" type="number" />
+      <div id="bedsnbaths" class="bnb-btn">
+        <button class="filter-button" style="--index: 0">BEDS AND BATHS</button>
+        <div
+          class="container-row"
+          style="position: absolute; top: 12.3em; left: 29.5em"
+        >
+          <input class="bnb-select" type="number" value="1" min="1" max="99" />
+          <input class="bnb-select" type="number" value="2" min="1" max="99" />
+        </div>
       </div>
 
-      <button class="filter-button">LOCATION</button>
-      <button class="filter-button">AMENITIES</button>
-      <button class="filter-button">PROPERTY TYPE</button>
+      <button id="location" class="filter-button" style="--index: 1">
+        LOCATION
+      </button>
+      <button id="amenities" class="filter-button" style="--index: 2">
+        AMENITIES
+      </button>
+      <button id="propertyType" class="filter-button" style="--index: 3">
+        PROPERTY TYPE
+      </button>
     </div>
     <div class="listings-container">
       {% for listing in listings %}

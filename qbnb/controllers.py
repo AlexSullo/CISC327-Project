@@ -7,6 +7,7 @@ from werkzeug.exceptions import BadRequestKeyError
 import random
 from qbnb import app
 from qbnb.models import *
+import collections
 
 greetings = [
     'Hey there',
@@ -27,17 +28,28 @@ def load_listings():
     return db.session.query(Listing).all()
 
 
-@app.route("/")
+@app.route("/", methods=["GET","POST"])
 def home():
     '''
     Renders the homepage for QBNB
     '''
-    listings = load_listings()
-    userInfo = get_info()  # Check if user is signed in
-    return render_template("homepage.html",
-                           listings=listings,
-                           userInformation=userInfo[0],
-                           user=userInfo[1])
+    try:
+        if request.method == "POST":
+            search()
+        else:
+            listings = load_listings()
+            userInfo = get_info()  # Check if user is signed in
+            return render_template("homepage.html",
+                                listings=listings,
+                                userInformation=userInfo[0],
+                                user=userInfo[1])
+    except BadRequestKeyError:
+        listings = load_listings()
+        userInfo = get_info()  # Check if user is signed in
+        return render_template("homepage.html",
+                            listings=listings,
+                            userInformation=userInfo[0],
+                            user=userInfo[1])
 
 
 @app.route("/profile/<id>/addbalance", methods=["GET", "POST"])
@@ -150,22 +162,31 @@ def listing(id):
     listingOwner = (db.session.query(User).get(newListing.owner))
     newListing.updateRating()
     reviews = newListing.getReviews()
-    if int(current_user.get_id()) in newListing.getPreviousTenants():
-        # Checks if user has stayed at the property
-        print("User in tenants")
-        if str(current_user.get_id()) not in newListing.getReviewAuthors():
-            # Checks if user has already reviewed the property
-            print("User not in reviewers") 
-            reviewer = True  # user can review property
+    try:
+        if int(current_user.get_id()) in newListing.getPreviousTenants():
+            
+            # Checks if user has stayed at the property
+            print("User in tenants")
+            if str(current_user.get_id()) not in newListing.getReviewAuthors():
+                # Checks if user has already reviewed the property
+                print("User not in reviewers") 
+                reviewer = True  # user can review property
+            else:
+                reviewer = False  # User can't review property
         else:
-            reviewer = False  # User can't review property
-    else:
-        reviewer = False  # user can't review property
+            reviewer = False  # user can't review property
+    except TypeError:
+        # User not signed in
+        reviewer = False
     print("Reviewer:" + str(reviewer))
-    if str(current_user.get_id()) == str(listingOwner.id):
-        # Checks if signed in user is owner of profile
-        idPass = True
-    else:
+    try:
+        if str(current_user.get_id()) == str(listingOwner.id):
+            # Checks if signed in user is owner of profile
+            idPass = True
+        else:
+            idPass = False
+    except TypeError:
+        # User not signed in
         idPass = False
     ownerStr = listingOwner.firstName + " " + listingOwner.surname
     listingData = {"owner": ownerStr,
@@ -472,6 +493,33 @@ def update_profile(id):
             db.session.rollback()  # Undoes updating of DB
             raise
     return redirect("/profile/" + str(id))  # Reload profile
+
+
+@app.route("/search", methods=["POST"])
+def search():
+    '''
+    Potential function that will allow the user to search
+    '''
+    print("SEARCHIGN")
+    if request.method == "POST":
+        print("post")
+        tag = request.form["search"]
+        search = "%{}%".format(tag)
+        listingsTitle = db.session.query(Listing).filter(Listing.title.like(search))
+        listingsLoc = db.session.query(Listing).filter \
+            (Listing.location.like(search))
+        results = []
+        for x in listingsTitle:
+            results.append(x)
+        for y in listingsLoc:
+            results.append(x)
+        results_clean = ([item for item, \
+            count in collections.Counter(results).items() if count > 1])
+        userInfo = get_info()
+        return render_template("searchResults.html",
+                            results=results_clean,
+                            userInformation=userInfo[0],
+                            user=userInfo[1])
 
 
 @app.route("/register", methods=['GET', 'POST'])

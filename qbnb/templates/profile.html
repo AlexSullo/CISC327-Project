@@ -85,13 +85,25 @@
                             <h2>Your Reviews</h2>
                             <p class="tiny">Click on a review to be brought to the profile of who posted it.</p>
                             {% for review in reviewsAbt %}
-                                <div id="review"class="container-col">
-                                    <a href="/profile/{{ review.author }}">
-                                    <p style="text-align: left;margin-top: -3vh;margin-left: -1.5em;"><b>Rating: {{ review.rating }}</b> — {{ review.authorName }}<i style="color:gray"> written on {{ review.date }}</i></p>
-                                    <p style="text-align: left;">{{ review.content }}</p>
-                                    </a>
+                            <div class="review" style="--index: {{loop.index}}">
+                                {% if 'Property' == review.reviewType %}
+                                <a href="/listing/{{ review.recipient }}">
+                                {% else %}
+                                <a href="/profile/{{ review.recipient }}">
                                     
+                                {% endif %}
+                                <div id="review-content">
+                                <p style="text-align: left;margin-top: -2vh;color:rgb(238, 189, 49);font-size: large;"><b>Rating: {{ review.rating }}</b><span style="position: absolute;margin-top: -0.15vh;"class="material-symbols-outlined">
+                                    star
+                                    </span></p>
+                                
+                                    <p style="text-align: left;">{{ review.content }}</p>
+                                <p class="tiny" style="right:0;position:absolute;font-size:small;margin-right: 1em;"><i> written on {{ review.date }}</i></p>
                                 </div>
+                                
+                                </a>
+                                
+                            </div>
                                 {% endfor %}
                         {% else %}
                             <div class="reviews-container">
@@ -131,27 +143,34 @@
                 </div>
             </div>
                 {% else %}
-                <div class="profile-quick-container">
+                <div class="container-col" id="profile-quick-container">
 
                     
                     <div class="profile-changables-container" style="text-align:left">
                         {% if writtenRevs %}
                             <div class="reviews-container">
-                                <h2>Your Reviews</h2>
+                                <h2>{{userData.username}}'s Reviews</h2>
                                 <p class="tiny">Click on a review to be brought to it's subject.</p>
                                 {% for review in writtenRevs %}
-                                    <div id="review"class="container-col">
-                                        {% if 'Property' == review.reviewType %}
-                                        <a href="/listing/{{ review.recipient }}">
-                                        {% else %}
-                                        <a href="/profile/{{ review.recipient }}">
-                                        {% endif %}
-                                        <p style="text-align: left;margin-top: -3vh;margin-left: -1.5em;"><b>Rating: {{ review.rating }}</b> — {{ review.authorName }}<i style="color:gray"> written on {{ review.date }}</i></p>
+                                <div class="review" style="--index: {{loop.index}}">
+                                    {% if 'Property' == review.reviewType %}
+                                    <a href="/listing/{{ review.recipient }}">
+                                    {% else %}
+                                    <a href="/profile/{{ review.recipient }}">
+                                        
+                                    {% endif %}
+                                    <div id="review-content">
+                                    <p style="text-align: left;margin-top: -2vh;color:rgb(238, 189, 49);font-size: large;"><b>Rating: {{ review.rating }}</b><span style="position: absolute;margin-top: -0.15vh;"class="material-symbols-outlined">
+                                        star
+                                        </span></p>
+                                    
                                         <p style="text-align: left;">{{ review.content }}</p>
-                                        
-                                        </a>
-                                        
+                                    <p class="tiny" style="right:0;position:absolute;font-size:small;margin-right: 1em;"><i> written on {{ review.date }}</i></p>
                                     </div>
+                                    
+                                    </a>
+                                    
+                                </div>
                                 {% endfor %}
                                 
                             </div>
@@ -167,17 +186,30 @@
                         {% endif %}
                         {% if reviewsAbt %}
                             <div class="reviews-container">
-                                <h2>Your Reviews</h2>
+                                <h2>Reviews About {{userData.username}}</h2>
                                 <p class="tiny">Click on a review to be brought to the profile of who posted it.</p>
                                 {% for review in reviewsAbt %}
-                                    <div id="review"class="container-col">
-                                        <a href="/profile/{{ review.author }}">
-                                        <p style="text-align: left;margin-top: -3vh;margin-left: -1.5em;"><b>Rating: {{ review.rating }}</b> — {{ review.authorName }}<i style="color:gray"> written on {{ review.date }}</i></p>
-                                        <p style="text-align: left;">{{ review.content }}</p>
-                                        </a>
+                                <div class="review" style="--index: {{loop.index}}">
+                                    {% if 'Property' == review.reviewType %}
+                                    <a href="/listing/{{ review.recipient }}">
+                                    {% else %}
+                                    <a href="/profile/{{ review.recipient }}">
                                         
+                                    {% endif %}
+                                    <div id="review-content">
+                                    <p style="text-align: left;margin-top: -2vh;color:rgb(238, 189, 49);font-size: large;"><b>Rating: {{ review.rating }}</b><span style="position: absolute;margin-top: -0.15vh;"class="material-symbols-outlined">
+                                        star
+                                        </span></p>
+                                    
+                                        <p style="text-align: left;">{{ review.content }}</p>
+                                    <p class="tiny" style="right:0;position:absolute;font-size:small;margin-right: 1em;"><i> written on {{ review.date }}</i></p>
                                     </div>
+                                    
+                                    </a>
+                                    
+                                </div>
                                 {% endfor %}
+                            </div>
                         {% else %}
                             <div class="reviews-container">
                                 <h2>Reviews About {{ userData.username}}</h2>
@@ -191,12 +223,12 @@
                         {% endif %}
 
                         
-                    </div>
+                        </div>
 
                         
                     </div>
                 {% endif %}
-            </div>
+                </div>
                 
             </div>
         {% else %}
