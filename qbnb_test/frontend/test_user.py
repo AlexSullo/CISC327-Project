@@ -63,7 +63,8 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#postalCode", "N7L1W9")
         self.click("#register-button")
         self.wait(5)
-        self.save_screenshot('RegisterEmail_pass', 'test_screenshots')
+        self.save_screenshot('RegisterEmail_pass',
+                             'test_screenshots')
         self.assert_text("QBNB is not a real service")
 
     def test_Email_False(self, *_):
@@ -84,7 +85,8 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#postalCode", "N7L1W9")
         self.click("#register-button")
         self.wait(5)
-        self.save_screenshot('RegisterEmail_regexfail', 'test_screenshots')
+        self.save_screenshot('RegisterEmail_regexfail',
+                             'test_screenshots')
         url = self.get_current_url()
         self.assert_true(url == (base_url + "/register"))
         print("EMAIL IS NOT VALID.")
@@ -104,7 +106,8 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#billingAddress", "100 real st")
         self.type("#postalCode", "N7L1W9")
         self.click("#register-button")
-        self.save_screenshot('registerEmail_Empty', 'test_screenshots')
+        self.save_screenshot('registerEmail_Empty',
+                             'test_screenshots')
         url = self.get_current_url()
         self.assert_true(url == (base_url + "/register"))
         print("EMAIL CAN NOT BE EMPTY.")
@@ -135,7 +138,8 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#postalCode", "N7L1W9")
         self.click("#register-button")
         self.wait(5)
-        self.save_screenshot('registerPassword_regexpass', 'test_screenshots')
+        self.save_screenshot('registerPassword_regexpass',
+                             'test_screenshots')
         self.assert_text("QBNB is not a real service")
 
     def test_Password_FalseDIG(self, *_):
@@ -165,7 +169,8 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#postalCode", "N7L1W9")
         self.click("#register-button")
         self.wait(10)
-        self.save_screenshot('registerPassword_regexfail', 'test_screenshots')
+        self.save_screenshot('registerPassword_regexfail',
+                             'test_screenshots')
         url = self.get_current_url()
         self.assert_true(url == (base_url + "/register"))
         print("PASSWORD MUST CONTAIN A DIGIT.")
@@ -196,7 +201,8 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#billingAddress", "100 real st")
         self.type("#postalCode", "N7L1W9")
         self.click("#register-button")
-        self.save_screenshot('registerPassword_regexfail', 'test_screenshots')
+        self.save_screenshot('registerPassword_regexfail',
+                             'test_screenshots')
         url = self.get_current_url()
         self.assert_true(url == (base_url + "/register"))
         print("PASSWORD MUST CONTAIN A UPPER CASE.")
@@ -249,7 +255,8 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#postalCode", "N7L1W9")
         self.click("#register-button")
         self.wait(5)
-        self.save_screenshot('registerUsername_regexpass', 'test_screenshots')
+        self.save_screenshot('registerUsername_regexpass',
+                             'test_screenshots')
         self.assert_text("QBNB is not a real service")
 
     def test_Username_EmptyFalse(self, *_):
@@ -268,8 +275,8 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#postalCode", "N7L1W9")
         self.click("#register-button")
         self.wait(3)
-        self.save_screenshot('registerUsername_regexEmptyfail', 
-        'test_screenshots')
+        self.save_screenshot('registerUsername_regexEmptyfail',
+                             'test_screenshots')
 
     def test_Username_LengthOverFalse(self, *_):
         """
@@ -296,8 +303,8 @@ class FrontEndHomePageTest(BaseCase):
         self.type("#postalCode", "N7L1W9")
         self.click("#register-button")
         self.wait(3)
-        self.save_screenshot('registerUsername_lengthOverfail', 
-        'test_screenshots')
+        self.save_screenshot('registerUsername_lengthOverfail',
+                             'test_screenshots')
 
     def test_Username_LengthShortFalse(self, *_):
         """
@@ -323,7 +330,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click("#register-button")
         self.wait(3)
         self.save_screenshot('registerUsername_lengthShortfail', 
-        'test_screenshots')
+                             'test_screenshots')
 
     def test_Username_SpacePreFalse(self, *_):
         """
@@ -350,7 +357,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click("#register-button")
         self.wait(3)
         self.save_screenshot('registerUsername_SpacePrefail',
-         'test_screenshots')
+                             'test_screenshots')
     
     '''
     User Updating Tests (Sebastian Deluca #20250909)
