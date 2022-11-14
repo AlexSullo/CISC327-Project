@@ -120,7 +120,7 @@ class updateListingPageTest(BaseCase):
         self.click("#edit")  # BlackBox testcity
 
         # Updating Description
-        self.type("#description","Hello this is a test description")
+        self.type("#description", "Hello this is a test description")
         self.click("#submit-edits")
 
     def test_pricePass(self, *_):
@@ -138,11 +138,12 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        t="Automated"
+        listing = db.session.query(Listing).filter_by(title=t).first()
         currentListingPrice = float(listing.price) + 0.01
 
         # Updating Price
-        self.type("#price",currentListingPrice)
+        self.type("#price", currentListingPrice)
         self.click("#submit-edits")
     
     def test_priceFail(self, *_):
@@ -160,7 +161,8 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        t = "Automated"
+        listing = db.session.query(Listing).filter_by(title=t).first()
         currentListingPrice = float(listing.price) - 0.01
 
         # Updating Price
@@ -185,7 +187,7 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
 
         self.check_if_unchecked("#booked")
         self.click("#submit-edits")
@@ -205,9 +207,10 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.type("#address", "1234 Testcity rd.")
         self.click("#submit-edits")
@@ -228,8 +231,9 @@ class updateListingPageTest(BaseCase):
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        self.click("#edit")  # BlackBox testcity
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.type("#address", "rd. Test 1234")
         self.click("#submit-edits")
@@ -251,7 +255,8 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.type("#dateAvailable", datetime.datetime.now())
         self.click("#submit-edits")
@@ -273,7 +278,8 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.type("#dateAvailable", "November 13th, 2022")
         self.click("#submit-edits")
@@ -295,7 +301,8 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
         im = open(os.path.join(sys.path[0], "test2.jpg"), "rb")
         data = im.read()
         render_pic = base64.b64encode(data).decode('ascii')
@@ -320,7 +327,8 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
         # im = open(os.path.join(sys.path[0], "test2.jpg"),"rb")
         # data = im.read()
         # render_pic = base64.b64encode(data).decode('ascii')
@@ -345,7 +353,8 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.input("#propertyType1", "House")
         self.click("#submit-edits")
@@ -367,7 +376,8 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.input("#propertyType1", "!!!!!house!!!!")
         self.click("#submit-edits")
@@ -389,7 +399,8 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.type("#propertyType2", "apartment")
         self.click("#submit-edits")
@@ -411,7 +422,8 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.type("#propertyType2", "!!!!@@@####apartment")
         self.click("#submit-edits")
@@ -432,8 +444,9 @@ class updateListingPageTest(BaseCase):
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        self.click("#edit")  # BlackBox testcity
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.input("#propertyType3", "one room")
         self.click("#submit-edits")
@@ -455,7 +468,8 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.type("#propertyType3", "!!!!~`````one room")
         self.click("#submit-edits")
@@ -477,7 +491,8 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.type("#propertyType4", "bathroom")
         self.click("#submit-edits")
@@ -499,7 +514,8 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.type("#propertyType4", "(**(&^&*^%*^%&one bathroom")
         self.click("#submit-edits")
@@ -521,7 +537,8 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.type("#location", "1234 kingston rd")
         self.click("#submit-edits")
@@ -543,7 +560,8 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.type("#location", "Road of kingston 1234")
         self.click("#submit-edits")
@@ -578,7 +596,8 @@ class updateListingPageTest(BaseCase):
             n = round(uniform(10, 10000), 2)
             testList.append(n)
         print(testList)
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        t = "Automated"
+        listing = db.session.query(Listing).filter_by(title=t).first()
         currentListingPrice = float(listing.price)
         print(currentListingPrice)
 
@@ -588,7 +607,8 @@ class updateListingPageTest(BaseCase):
                 self.type("#price", float(i))
                 self.click("#submit-edits")
                 print("TestPrice", i)
-                print("Test Passed since in bounds and greater than current price")
+                print("Test Passed since in bounds")
+                print("and greater than current price")
             
             elif i < currentListingPrice and i > 10:
                 self.type("#price", float(i))
@@ -607,7 +627,7 @@ class updateListingPageTest(BaseCase):
                 self.click("#submit-edits")
                 print("TestPrice", i)
                 print("Test Failed since attempted input out of bounds")
-            
+
     """
     R5-3
     Blackbox Testing type: output coverage
@@ -628,9 +648,10 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.click("#submit-edits")
 
