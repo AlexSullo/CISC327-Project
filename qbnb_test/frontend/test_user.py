@@ -7,18 +7,18 @@ import re
 
 class FrontEndHomePageTest(BaseCase):
     
-    testUserInfo = {"firstName": "Automated",
-                    "surname": "Testuser",
-                    "email": "automatedtestuser@email.com",
-                    "password": "testedPassword1!",
-                    "billingAddress": "1212 Test Address",
-                    "postalCode": "A1A1A1",
-                    "username": "automateduser"}
+    # testUserInfo = {"firstName": "Automated",
+    #                 "surname": "Testuser",
+    #                 "email": "automatedtestuser@email.com",
+    #                 "password": "testedPassword1!",
+    #                 "billingAddress": "1212 Test Address",
+    #                 "postalCode": "A1A1A1",
+    #                 "username": "automateduser"}
     
-    testUser = User(testUserInfo)
-    testUser.billingAddress = testUserInfo["billingAddress"]
-    db.session.add(testUser)
-    db.session.commit()
+    # testUser = User(testUserInfo)
+    # testUser.billingAddress = testUserInfo["billingAddress"]
+    # db.session.add(testUser)
+    # db.session.commit()
 
     """
     R2-1

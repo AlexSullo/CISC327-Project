@@ -284,57 +284,57 @@ class updateListingPageTest(BaseCase):
         self.type("#dateAvailable", "November 13th, 2022")
         self.click("#submit-edits")
 
-    def test_coverImagePass(self, *_):
-        '''
-        Pass image if input correct file type.
-        '''
-        testUser = db.session.query(User) \
-            .filter_by(email="automatedtestuser@email.com").first()
-        base_url = 'http://127.0.0.1:{}'.format(5000)
-        testListing = db.session.query(Listing) \
-            .filter_by(title="Automated").first()
-        self.open(base_url + "/profile/" + str(testUser.id))
+    # def test_coverImagePass(self, *_):
+    #     '''
+    #     Pass image if input correct file type.
+    #     '''
+    #     testUser = db.session.query(User) \
+    #         .filter_by(email="automatedtestuser@email.com").first()
+    #     base_url = 'http://127.0.0.1:{}'.format(5000)
+    #     testListing = db.session.query(Listing) \
+    #         .filter_by(title="Automated").first()
+    #     self.open(base_url + "/profile/" + str(testUser.id))
 
-        # SIGNING IN
-        self.type("#email", "automatedtestuser@email.com")
-        self.type("#password", "testedPassword1!")
-        self.click('#login-button')
-        self.open(base_url + "/listing/" + "/" + str(testListing.id))
-        self.click("#edit")  # BlackBox testcity
-        # t = "Automated"
-        # listing = db.session.query(Listing).filter_by(title=t).first()
-        im = open(os.path.join(sys.path[0], "test2.jpg"), "rb")
-        data = im.read()
-        render_pic = base64.b64encode(data).decode('ascii')
+    #     # SIGNING IN
+    #     self.type("#email", "automatedtestuser@email.com")
+    #     self.type("#password", "testedPassword1!")
+    #     self.click('#login-button')
+    #     self.open(base_url + "/listing/" + "/" + str(testListing.id))
+    #     self.click("#edit")  # BlackBox testcity
+    #     # t = "Automated"
+    #     # listing = db.session.query(Listing).filter_by(title=t).first()
+    #     im = open(os.path.join(sys.path[0], "test2.jpg"), "rb")
+    #     data = im.read()
+    #     render_pic = base64.b64encode(data).decode('ascii')
 
-        self.input("#coverImage", render_pic)
-        self.click("#submit-edits")
+    #     self.input("#coverImage", render_pic)
+    #     self.click("#submit-edits")
 
-    def test_coverImageFail(self, *_):
-        '''
-        Fail image if input incorrect file type.
-        '''
-        testUser = db.session.query(User) \
-            .filter_by(email="automatedtestuser@email.com").first()
-        base_url = 'http://127.0.0.1:{}'.format(5000)
-        testListing = db.session.query(Listing) \
-            .filter_by(title="Automated").first()
-        self.open(base_url + "/profile/" + str(testUser.id))
+    # def test_coverImageFail(self, *_):
+    #     '''
+    #     Fail image if input incorrect file type.
+    #     '''
+    #     testUser = db.session.query(User) \
+    #         .filter_by(email="automatedtestuser@email.com").first()
+    #     base_url = 'http://127.0.0.1:{}'.format(5000)
+    #     testListing = db.session.query(Listing) \
+    #         .filter_by(title="Automated").first()
+    #     self.open(base_url + "/profile/" + str(testUser.id))
 
-        # SIGNING IN
-        self.type("#email", "automatedtestuser@email.com")
-        self.type("#password", "testedPassword1!")
-        self.click('#login-button')
-        self.open(base_url + "/listing/" + "/" + str(testListing.id))
-        self.click("#edit")  # BlackBox testcity
-        # t = "Automated"
-        # listing = db.session.query(Listing).filter_by(title=t).first()
-        # im = open(os.path.join(sys.path[0], "test2.jpg"),"rb")
-        # data = im.read()
-        # render_pic = base64.b64encode(data).decode('ascii')
+    #     # SIGNING IN
+    #     self.type("#email", "automatedtestuser@email.com")
+    #     self.type("#password", "testedPassword1!")
+    #     self.click('#login-button')
+    #     self.open(base_url + "/listing/" + "/" + str(testListing.id))
+    #     self.click("#edit")  # BlackBox testcity
+    #     # t = "Automated"
+    #     # listing = db.session.query(Listing).filter_by(title=t).first()
+    #     # im = open(os.path.join(sys.path[0], "test2.jpg"),"rb")
+    #     # data = im.read()
+    #     # render_pic = base64.b64encode(data).decode('ascii')
 
-        self.input("#coverImage", "test2.jpg")
-        self.click("#submit-edits")
+    #     self.input("#coverImage", "test2.jpg")
+    #     self.click("#submit-edits")
 
     def test_propertyType1Pass(self, *_):
         '''
