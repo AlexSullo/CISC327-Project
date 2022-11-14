@@ -148,6 +148,7 @@ def listing(id):
     Loads the page of a listing based on its ID
     '''
     newListing = db.session.query(Listing).filter_by(id=id).first()
+    # print(newListing)
     listingOwner = (db.session.query(User).get(newListing.owner))
     newListing.updateRating()
     reviews = newListing.getReviews()
@@ -173,7 +174,7 @@ def listing(id):
             idPass = True
         else:
             idPass = False
-    except TypeError:
+    except AttributeError:
         idPass = False
     ownerStr = listingOwner.firstName + " " + listingOwner.surname
     listingData = {"owner": ownerStr,

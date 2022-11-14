@@ -27,8 +27,9 @@ class updateListingPageTest(BaseCase):
     testUser = User(testUserInfo)
     testUser.billingAddress = testUserInfo["billingAddress"]
     db.session.add(testUser)
-    # db.session.commit()
-
+    db.session.commit()
+    testUser = db.session.query(User) \
+        .filter_by(email="automatedtestuser@email.com").first()  
     im = open(os.path.join(sys.path[0], "test.jpg"),"rb")
     data = im.read()
     render_pic = base64.b64encode(data).decode('ascii')
@@ -85,7 +86,7 @@ class updateListingPageTest(BaseCase):
             n = round(uniform(10,10000),2)
             testList.append(n)
         print(testList)
-        listing = db.session.query(Listing).filter_by(id=-9223363241709886771).first()
+        listing = db.session.query(Listing).filter_by(title="Automated").first()
         currentListingPrice = float(listing.price)
         print(currentListingPrice)
 
