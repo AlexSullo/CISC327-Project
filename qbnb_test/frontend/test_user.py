@@ -55,7 +55,6 @@ class FrontEndHomePageTest(BaseCase):
         self.click('#login-button')
         print("login pass")
     
-
     def test_loginWithEmailAndPasswordMatchPasswordFail(self, *_):
         '''
         Fail since password don't match email
@@ -119,9 +118,9 @@ class FrontEndHomePageTest(BaseCase):
         if not all(rule(password) for rule in passwordRules):
             print("password didnt meet the regex/rules")
         else:
-            flag2=True
+            flag2 = True
             print("password pass regex")
-        if flag1 == True and flag2 == True:
+        if flag1 is True and flag2 is True:
             self.type("#email", email)
             self.type("#password", password)
             self.click('#login-button')

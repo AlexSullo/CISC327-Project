@@ -138,7 +138,7 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        t="Automated"
+        t = "Automated"
         listing = db.session.query(Listing).filter_by(title=t).first()
         currentListingPrice = float(listing.price) + 0.01
 
@@ -187,7 +187,8 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit")  # BlackBox testcity
-        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # t = "Automated"
+        # listing = db.session.query(Listing).filter_by(title=t).first()
 
         self.check_if_unchecked("#booked")
         self.click("#submit-edits")
@@ -614,7 +615,8 @@ class updateListingPageTest(BaseCase):
                 self.type("#price", float(i))
                 self.click("#submit-edits")
                 print("TestPrice", i)
-                print("Test Failed since attempted input is less than current price")
+                print("Test Failed since attempted input")
+                print("is less than current price")
             
             elif i < 10:
                 self.type("#price", float(i))
@@ -661,5 +663,6 @@ class updateListingPageTest(BaseCase):
             print("if lastmodifieddate not equal to now() test failed")
     
     '''
-    R5-4: Will not do a test for this since all the requirements have been tested above
+    R5-4: Will not do a test for this since all 
+    the requirements have been tested above
     '''
