@@ -74,9 +74,12 @@ class User(UserMixin, db.Model):
 
     def registration(self, userData):
         reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&])\
-        [A-Za-z\d@$!#%*?&]{6,20}$"
+        [A-Za-z/d@$!#%*?&]{6,20}$"
         pat = re.compile(reg)
         mat = re.search(pat, userData['password'])
+        if userData['email'] == "":
+            print("Email can not be empty.")
+            return False
         if userData['username'] == "":
             print("Username can not be empty.")
             return False
