@@ -612,9 +612,10 @@ class updateListingPageTest(BaseCase):
     R5-3
     Blackbox Testing type: output coverage
     """
-    def test_lastModifiedDate(self,*_):
+    def test_lastModifiedDatePass(self,*_):
         '''
-        Output 
+        Output coverage pass if datetime == now(),
+        else test fails. Checking output.
         '''
         testUser = db.session.query(User) \
             .filter_by(email="automatedtestuser@email.com").first()
@@ -637,7 +638,7 @@ class updateListingPageTest(BaseCase):
             print("The datetime should be equal to now so test pass")
         else:
             print("if lastmodifieddate not equal to now() test failed")
-
+    
     '''
     R5-4: Will not do a test for this since all the requirements have been tested above
     '''

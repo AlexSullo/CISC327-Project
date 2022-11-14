@@ -2,6 +2,7 @@ from seleniumbase import BaseCase
 from unittest.mock import patch
 from qbnb.models import User, db
 import random
+import re
 
 
 class FrontEndHomePageTest(BaseCase):
@@ -18,7 +19,116 @@ class FrontEndHomePageTest(BaseCase):
     testUser.billingAddress = testUserInfo["billingAddress"]
     db.session.add(testUser)
     db.session.commit()
+
+    """
+    R2-1
+    Blackbox testing type: input partitioning
+    """
+    def test_loginWithEmailAndPasswordPass(self, *_):
+        '''
+        Pass if the email/password meet the regex and the
+        email and password match to corresponding users
+        '''
+        testUser = db.session.query(User) \
+            .filter_by(email="automatedtestuser@email.com").first()
+        base_url = 'http://127.0.0.1:{}'.format(5000)
+        self.open(base_url + "/profile/" + str(testUser.id))
+
+        # SIGNING IN
+        self.type("#email", "automatedtestuser@email.com")
+        self.type("#password", "testedPassword1!")
+        self.click('#login-button')
+        print("login pass")
     
+    def test_loginWithEmailAndPasswordRegexFail(self, *_):
+        '''
+        Fail since regex fail requirements
+        '''
+        testUser = db.session.query(User) \
+            .filter_by(email="automatedtestuser@email.com").first()
+        base_url = 'http://127.0.0.1:{}'.format(5000)
+        self.open(base_url + "/profile/" + str(testUser.id))
+
+        # SIGNING IN
+        self.type("#email", "automatedtestuseremail.com")
+        self.type("#password", "testedPassword")
+        self.click('#login-button')
+        print("login pass")
+    
+
+    def test_loginWithEmailAndPasswordMatchPasswordFail(self,*_):
+        '''
+        Fail since password don't match email
+        '''
+        testUser = db.session.query(User) \
+            .filter_by(email="automatedtestuser@email.com").first()
+        base_url = 'http://127.0.0.1:{}'.format(5000)
+        self.open(base_url + "/profile/" + str(testUser.id))
+
+        # SIGNING IN
+        self.type("#email", "automatedtestuser@email.com")
+        self.type("#password", "notTestedPassword")
+        self.click('#login-button')
+        print("login pass")
+    
+    def test_loginWithEmailAndPasswordMatchEmailFail(self,*_):
+        '''
+        Fail since password don't match email
+        '''
+        testUser = db.session.query(User) \
+            .filter_by(email="automatedtestuser@email.com").first()
+        base_url = 'http://127.0.0.1:{}'.format(5000)
+        self.open(base_url + "/profile/" + str(testUser.id))
+
+        # SIGNING IN
+        self.type("#email", "notautomatedtestuser@email.com")
+        self.type("#password", "testedPassword1!")
+        self.click('#login-button')
+        print("login pass")
+
+        """
+        R2-2
+        Blackbox testing type: output coverage
+        """
+    def test_meetsRequirements(self, *_):
+        '''
+        Output coverage, tests that 
+        '''
+        testUser = db.session.query(User) \
+            .filter_by(email="automatedtestuser@email.com").first()
+        base_url = 'http://127.0.0.1:{}'.format(5000)
+        self.open(base_url + "/profile/" + str(testUser.id))
+
+        # SIGNING IN
+        r = r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+'
+        regex = re.compile(r)
+        email = "automatedworkingemail@email.com"
+        password = "testedPassword1!"
+        flag1=False
+        flag2=False
+        if not re.fullmatch(regex, email):
+            print("regex didnt pass")
+        else: 
+            print("regex passed")
+            flag1=True
+        passwordRules = [lambda s: any(
+            x.isupper() for x in s), lambda s: any(
+                x.islower() for x in s), lambda s: any(
+                x.isdigit() for x in s),
+            lambda s: len(s) >= 7]
+        if not all(rule(password) for rule in passwordRules):
+            print("password didnt meet the regex/rules")
+        else:
+            flag2=True
+            print("password pass regex")
+        if flag1==True and flag2==True:
+            self.type("#email", email)
+            self.type("#password", password)
+            self.click('#login-button')
+            print("pass")
+    
+
+    # ##################################################
     # Login Tests
     # def test_userLoginPass(self, *_):
         
@@ -31,6 +141,7 @@ class FrontEndHomePageTest(BaseCase):
 
     #     self.open(base_url)
     #     self.assert_element(".standard-button")
+    # ##########################################
 
     '''
     User Updating Tests (Sebastian Deluca #20250909)
@@ -466,4 +577,3 @@ class FrontEndHomePageTest(BaseCase):
     BILLING ADDRESS: Will not be tested as there are no given
     restrictions on what can be inputted as a billing address.
     '''
-    
