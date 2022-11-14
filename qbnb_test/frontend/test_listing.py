@@ -1,6 +1,6 @@
 from seleniumbase import BaseCase
 from unittest.mock import patch
-from qbnb.models import Listing, User,db
+from qbnb.models import Listing, User, db
 from flask import Flask, redirect, render_template, jsonify, request
 import random
 from random import uniform
@@ -11,18 +11,19 @@ import os
 import sys
 # from PIL import Image
 
+
 class updateListingPageTest(BaseCase):
     # python -m pytest qbnb_test\frontend
     # don't have to run from qbnb
     # python -m flask --app __main__ --debug run  
     # cd qbnb
     testUserInfo = {"firstName": "Automated",
-                        "surname": "Testuser",
-                        "email": "automatedtestuser@email.com",
-                        "password": "testedPassword1!",
-                        "billingAddress": "1212 Test Address",
-                        "postalCode": "A1A1A1",
-                        "username": "automateduser"}
+                    "surname": "Testuser",
+                    "email": "automatedtestuser@email.com",
+                    "password": "testedPassword1!",
+                    "billingAddress": "1212 Test Address",
+                    "postalCode": "A1A1A1",
+                    "username": "automateduser"}
         
     testUser = User(testUserInfo)
     testUser.billingAddress = testUserInfo["billingAddress"]
@@ -30,7 +31,7 @@ class updateListingPageTest(BaseCase):
     db.session.commit()
     testUser = db.session.query(User) \
         .filter_by(email="automatedtestuser@email.com").first()  
-    im = open(os.path.join(sys.path[0], "test.jpg"),"rb")
+    im = open(os.path.join(sys.path[0], "test.jpg"), "rb")
     data = im.read()
     render_pic = base64.b64encode(data).decode('ascii')
     testListingInfo = {"title": "Automated",
@@ -41,7 +42,7 @@ class updateListingPageTest(BaseCase):
                        "address": "1313 TestHouse dr.",
                        "dateAvailable": datetime.datetime.now(),
                        "imgData": data,
-                       "imgRenderedData" : render_pic,
+                       "imgRenderedData": render_pic,
                        "propertyType1": "House",
                        "propertyType2": "apartment",
                        "propertyType3": "room",
@@ -54,13 +55,12 @@ class updateListingPageTest(BaseCase):
     db.session.commit()
     print(testListing.id)
 
-    
     '''
     R5-1
     Blackbox testing type: Input partitioning
     '''
     def test_UpdateTitlePass(self, *_):
-        #make more functions
+        # make more functions
         testUser = db.session.query(User) \
             .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
@@ -72,15 +72,15 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
 
         # Updating Title
-        self.type("#title","New Title")
+        self.type("#title", "New Title")
         self.click("#submit-edits")
 
     def test_UpdateTitleFail(self, *_):
-        #make more functions
+        # make more functions
         testUser = db.session.query(User) \
             .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
@@ -92,19 +92,19 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
 
         # Updating Title
-        self.type("#title","!!!!NOtWork!!!")
+        self.type("#title", "!!!!NOtWork!!!")
         self.click("#submit-edits")
 
-    def test_description(self,*_):
+    def test_description(self, *_):
         '''
         Will only have one test for description since it will always pass,
         regardless of characters in use and if it is empty.
         '''
-        #make more functions
+        # make more functions
         testUser = db.session.query(User) \
             .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
@@ -116,15 +116,15 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
 
         # Updating Description
         self.type("#description","Hello this is a test description")
         self.click("#submit-edits")
 
-    def test_pricePass(self,*_):
-        #make more functions
+    def test_pricePass(self, *_):
+        # make more functions
         testUser = db.session.query(User) \
             .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
@@ -136,17 +136,17 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
         listing = db.session.query(Listing).filter_by(title="Automated").first()
-        currentListingPrice = float(listing.price)+0.01
+        currentListingPrice = float(listing.price) + 0.01
 
         # Updating Price
         self.type("#price",currentListingPrice)
         self.click("#submit-edits")
     
-    def test_priceFail(self,*_):
-        #make more functions
+    def test_priceFail(self, *_):
+        # make more functions
         testUser = db.session.query(User) \
             .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
@@ -158,16 +158,16 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
         listing = db.session.query(Listing).filter_by(title="Automated").first()
-        currentListingPrice = float(listing.price)-0.01
+        currentListingPrice = float(listing.price) - 0.01
 
         # Updating Price
-        self.type("#price",currentListingPrice)
+        self.type("#price", currentListingPrice)
         self.click("#submit-edits")
 
-    def test_booked(self,*_):
+    def test_booked(self, *_):
         '''
         Will have only one test for the booked option since the
         checkbox can only be checked/unchecked and no other action.
@@ -183,14 +183,14 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
         listing = db.session.query(Listing).filter_by(title="Automated").first()
 
         self.check_if_unchecked("#booked")
         self.click("#submit-edits")
 
-    def test_addressCreatePass(self,*_):
+    def test_addressCreatePass(self, *_):
         '''
         Pass address if it meets the regex.
         '''
@@ -207,12 +207,12 @@ class updateListingPageTest(BaseCase):
         self.click('#login-button')
         self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
         self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
 
-        self.type("#address","1234 Testcity rd.")
+        self.type("#address", "1234 Testcity rd.")
         self.click("#submit-edits")
 
-    def test_addressCreateFail(self,*_):
+    def test_addressCreateFail(self, *_):
         '''
         Fail address if it not meets the regex.
         '''
@@ -227,14 +227,14 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
 
-        self.type("#address","rd. Test 1234")
+        self.type("#address", "rd. Test 1234")
         self.click("#submit-edits")
 
-    def test_dateAvailablePass(self,*_):
+    def test_dateAvailablePass(self, *_):
         '''
         Pass date available if it meets the datetime format.
         '''
@@ -249,14 +249,14 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
         listing = db.session.query(Listing).filter_by(title="Automated").first()
 
-        self.type("#dateAvailable",datetime.datetime.now())
+        self.type("#dateAvailable", datetime.datetime.now())
         self.click("#submit-edits")
 
-    def test_dateAvailableFail(self,*_):
+    def test_dateAvailableFail(self, *_):
         '''
         Pass date available if it meets the datetime format.
         '''
@@ -271,14 +271,14 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
 
-        self.type("#dateAvailable","November 13th, 2022")
+        self.type("#dateAvailable", "November 13th, 2022")
         self.click("#submit-edits")
 
-    def test_coverImagePass(self,*_):
+    def test_coverImagePass(self, *_):
         '''
         Pass image if input correct file type.
         '''
@@ -293,17 +293,17 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
-        im = open(os.path.join(sys.path[0], "test2.jpg"),"rb")
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
+        im = open(os.path.join(sys.path[0], "test2.jpg"), "rb")
         data = im.read()
         render_pic = base64.b64encode(data).decode('ascii')
 
-        self.input("#coverImage",render_pic)
+        self.input("#coverImage", render_pic)
         self.click("#submit-edits")
 
-    def test_coverImageFail(self,*_):
+    def test_coverImageFail(self, *_):
         '''
         Fail image if input incorrect file type.
         '''
@@ -318,17 +318,17 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
         # im = open(os.path.join(sys.path[0], "test2.jpg"),"rb")
         # data = im.read()
         # render_pic = base64.b64encode(data).decode('ascii')
 
-        self.input("#coverImage","test2.jpg")
+        self.input("#coverImage", "test2.jpg")
         self.click("#submit-edits")
 
-    def test_propertyType1Pass(self,*_):
+    def test_propertyType1Pass(self, *_):
         '''
         Fail propertytype1 if input correct regex.
         '''
@@ -343,14 +343,14 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
 
-        self.input("#propertyType1","House")
+        self.input("#propertyType1", "House")
         self.click("#submit-edits")
     
-    def test_propertyType1Fail(self,*_):
+    def test_propertyType1Fail(self, *_):
         '''
         Fail propertytype1 if input incorrect regex.
         '''
@@ -365,14 +365,14 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
 
-        self.input("#propertyType1","!!!!!house!!!!")
+        self.input("#propertyType1", "!!!!!house!!!!")
         self.click("#submit-edits")
 
-    def test_propertyType2Pass(self,*_):
+    def test_propertyType2Pass(self, *_):
         '''
         Pass propertytype2 if input correct regex.
         '''
@@ -387,14 +387,14 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
 
-        self.type("#propertyType2","apartment")
+        self.type("#propertyType2", "apartment")
         self.click("#submit-edits")
     
-    def test_propertyType2Fail(self,*_):
+    def test_propertyType2Fail(self, *_):
         '''
         Fail propertytype2 if input incorrect regex.
         '''
@@ -409,14 +409,14 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
 
-        self.type("#propertyType2","!!!!@@@####apartment")
+        self.type("#propertyType2", "!!!!@@@####apartment")
         self.click("#submit-edits")
 
-    def test_propertyType3Pass(self,*_):
+    def test_propertyType3Pass(self, *_):
         '''
         Pass propertytype3 if input correct regex.
         '''
@@ -431,14 +431,14 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
         self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
 
-        self.input("#propertyType3","one room")
+        self.input("#propertyType3", "one room")
         self.click("#submit-edits")
     
-    def test_propertyType3Fail(self,*_):
+    def test_propertyType3Fail(self, *_):
         '''
         Fail propertytype3 if input incorrect regex.
         '''
@@ -453,14 +453,14 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
 
-        self.type("#propertyType3","!!!!~`````one room")
+        self.type("#propertyType3", "!!!!~`````one room")
         self.click("#submit-edits")
 
-    def test_propertyType4Pass(self,*_):
+    def test_propertyType4Pass(self, *_):
         '''
         Pass propertytype4 if input correct regex.
         '''
@@ -475,14 +475,14 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
 
-        self.type("#propertyType4","bathroom")
+        self.type("#propertyType4", "bathroom")
         self.click("#submit-edits")
 
-    def test_propertyType4Fail(self,*_):
+    def test_propertyType4Fail(self, *_):
         '''
         Fail propertytype4 if input incorrect regex.
         '''
@@ -497,14 +497,14 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
 
-        self.type("#propertyType4","(**(&^&*^%*^%&one bathroom")
+        self.type("#propertyType4", "(**(&^&*^%*^%&one bathroom")
         self.click("#submit-edits")
     
-    def test_locationPass(self,*_):
+    def test_locationPass(self, *_):
         '''
         Pass location if input correct regex.
         '''
@@ -519,14 +519,14 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
 
-        self.type("#location","1234 kingston rd")
+        self.type("#location", "1234 kingston rd")
         self.click("#submit-edits")
 
-    def test_locationFail(self,*_):
+    def test_locationFail(self, *_):
         '''
         Fail location if input incorrect regex.
         '''
@@ -541,11 +541,11 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
-        listing = db.session.query(Listing).filter_by(title="Automated").first()
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
+        # listing = db.session.query(Listing).filter_by(title="Automated").first()
 
-        self.type("#location","Road of kingston 1234")
+        self.type("#location", "Road of kingston 1234")
         self.click("#submit-edits")
 
     """
@@ -569,13 +569,13 @@ class updateListingPageTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        self.open(base_url +  "/listing/"  + "/" +str(testListing.id))
-        self.click("#edit") #BlackBox testcity
+        self.open(base_url + "/listing/" + "/" + str(testListing.id))
+        self.click("#edit")  # BlackBox testcity
         r = 10
         testList = []
         
-        for i in range(0,r):
-            n = round(uniform(10,10000),2)
+        for i in range(0, r):
+            n = round(uniform(10, 10000), 2)
             testList.append(n)
         print(testList)
         listing = db.session.query(Listing).filter_by(title="Automated").first()
@@ -587,32 +587,32 @@ class updateListingPageTest(BaseCase):
             if i > currentListingPrice and i < 10000:
                 self.type("#price", float(i))
                 self.click("#submit-edits")
-                print("TestPrice",i)
+                print("TestPrice", i)
                 print("Test Passed since in bounds and greater than current price")
             
             elif i < currentListingPrice and i > 10:
                 self.type("#price", float(i))
                 self.click("#submit-edits")
-                print("TestPrice",i)
+                print("TestPrice", i)
                 print("Test Failed since attempted input is less than current price")
             
             elif i < 10:
                 self.type("#price", float(i))
                 self.click("#submit-edits")
-                print("TestPrice",i)
+                print("TestPrice", i)
                 print("Test Failed since attempted input out of bounds")
             
             elif i > 10000:
                 self.type("#price", float(i))
                 self.click("#submit-edits")
-                print("TestPrice",i)
+                print("TestPrice", i)
                 print("Test Failed since attempted input out of bounds")
             
     """
     R5-3
     Blackbox Testing type: output coverage
     """
-    def test_lastModifiedDatePass(self,*_):
+    def test_lastModifiedDatePass(self, *_):
         '''
         Output coverage pass if datetime == now(),
         else test fails. Checking output.

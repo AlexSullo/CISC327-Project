@@ -56,7 +56,7 @@ class FrontEndHomePageTest(BaseCase):
         print("login pass")
     
 
-    def test_loginWithEmailAndPasswordMatchPasswordFail(self,*_):
+    def test_loginWithEmailAndPasswordMatchPasswordFail(self, *_):
         '''
         Fail since password don't match email
         '''
@@ -71,7 +71,7 @@ class FrontEndHomePageTest(BaseCase):
         self.click('#login-button')
         print("login pass")
     
-    def test_loginWithEmailAndPasswordMatchEmailFail(self,*_):
+    def test_loginWithEmailAndPasswordMatchEmailFail(self, *_):
         '''
         Fail since password don't match email
         '''
@@ -104,13 +104,13 @@ class FrontEndHomePageTest(BaseCase):
         regex = re.compile(r)
         email = "automatedworkingemail@email.com"
         password = "testedPassword1!"
-        flag1=False
-        flag2=False
+        flag1 = False
+        flag2 = False
         if not re.fullmatch(regex, email):
             print("regex didnt pass")
         else: 
             print("regex passed")
-            flag1=True
+            flag1 = True
         passwordRules = [lambda s: any(
             x.isupper() for x in s), lambda s: any(
                 x.islower() for x in s), lambda s: any(
@@ -121,12 +121,11 @@ class FrontEndHomePageTest(BaseCase):
         else:
             flag2=True
             print("password pass regex")
-        if flag1==True and flag2==True:
+        if flag1 == True and flag2 == True:
             self.type("#email", email)
             self.type("#password", password)
             self.click('#login-button')
             print("pass")
-    
 
     # ##################################################
     # Login Tests
