@@ -7,46 +7,46 @@
         <form method="post" action="/create" enctype="multipart/form-data">
             <label for="title" class="input-label">Title</label><br>
             <p class="tiny">A catchy title to interest potential customers.</p>
-            <input type="text" minlength="4" class="textfield" name="title" placeholder="Title" title="Enter a valid Title" value="{{ request.form['title'] }}"></input>
+            <input id="title" type="text" minlength="4" class="textfield" name="title" placeholder="Title" title="Enter a valid Title" value="{{ request.form['title'] }}"></input>
             <br>
             <label for="description" class="input-label">Description</label><br>
             <p class="tiny">Give a detailed description of the property.</p>
-            <textarea style="min-width:35.5em;min-height: 15vh;" class="textfield" name="description" placeholder="Description" style="max-width: 33.2em;" value="{{ request.form['description'] }}"></textarea>
+            <textarea id="description" style="min-width:35.5em;min-height: 15vh;" class="textfield" name="description" placeholder="Description" style="max-width: 33.2em;" value="{{ request.form['description'] }}"></textarea>
             <br>
             <label for="price" class="input-label">Price</label><br>
             <p class="tiny">This is the cost you want to charge per night.</p>
-            <input type="number" class="textfield" name="price" placeholder="Price" title="Enter a valid price" value="{{ request.form['price'] }}"></input>
+            <input id="price" type="number" class="textfield" name="price" placeholder="Price" title="Enter a valid price" value="{{ request.form['price'] }}"></input>
             <br>
             <label for="address" class="input-label">Address</label><br>
             <p class="tiny">This is the street address.</p>
-            <input type="text" class="textfield" name="address" placeholder="123 Example Street" title="Enter a valid address" value="{{ request.form['address'] }}"></input>
+            <input id="address" type="text" class="textfield" name="address" placeholder="123 Example Street" title="Enter a valid address" value="{{ request.form['address'] }}"></input>
             <br>
             <label for="location" class="input-label">Location</label><br>
             <p class="tiny">This is the city and province.</p>
-            <input type="text" class="textfield" name="location" placeholder="Kingston, ON" title="Enter a valid address" value="{{ request.form['location'] }}"></input>
+            <input id="location" type="text" class="textfield" name="location" placeholder="Kingston, ON" title="Enter a valid address" value="{{ request.form['location'] }}"></input>
             <br>
             <label for="propertyType1" class="input-label">Building Type</label><br>
             <p class="tiny">Are you renting out a mansion, or just a house?</p>
-            <input type="text" class="textfield" name="propertyType1" placeholder="House, hotel, apartment, boat, island, castle, etc." value="{{ request.form['propertyType1'] }}"></input>
+            <input id="propertyType1" type="text" class="textfield" name="propertyType1" placeholder="House, hotel, apartment, boat, island, castle, etc." value="{{ request.form['propertyType1'] }}"></input>
             <br>
             <label for="propertyType2" class="input-label">Lot Style?</label><br>
             <p class="tiny">Is the entire lot for rent, or just one room?</p>
-            <input type="text" class="textfield" name="propertyType2" placeholder="Entire lot, private room, or shared room" value="{{ request.form['propertyType2'] }}"></input>
+            <input id="propertyType2" type="text" class="textfield" name="propertyType2" placeholder="Entire lot, private room, or shared room" value="{{ request.form['propertyType2'] }}"></input>
             <br>
             <label for="propertyType3" class="input-label">Number of bedrooms?</label><br>
-            <input type="number" class="textfield" name="propertyType3" placeholder="0" value="{{ request.form['propertyType2'] }}"></input>
+            <input id="propertyType3" type="number" class="textfield" name="propertyType3" placeholder="0" value="{{ request.form['propertyType2'] }}"></input>
             <br>
             <label for="propertyType4" class="input-label">Number of bathrooms?</label><br>
-            <input type="number" class="textfield" name="propertyType4" placeholder="0" value="{{ request.form['propertyType2'] }}"></input>
+            <input id="propertyType4" type="number" class="textfield" name="propertyType4" placeholder="0" value="{{ request.form['propertyType2'] }}"></input>
             <br>
             <h4>Availability</h4>
             <label for="dateAvailableStart" class="input-label">Start Date - End Date:</label><br>
-            <input type="date" name="dateAvailableStart" value="2022-10-20" min="2022-10-28" max="2025-01-02" value="{{ request.form['dateAvailableStart'] }}"><input type="date" name="dateAvailableEnd" value="2022-10-20" min="2022-10-29" max="2025-01-02" value="{{ request.form['dateAvailableEnd'] }}">
+            <input id="dateAvailableStart" type="date" name="dateAvailableStart" value="2022-10-20" min="2022-10-28" max="2025-01-02" value="{{ request.form['dateAvailableStart'] }}"><input id="dateAvailableEnd" type="date" name="dateAvailableEnd" value="2022-10-20" min="2022-10-29" max="2025-01-02" value="{{ request.form['dateAvailableEnd'] }}">
             <br>
             <label for="inputFile" class="input-label">Cover Image</label><br>
             <input type="file" class="textfield" name="inputFile" placeholder="Image" title="Enter a valid address" value="{{ request.form['coverImage'] }}"></input>
             <br>
-            <button class="standard-button" align="center" type="submit">Create Listing</button>
+            <button id="create-listing" class="standard-button" align="center" type="submit">Create Listing</button>
             <br>
         </form>
     </div>
