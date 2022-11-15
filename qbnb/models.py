@@ -74,9 +74,12 @@ class User(UserMixin, db.Model):
 
     def registration(self, userData):
         reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&])\
-        [A-Za-z\d@$!#%*?&]{6,20}$"
+        [A-Za-z/d@$!#%*?&]{6,20}$"
         pat = re.compile(reg)
         mat = re.search(pat, userData['password'])
+        if userData['email'] == "":
+            print("Email can not be empty.")
+            return False
         if userData['username'] == "":
             print("Username can not be empty.")
             return False
@@ -320,7 +323,7 @@ class Listing(db.Model):
 
     ownerId = db.Column(db.Integer,  # Unique number identifies the owner
                         primary_key=True,
-                        unique=True)
+                        unique=False)
     booked = db.Column(db.Boolean,  # Determines if listing has been booked
                        unique=False,
                        nullable=False)
@@ -382,7 +385,7 @@ class Listing(db.Model):
         self.description = listingData['description']
         self.price = float(listingData['price'])
         self.lastModifiedDate = datetime.datetime.now()
-        self.ownerId = hash(listingData['owner'])
+        self.ownerId = listingData['owner']
         self.booked = False
         self.address = listingData['address']
         self.owner = str(listingData['owner'])
