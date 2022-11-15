@@ -139,13 +139,9 @@ class FrontEndHomePageTest(BaseCase):
 
     #     self.open(base_url)
     #     self.assert_element(".standard-button")
-<<<<<<< HEAD
-    # ##########################################
-=======
     """
     This is the testing for the frontend registration 
     page by Alessandro Sullo (#20236304).
->>>>>>> origin/src
 
     The three tests I used are:
         1.input partitioning

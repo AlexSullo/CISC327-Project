@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from seleniumbase import BaseCase
 from unittest.mock import patch
 from qbnb.models import Listing, User, db
@@ -26,34 +25,10 @@ class updateListingPageTest(BaseCase):
                     "postalCode": "A1A1A1",
                     "username": "automateduser"}
         
-=======
-import random
-from seleniumbase import BaseCase
-from unittest.mock import patch
-from qbnb.models import Listing, User, db
-
-"""
-This file defines all integration tests for listing creation
-"""
-
-
-class ListingCreationTest(BaseCase):
-
-    # adds new test user to database
-    testUserInfo = {"firstName": "Automated",
-                    "surname": "Testuser",
-                    "email": "automatedtestuser2@email.com",
-                    "password": "testedPassword1!",
-                    "billingAddress": "1212 Test Address",
-                    "postalCode": "A1A1A1",
-                    "username": "automateduser2"}
-    
->>>>>>> origin/src
     testUser = User(testUserInfo)
     testUser.billingAddress = testUserInfo["billingAddress"]
     db.session.add(testUser)
     db.session.commit()
-<<<<<<< HEAD
     testUser = db.session.query(User) \
         .filter_by(email="automatedtestuser@email.com").first()  
     im = open(os.path.join(sys.path[0], "test.jpg"), "rb")
@@ -691,7 +666,6 @@ class ListingCreationTest(BaseCase):
     R5-4: Will not do a test for this since all 
     the requirements have been tested above
     '''
-=======
 
     '''
     Listing Creation Tests (Lucas Papadatos #20233257)
@@ -1351,4 +1325,3 @@ class ListingCreationTest(BaseCase):
         self.type("#dateAvailableEnd", "0212")
         # submit form
         self.click("#create-listing")
->>>>>>> origin/src
