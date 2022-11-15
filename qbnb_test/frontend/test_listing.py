@@ -728,10 +728,10 @@ class updateListingPageTest(BaseCase):
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
-            .filter_by(email="automatedtestuser2@email.com").first()
+            .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
         self.open(base_url + "/profile/" + str(testUser.id))
-        self.type("#email", "automatedtestuser2@email.com")
+        self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         # open create page
@@ -780,9 +780,9 @@ class updateListingPageTest(BaseCase):
         # signing in
         base_url = 'http://127.0.0.1:{}'.format(5000)
         testUser = db.session.query(User) \
-            .filter_by(email="automatedtestuser2@email.com").first()
+            .filter_by(email="automatedtestuser@email.com").first()
         self.open(base_url + "/profile/" + str(testUser.id))
-        self.type("#email", "automatedtestuser2@email.com")
+        self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         # open create page
@@ -831,10 +831,10 @@ class updateListingPageTest(BaseCase):
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
-            .filter_by(email="automatedtestuser2@email.com").first()
+            .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
         self.open(base_url + "/profile/" + str(testUser.id))
-        self.type("#email", "automatedtestuser2@email.com")
+        self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         # open create page
@@ -876,10 +876,10 @@ class updateListingPageTest(BaseCase):
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
-            .filter_by(email="automatedtestuser2@email.com").first()
+            .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
         self.open(base_url + "/profile/" + str(testUser.id))
-        self.type("#email", "automatedtestuser2@email.com")
+        self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         # open create page
@@ -920,10 +920,10 @@ class updateListingPageTest(BaseCase):
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
-            .filter_by(email="automatedtestuser2@email.com").first()
+            .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
         self.open(base_url + "/profile/" + str(testUser.id))
-        self.type("#email", "automatedtestuser2@email.com")
+        self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         # open create page
@@ -970,10 +970,10 @@ class updateListingPageTest(BaseCase):
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
-            .filter_by(email="automatedtestuser2@email.com").first()
+            .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
         self.open(base_url + "/profile/" + str(testUser.id))
-        self.type("#email", "automatedtestuser2@email.com")
+        self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         # open create page
@@ -1020,10 +1020,10 @@ class updateListingPageTest(BaseCase):
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
-            .filter_by(email="automatedtestuser2@email.com").first()
+            .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
         self.open(base_url + "/profile/" + str(testUser.id))
-        self.type("#email", "automatedtestuser2@email.com")
+        self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         # open create page
@@ -1070,10 +1070,10 @@ class updateListingPageTest(BaseCase):
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
-            .filter_by(email="automatedtestuser2@email.com").first()
+            .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
         self.open(base_url + "/profile/" + str(testUser.id))
-        self.type("#email", "automatedtestuser2@email.com")
+        self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         # open create page
@@ -1115,10 +1115,10 @@ class updateListingPageTest(BaseCase):
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
-            .filter_by(email="automatedtestuser2@email.com").first()
+            .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
         self.open(base_url + "/profile/" + str(testUser.id))
-        self.type("#email", "automatedtestuser2@email.com")
+        self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         # open create page
@@ -1160,10 +1160,10 @@ class updateListingPageTest(BaseCase):
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
-            .filter_by(email="automatedtestuser2@email.com").first()
+            .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
         self.open(base_url + "/profile/" + str(testUser.id))
-        self.type("#email", "automatedtestuser2@email.com")
+        self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         # open create page
@@ -1204,10 +1204,10 @@ class updateListingPageTest(BaseCase):
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
-            .filter_by(email="automatedtestuser2@email.com").first()
+            .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
         self.open(base_url + "/profile/" + str(testUser.id))
-        self.type("#email", "automatedtestuser2@email.com")
+        self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         # open create page
@@ -1248,10 +1248,10 @@ class updateListingPageTest(BaseCase):
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
-            .filter_by(email="automatedtestuser2@email.com").first()
+            .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
         self.open(base_url + "/profile/" + str(testUser.id))
-        self.type("#email", "automatedtestuser2@email.com")
+        self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         # open create page
@@ -1292,10 +1292,10 @@ class updateListingPageTest(BaseCase):
         # AUTOMATION
         # signing in
         testUser = db.session.query(User) \
-            .filter_by(email="automatedtestuser2@email.com").first()
+            .filter_by(email="automatedtestuser@email.com").first()
         base_url = 'http://127.0.0.1:{}'.format(5000)
         self.open(base_url + "/profile/" + str(testUser.id))
-        self.type("#email", "automatedtestuser2@email.com")
+        self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         # open create page
