@@ -901,8 +901,3 @@ class FrontEndHomePageTest(BaseCase):
     BILLING ADDRESS: Will not be tested as there are no given
     restrictions on what can be inputted as a billing address.
     '''
-<<<<<<< HEAD
-=======
-    
-    
->>>>>>> origin/src
