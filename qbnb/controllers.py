@@ -1,4 +1,5 @@
 import base64
+import datetime
 from flask import Flask, redirect, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import *
@@ -147,25 +148,33 @@ def listing(id):
     Loads the page of a listing based on its ID
     '''
     newListing = db.session.query(Listing).filter_by(id=id).first()
+    # print(newListing)
     listingOwner = (db.session.query(User).get(newListing.owner))
     newListing.updateRating()
     reviews = newListing.getReviews()
-    if int(current_user.get_id()) in newListing.getPreviousTenants():
-        # Checks if user has stayed at the property
-        print("User in tenants")
-        if str(current_user.get_id()) not in newListing.getReviewAuthors():
-            # Checks if user has already reviewed the property
-            print("User not in reviewers") 
-            reviewer = True  # user can review property
+    try:
+        if int(current_user.get_id()) in newListing.getPreviousTenants():
+            # Checks if user has stayed at the property
+            print("User in tenants")
+            if str(current_user.get_id()) not in newListing.getReviewAuthors():
+                # Checks if user has already reviewed the property
+                print("User not in reviewers") 
+                reviewer = True  # user can review property
+            else:
+                reviewer = False  # User can't review property
         else:
-            reviewer = False  # User can't review property
-    else:
-        reviewer = False  # user can't review property
+            reviewer = False  # user can't review property
+    except TypeError:
+        reviewer = False
+    
     print("Reviewer:" + str(reviewer))
-    if str(current_user.get_id()) == str(listingOwner.id):
-        # Checks if signed in user is owner of profile
-        idPass = True
-    else:
+    try:
+        if str(current_user.get_id()) == str(listingOwner.id):
+            # Checks if signed in user is owner of profile
+            idPass = True
+        else:
+            idPass = False
+    except AttributeError:
         idPass = False
     ownerStr = listingOwner.firstName + " " + listingOwner.surname
     listingData = {"owner": ownerStr,
@@ -388,7 +397,8 @@ def update_listing(id):
                 listing.description = request.form['description']
 
             if request.form['price'] != "":
-                listing.price = request.form['price']
+                if float(request.form['price']) > float(listing.price):
+                    listing.price = request.form['price']
                 
             if request.form['address'] != "":
                 listing.address = request.form['address']
@@ -422,6 +432,7 @@ def update_listing(id):
             if request.form['location'] != "":
                 listing.location = request.form['location']
                 
+            listing.lastModifiedDate = datetime.datetime.now()
             db.session.commit()
         return redirect("/updatelisting/" + str(id))
     else:

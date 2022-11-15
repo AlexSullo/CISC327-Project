@@ -385,7 +385,7 @@ class Listing(db.Model):
         self.description = listingData['description']
         self.price = float(listingData['price'])
         self.lastModifiedDate = datetime.datetime.now()
-        self.ownerId = hash(listingData['owner'])
+        self.ownerId = listingData['owner']
         self.booked = False
         self.address = listingData['address']
         self.owner = str(listingData['owner'])
