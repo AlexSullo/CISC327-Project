@@ -264,7 +264,7 @@ class updateListingPageTest(BaseCase):
         datesplit = date.split("-")
         datesplit[1] = int(datesplit[1]) + 3
         otherdate = datesplit.join("-")
-        self.type("#dateAvailable", datetime.datetime.now()[:10])
+        self.type("#dateAvailable", str(datetime.datetime.now())[:10])
         self.type ("#dateAvailable", otherdate)
         self.click("#submit-edits")
 
