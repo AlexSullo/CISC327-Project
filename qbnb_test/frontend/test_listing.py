@@ -262,11 +262,11 @@ class updateListingPageTest(BaseCase):
         # listing = db.session.query(Listing).filter_by(title=t).first()
         date = str(datetime.datetime.now())[:10]
         datesplit = date.split("-")
-        datesplit[1] = int(datesplit[1]) + 3
+        datesplit[2] = int(datesplit[2]) + 3
         otherdate = str(datesplit[0]) + "-" + str(datesplit[1])
         otherdate += "-" + str(datesplit[2])
-        self.type("#dateAvailable", str(datetime.datetime.now())[:10])
-        self.type("#dateAvailable", otherdate)
+        self.type("#dateAvailable", 
+            str(datetime.datetime.now())[:10] + " to " + otherdate)
         self.click("#submit-edits")
 
     def test_dateAvailableFail(self, *_):
@@ -547,7 +547,7 @@ class updateListingPageTest(BaseCase):
         # t = "Automated"
         # listing = db.session.query(Listing).filter_by(title=t).first()
 
-        self.type("#location", "1234 kingston rd")
+        self.type("#address", "1234 kingston rd")
         self.click("#submit-edits")
 
     def test_locationFail(self, *_):
