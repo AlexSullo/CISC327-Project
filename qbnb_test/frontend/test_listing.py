@@ -34,13 +34,15 @@ class updateListingPageTest(BaseCase):
     im = open(os.path.join(sys.path[0], "test.jpg"), "rb")
     data = im.read()
     render_pic = base64.b64encode(data).decode('ascii')
+    date = str(datetime.datetime.now())[:10] + " to "
+    date += "2022-02-12"
     testListingInfo = {"title": "Automated",
                        "owner": testUser.id,
                        "description": "Test description",
                        "price": float(10.01),
                        "booked": False,
                        "address": "1313 TestHouse dr.",
-                       "dateAvailable": datetime.datetime.now(),
+                       "dateAvailable": date,
                        "imgData": data,
                        "imgRenderedData": render_pic,
                        "propertyType1": "House",
