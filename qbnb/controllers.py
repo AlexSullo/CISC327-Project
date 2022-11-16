@@ -29,7 +29,7 @@ def load_listings():
     return db.session.query(Listing).all()
 
 
-@app.route("/", methods=["GET","POST"])
+@app.route("/", methods=["GET", "POST"])
 def home():
     '''
     Renders the homepage for QBNB
@@ -37,9 +37,9 @@ def home():
     listings = load_listings()
     userInfo = get_info()  # Check if user is signed in
     return render_template("homepage.html",
-                        listings=listings,
-                        userInformation=userInfo[0],
-                        user=userInfo[1])
+                           listings=listings,
+                           userInformation=userInfo[0],
+                           user=userInfo[1])
 
 
 @app.route("/profile/<id>/addbalance", methods=["GET", "POST"])
@@ -224,15 +224,15 @@ def book_listing(id):
     if request.method == "GET":
         listingOwner = listingOwner.firstName + " " + listingOwner.surname
         return render_template("bookListing.html",
-                            listing=newListing,
-                            owner=listingOwner,
-                            userInformation=userInfo[0],
-                            user=userInfo[1],
-                            nights=int(nights),
-                            subtotal=subtotal,
-                            gst=gstcost,
-                            hst=hstcost,
-                            total=total)
+                               listing=newListing,
+                               owner=listingOwner,
+                               userInformation=userInfo[0],
+                               user=userInfo[1],
+                               nights=int(nights),
+                               subtotal=subtotal,
+                               gst=gstcost,
+                               hst=hstcost,
+                               total=total)
     else:
         bookingInfo = {"tenant": userInfo[0],
                        "total": total}
@@ -240,22 +240,22 @@ def book_listing(id):
         if purchase == 'Success':
             # Purchase of stay at listing succeeded
             return render_template("confirmation.html",
-                                success=True,
-                                nights=nights,
-                                total=total,
-                                userInformation=userInfo[0],
-                                user=userInfo[1],
-                                listing=newListing,
-                                owner=listingOwner)
+                                   success=True,
+                                   nights=nights,
+                                   total=total,
+                                   userInformation=userInfo[0],
+                                   user=userInfo[1],
+                                   listing=newListing,
+                                   owner=listingOwner)
         
         else:
             # Listing is already booked
             return render_template("confirmation.html",
-                                success=False,
-                                userInformation=userInfo[0],
-                                user=userInfo[1],
-                                listing=newListing,
-                                owner=listingOwner)
+                                   success=False,
+                                   userInformation=userInfo[0],
+                                   user=userInfo[1],
+                                   listing=newListing,
+                                   owner=listingOwner)
 
 
 @app.route("/deletereview/<id>")

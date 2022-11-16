@@ -491,7 +491,7 @@ class Listing(db.Model):
         '''
         Returns relevant modifiable data in a dictionary.
         '''
-        self.check() # Check if listing needs to be unbooked
+        self.check()  # Check if listing needs to be unbooked
         listingData = {
             "title": self.title,
             "description": self.description,
@@ -579,8 +579,8 @@ class Listing(db.Model):
         dates = self.dateAvailable.split(" to ")
         d1 = dates[0].split("-")
         d2 = dates[1].split("-")
-        d1 = datetime.date(int(d1[0]),int(d1[1]),int(d1[2]))
-        d2 = datetime.date(int(d2[0]),int(d2[1]),int(d2[2]))
+        d1 = datetime.date(int(d1[0]), int(d1[1]), int(d1[2]))
+        d2 = datetime.date(int(d2[0]), int(d2[1]), int(d2[2]))
         date = d2 - d1
         return str(date)[:-14]
 
@@ -588,7 +588,7 @@ class Listing(db.Model):
         '''
         Books the listing
         '''
-        if self.booked == False:
+        if self.booked is False:
             tenant = bookingInfo['tenant']
             if len(self.tenants) == 0:
                 self.tenants += str(tenant.id)
@@ -614,17 +614,16 @@ class Listing(db.Model):
         '''
         dates = self.dateAvailable.split(" to ")
         d2 = dates[1].split("-")
-        d2 = datetime.datetime(int(d2[0]),int(d2[1]),int(d2[2]))
+        d2 = datetime.datetime(int(d2[0]), int(d2[1]), int(d2[2]))
         print(d2, "date4")
         present = datetime.datetime.now()
         print(present, "present")
         print(present < d2)
         print(d2 < present)
         if d2 < present:
-            self.booked = False # Unbook listing
+            self.booked = False  # Unbook listing
         db.session.commit()
         
-
 
 class BankTransfer(db.Model):
     """
