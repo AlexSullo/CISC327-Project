@@ -263,7 +263,8 @@ class updateListingPageTest(BaseCase):
         date = str(datetime.datetime.now())[:10]
         datesplit = date.split("-")
         datesplit[1] = int(datesplit[1]) + 3
-        otherdate = datesplit.join("-")
+        otherdate = datesplit[0] + "-" + datesplit[1]
+        otherdate += "-" + datesplit[2]
         self.type("#dateAvailable", str(datetime.datetime.now())[:10])
         self.type("#dateAvailable", otherdate)
         self.click("#submit-edits")
@@ -278,7 +279,6 @@ class updateListingPageTest(BaseCase):
         testListing = db.session.query(Listing) \
             .filter_by(title="Automated").first()
         self.open(base_url + "/profile/" + str(testUser.id))
-
         # SIGNING IN
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
