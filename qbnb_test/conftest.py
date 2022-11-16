@@ -6,6 +6,7 @@ import threading
 from werkzeug.serving import make_server
 import shutil
 from qbnb import app
+import traceback
 
 
 def pytest_sessionstart():
@@ -19,16 +20,20 @@ def pytest_sessionstart():
         os.remove(db_file)
         print("Database removed.")
     app.app_context().push()
+    
 
 
 def pytest_sessionfinish():
     '''
     Reset database
     '''
-    os.remove('db.sqlite')
-    shutil.copyfile('BACKUP1.sqlite', 'db.sqlite')
-    os.remove('BACKUP1.sqlite')
-    app.app_context().push()
+    try:
+        os.remove('db.sqlite')
+        shutil.copyfile('BACKUP1.sqlite', 'db.sqlite')
+        os.remove('BACKUP1.sqlite')
+        app.app_context().push()
+    except PermissionError as e:
+        traceback.print_tb(e.__traceback__)
         
 
 base_url = 'http://127.0.0.1:{}'.format(5000)

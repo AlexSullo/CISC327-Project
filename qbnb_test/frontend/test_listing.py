@@ -260,8 +260,12 @@ class updateListingPageTest(BaseCase):
         self.click("#edit")  # BlackBox testcity
         # t = "Automated"
         # listing = db.session.query(Listing).filter_by(title=t).first()
-
-        self.type("#dateAvailable", datetime.datetime.now())
+        date = datetime.datetime.now()[:10]
+        datesplit = date.split("-")
+        datesplit[1] = int(datesplit[1]) + 3
+        otherdate = datesplit.join("-")
+        self.type("#dateAvailable", datetime.datetime.now()[:10])
+        self.type ("#dateAvailable", otherdate)
         self.click("#submit-edits")
 
     def test_dateAvailableFail(self, *_):
@@ -284,7 +288,7 @@ class updateListingPageTest(BaseCase):
         # t = "Automated"
         # listing = db.session.query(Listing).filter_by(title=t).first()
 
-        self.type("#dateAvailable", "November 13th, 2022")
+        self.type("#dateAvailable", "2022-12-11 to 2022-12-13")
         self.click("#submit-edits")
 
     # def test_coverImagePass(self, *_):
