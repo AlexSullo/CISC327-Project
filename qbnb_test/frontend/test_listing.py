@@ -265,7 +265,7 @@ class updateListingPageTest(BaseCase):
         datesplit[1] = int(datesplit[1]) + 3
         otherdate = datesplit.join("-")
         self.type("#dateAvailable", str(datetime.datetime.now())[:10])
-        self.type ("#dateAvailable", otherdate)
+        self.type("#dateAvailable", otherdate)
         self.click("#submit-edits")
 
     def test_dateAvailableFail(self, *_):

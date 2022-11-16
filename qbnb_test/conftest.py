@@ -22,7 +22,6 @@ def pytest_sessionstart():
     app.app_context().push()
     
 
-
 def pytest_sessionfinish():
     '''
     Reset database
