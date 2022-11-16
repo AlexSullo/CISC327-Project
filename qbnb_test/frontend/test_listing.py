@@ -260,7 +260,7 @@ class updateListingPageTest(BaseCase):
         self.click("#edit")  # BlackBox testcity
         # t = "Automated"
         # listing = db.session.query(Listing).filter_by(title=t).first()
-        date = datetime.datetime.now()[:10]
+        date = str(datetime.datetime.now())[:10]
         datesplit = date.split("-")
         datesplit[1] = int(datesplit[1]) + 3
         otherdate = datesplit.join("-")
