@@ -64,9 +64,14 @@
                 <hr class="short-hr">
             {% else %}
             <div class="listing-main-info">
+               {% if listingData.booked %}
+               <p>{{ listingData.address }} is currently booked. Check back again soon!<br><br>
+             </p>
+               {% else %}  
                 <p>Want to stay at {{ listingData.address }}? It is currently available from <b>{{ listingData.date}}</b>!<br><br>
                    <a href="/listing/{{ listingData.id }}/book"><button class="standard-button">Book Now</button></a>
                 </p>
+                {% endif %}
             </div>
             {% endif %}
             

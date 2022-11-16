@@ -27,10 +27,14 @@
         "
         class="container-col"
       >
-        <h2>Pick Getaway Duration</h2>
+        <h2>Disclaimer</h2>
         <p class="tiny">
-          Choose the days you'll be staying here during your trip to {{
-          listing.location }}!
+          While we want to maintain your level of excitement for your trip to {{
+          listing.location }}, we must remind you that any issues or disputes
+          raised or encountered during your stay at {{owner}}'s property
+          must be handled between you and {{owner}}. QBNB is not liable,
+          nor are we responsible, for any lost goods, damage to personal
+          property, or any other problems you may encounter.
         </p>
       </div>
       <br />
@@ -52,7 +56,7 @@
       >
         <div class="container-col">
           <h2>Stay Cost</h2>
-          <p class="tiny">Here's the current subtotal of your trip so far!</p>
+          <p class="tiny">Here's the subtotal of your trip!</p>
           <div class="container-row">
             <div style="margin-right: 5em; width: 15em" class="container-col">
               <p>Here are the charges being added to your stay:</p>
@@ -75,10 +79,24 @@
                 border-radius: 15px;
                 width: 15em;
                 display: block;
+                padding: 1em;
               "
               class="container-col"
             >
               <h4>Checkout</h4>
+              <div class="container-col" id="prices" style="text-align:left">
+              <b>Subtotal:</b> ${{subtotal}}<br>
+              <b>GST:</b> ${{gst}}<br>
+              <b>HST:</b> ${{hst}}<br>
+              </div>
+              
+              <hr style="short-hr">
+              <div class="container-col">
+                <b>Total:</b> ${{total}}<br>
+                <form method="post" name="purchase"><button id="book-button" class="standard-button" type="submit">Purchase</button></form>
+                
+              </div>
+              </ul>
             </div>
           </div>
         </div>

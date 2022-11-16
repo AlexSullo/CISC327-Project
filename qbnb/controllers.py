@@ -34,23 +34,12 @@ def home():
     '''
     Renders the homepage for QBNB
     '''
-    try:
-        if request.method == "POST":
-            search()
-        else:
-            listings = load_listings()
-            userInfo = get_info()  # Check if user is signed in
-            return render_template("homepage.html",
-                                listings=listings,
-                                userInformation=userInfo[0],
-                                user=userInfo[1])
-    except BadRequestKeyError:
-        listings = load_listings()
-        userInfo = get_info()  # Check if user is signed in
-        return render_template("homepage.html",
-                            listings=listings,
-                            userInformation=userInfo[0],
-                            user=userInfo[1])
+    listings = load_listings()
+    userInfo = get_info()  # Check if user is signed in
+    return render_template("homepage.html",
+                        listings=listings,
+                        userInformation=userInfo[0],
+                        user=userInfo[1])
 
 
 @app.route("/profile/<id>/addbalance", methods=["GET", "POST"])
@@ -163,6 +152,7 @@ def listing(id):
     # print(newListing)
     listingOwner = (db.session.query(User).get(newListing.owner))
     newListing.updateRating()
+    newListing.check()
     reviews = newListing.getReviews()
     try:
         if int(current_user.get_id()) in newListing.getPreviousTenants():
@@ -224,13 +214,48 @@ def book_listing(id):
     newListing = db.session.query(Listing).filter_by(id=id).first()
     listingOwner = (db.session.query(User).get(newListing.owner)) 
     userInfo = get_info()
-    listingOwner = listingOwner.firstName + " " + listingOwner.surname
-    return render_template("bookListing.html",
-                           listing=newListing,
-                           owner=listingOwner,
-                           userInformation=userInfo[0],
-                           user=userInfo[1],
-                           nights=1)
+    nights = newListing.detNights()
+    if nights == "":
+        nights = 1
+    subtotal = newListing.price * int(nights) + 85.15
+    gstcost = round(subtotal * 0.05, 2)
+    hstcost = round(subtotal * 0.13, 2)
+    total = round(subtotal + gstcost + hstcost, 2)
+    if request.method == "GET":
+        listingOwner = listingOwner.firstName + " " + listingOwner.surname
+        return render_template("bookListing.html",
+                            listing=newListing,
+                            owner=listingOwner,
+                            userInformation=userInfo[0],
+                            user=userInfo[1],
+                            nights=int(nights),
+                            subtotal=subtotal,
+                            gst=gstcost,
+                            hst=hstcost,
+                            total=total)
+    else:
+        bookingInfo = {"tenant": userInfo[0],
+                       "total": total}
+        purchase = newListing.bookListing(bookingInfo)
+        if purchase == 'Success':
+            # Purchase of stay at listing succeeded
+            return render_template("confirmation.html",
+                                success=True,
+                                nights=nights,
+                                total=total,
+                                userInformation=userInfo[0],
+                                user=userInfo[1],
+                                listing=newListing,
+                                owner=listingOwner)
+        
+        else:
+            # Listing is already booked
+            return render_template("confirmation.html",
+                                success=False,
+                                userInformation=userInfo[0],
+                                user=userInfo[1],
+                                listing=newListing,
+                                owner=listingOwner)
 
 
 @app.route("/deletereview/<id>")
@@ -495,33 +520,6 @@ def update_profile(id):
             db.session.rollback()  # Undoes updating of DB
             raise
     return redirect("/profile/" + str(id))  # Reload profile
-
-
-@app.route("/search", methods=["POST"])
-def search():
-    '''
-    Potential function that will allow the user to search
-    '''
-    print("SEARCHIGN")
-    if request.method == "POST":
-        print("post")
-        tag = request.form["search"]
-        search = "%{}%".format(tag)
-        listingsTitle = db.session.query(Listing).filter(Listing.title.like(search))
-        listingsLoc = db.session.query(Listing).filter \
-            (Listing.location.like(search))
-        results = []
-        for x in listingsTitle:
-            results.append(x)
-        for y in listingsLoc:
-            results.append(x)
-        results_clean = ([item for item, \
-            count in collections.Counter(results).items() if count > 1])
-        userInfo = get_info()
-        return render_template("searchResults.html",
-                            results=results_clean,
-                            userInformation=userInfo[0],
-                            user=userInfo[1])
 
 
 @app.route("/register", methods=['GET', 'POST'])
