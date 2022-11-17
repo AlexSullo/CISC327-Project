@@ -1,0 +1,56 @@
+{% extends 'base.html' %} {% block body %}
+<div class="container-row">
+  <div class="container-col">
+    {% if success %}
+    <h2>Thank You for Your Purchase!</h2>
+    <p class="tiny">
+      QBNB is proud to be the proprietor of your latest venture!
+    </p>
+    We hope you enjoy your stay at {{listing.address}} in {{listing.location}}!
+    We hope that {{ owner.firstName + ' ' + owner.surname }} provides you with a
+    superb experience, and we hope to see you again soon!
+
+    <h3>Order Review</h3>
+    <div class="container-col" style="padding: 0 35em 5em 35em">
+      <p>
+        You booked a stay in at {{listing.address}} in {{listing.location}} for
+        {{nights}} nights. Your stay will be hosted by {{ owner.firstName + ' '
+        + owner.surname }}, and it cost you <b>${{ total }}</b> for your trip.
+      </p>
+      <div class="container-row">
+        <img
+          class="booking-img"
+          src="data:;base64,{{ listing.imgRenderedData }}"
+          alt="Image Could Not Load"
+        />
+      </div>
+      <h1>Enjoy Your Stay!</h1>
+      <p class="tiny">
+        Thank you for using QBNB. Click our logo to return to the homepage.
+      </p>
+    </div>
+    {% else %}
+    <h2>We're Sorry...</h2>
+    <div class="container-col" style="padding: 0 35em 5em 35em">
+      <p class="tiny">It appears something went wrong.</p>
+      <p>
+        This can be caused by one of two things. Either the listing has already
+        been booked, or you do not have enough money in your account to book a
+        stay at this property.
+        <i>To add more money to your account, navigate to your profile.</i>
+      </p>
+      <a style="text-decoration: none" href="/profile/{{userInformation.id}}">
+        <button
+          class="standard-button"
+          style="margin: 0 25em 0 25em;""
+        >
+          Your Profile
+        </button></a
+      >
+    </div>
+    <div style="min-height: 30vh"></div>
+
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

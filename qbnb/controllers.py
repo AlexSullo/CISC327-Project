@@ -8,6 +8,7 @@ from werkzeug.exceptions import BadRequestKeyError
 import random
 from qbnb import app
 from qbnb.models import *
+import collections
 
 greetings = [
     'Hey there',
@@ -28,7 +29,7 @@ def load_listings():
     return db.session.query(Listing).all()
 
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
     '''
     Renders the homepage for QBNB
@@ -151,6 +152,7 @@ def listing(id):
     # print(newListing)
     listingOwner = (db.session.query(User).get(newListing.owner))
     newListing.updateRating()
+    newListing.check()
     reviews = newListing.getReviews()
     try:
         if int(current_user.get_id()) in newListing.getPreviousTenants():
@@ -212,13 +214,48 @@ def book_listing(id):
     newListing = db.session.query(Listing).filter_by(id=id).first()
     listingOwner = (db.session.query(User).get(newListing.owner)) 
     userInfo = get_info()
-    listingOwner = listingOwner.firstName + " " + listingOwner.surname
-    return render_template("bookListing.html",
-                           listing=newListing,
-                           owner=listingOwner,
-                           userInformation=userInfo[0],
-                           user=userInfo[1],
-                           nights=1)
+    nights = newListing.detNights()
+    if nights == "":
+        nights = 1
+    subtotal = newListing.price * int(nights) + 85.15
+    gstcost = round(subtotal * 0.05, 2)
+    hstcost = round(subtotal * 0.13, 2)
+    total = round(subtotal + gstcost + hstcost, 2)
+    if request.method == "GET":
+        listingOwner = listingOwner.firstName + " " + listingOwner.surname
+        return render_template("bookListing.html",
+                               listing=newListing,
+                               owner=listingOwner,
+                               userInformation=userInfo[0],
+                               user=userInfo[1],
+                               nights=int(nights),
+                               subtotal=subtotal,
+                               gst=gstcost,
+                               hst=hstcost,
+                               total=total)
+    else:
+        bookingInfo = {"tenant": userInfo[0],
+                       "total": total}
+        purchase = newListing.bookListing(bookingInfo)
+        if purchase == 'Success':
+            # Purchase of stay at listing succeeded
+            return render_template("confirmation.html",
+                                   success=True,
+                                   nights=nights,
+                                   total=total,
+                                   userInformation=userInfo[0],
+                                   user=userInfo[1],
+                                   listing=newListing,
+                                   owner=listingOwner)
+        
+        else:
+            # Listing is already booked
+            return render_template("confirmation.html",
+                                   success=False,
+                                   userInformation=userInfo[0],
+                                   user=userInfo[1],
+                                   listing=newListing,
+                                   owner=listingOwner)
 
 
 @app.route("/deletereview/<id>")

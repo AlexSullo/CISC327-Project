@@ -34,13 +34,15 @@ class updateListingPageTest(BaseCase):
     im = open(os.path.join(sys.path[0], "test.jpg"), "rb")
     data = im.read()
     render_pic = base64.b64encode(data).decode('ascii')
+    date = str(datetime.datetime.now())[:10] + " to "
+    date += "2022-02-12"
     testListingInfo = {"title": "Automated",
                        "owner": testUser.id,
                        "description": "Test description",
                        "price": float(10.01),
                        "booked": False,
                        "address": "1313 TestHouse dr.",
-                       "dateAvailable": datetime.datetime.now(),
+                       "dateAvailable": date,
                        "imgData": data,
                        "imgRenderedData": render_pic,
                        "propertyType1": "House",
@@ -258,8 +260,13 @@ class updateListingPageTest(BaseCase):
         self.click("#edit")  # BlackBox testcity
         # t = "Automated"
         # listing = db.session.query(Listing).filter_by(title=t).first()
-
-        self.type("#dateAvailable", datetime.datetime.now())
+        date = str(datetime.datetime.now())[:10]
+        datesplit = date.split("-")
+        datesplit[2] = int(datesplit[2]) + 3
+        otherdate = str(datesplit[0]) + "-" + str(datesplit[1])
+        otherdate += "-" + str(datesplit[2])
+        self.type("#dateAvailable", 
+                  str(datetime.datetime.now())[:10] + " to " + otherdate)
         self.click("#submit-edits")
 
     def test_dateAvailableFail(self, *_):
@@ -272,7 +279,6 @@ class updateListingPageTest(BaseCase):
         testListing = db.session.query(Listing) \
             .filter_by(title="Automated").first()
         self.open(base_url + "/profile/" + str(testUser.id))
-
         # SIGNING IN
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
@@ -282,7 +288,7 @@ class updateListingPageTest(BaseCase):
         # t = "Automated"
         # listing = db.session.query(Listing).filter_by(title=t).first()
 
-        self.type("#dateAvailable", "November 13th, 2022")
+        self.type("#dateAvailable", "2022-12-11 to 2022-12-13")
         self.click("#submit-edits")
 
     # def test_coverImagePass(self, *_):
@@ -541,7 +547,7 @@ class updateListingPageTest(BaseCase):
         # t = "Automated"
         # listing = db.session.query(Listing).filter_by(title=t).first()
 
-        self.type("#location", "1234 kingston rd")
+        self.type("#address", "1234 kingston rd")
         self.click("#submit-edits")
 
     def test_locationFail(self, *_):

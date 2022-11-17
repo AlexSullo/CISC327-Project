@@ -9,7 +9,9 @@
                     <li style="list-style: none;">
                         <b>{{ listingData.title }}</b><br>
                     </li>
-                    <li>{{ listingData.rating }} Stars<br></li>
+                    <li>{{ listingData.rating }} <span style="position:absolute;margin-top: 0.25vh; color: rgb(238, 189, 49);"class="material-symbols-outlined">
+                        star
+                        </span><br></li>
                     <li>{{ listingData.address }}</li>
                 </ul>
                 
@@ -59,12 +61,20 @@
                 <div class="login-container">
                     <a href="/updatelisting/{{ listingData.id }}"><button id = "edit" class="standard-button">Edit</button></a>
                 </div>
-            {% endif %}
+                <hr class="short-hr">
+            {% else %}
             <div class="listing-main-info">
+               {% if listingData.booked %}
+               <p>{{ listingData.address }} is currently booked. Check back again soon!<br><br>
+             </p>
+               {% else %}  
                 <p>Want to stay at {{ listingData.address }}? It is currently available from <b>{{ listingData.date}}</b>!<br><br>
                    <a href="/listing/{{ listingData.id }}/book"><button class="standard-button">Book Now</button></a>
                 </p>
+                {% endif %}
             </div>
+            {% endif %}
+            
             <div id="review-container-container" class="container-row">
                 <div class="container-col">
                     
@@ -76,16 +86,25 @@
                         <p>We see that you've stayed at this property.
                             Why not leave a review of your experience?</p>
                         <a href="/postreview/{{ listingData.id }}/1"><button class="standard-button">Post Review</button></a>
+                        <hr class="short-hr">
                     </div>
                     {% endif %}
                     <h2>Reviews about the Property</h2>
                     <p class="tiny" style="margin-top:-2vh">Here's what people had to say about {{ listingData.address }}</p>
                     {% if listingData.reviews %}
                         {% for review in propertyReviews %}
-                        <div id="review"class="container-col">
-                            <p style="text-align: left;margin-top: -3vh;margin-left: -1.5em;"><b>Rating: {{ review.rating }}</b> — <a href="/profile/{{review.author}}">{{ review.authorName }}</a><i style="color:gray"> written on {{ review.date }}</i></p>
-                            <p style="text-align: left;">{{ review.content }}</p>
-
+                        <div class="review" style="--index: {{loop.index}}">
+                            <div id="review-content">
+                            <p style="text-align: left;margin-top: -2vh;color:rgb(238, 189, 49);font-size: large;"><b>Rating: {{ review.rating }}</b><span style="position: absolute;margin-top: -0.15vh;"class="material-symbols-outlined">
+                                star
+                                </span> <a href="/profile/{{review.author}}"style="margin-left:1.5em;color:rgb(238, 189, 49);">{{review.authorName}}</a></p>
+                            
+                                <p style="text-align: left;">{{ review.content }}</p>
+                            <p class="tiny" style="right:0;position:absolute;font-size:small;margin-right: 1em;"><i> written on {{ review.date }}</i></p>
+                            </div>
+                            
+                            </a>
+                            
                         </div>
                         {% endfor %}
                     {% else %}
