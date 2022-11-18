@@ -263,7 +263,7 @@ class updateListingPageTest(BaseCase):
         self.click("#submit-edits")
 
     def test_dateAvailableFail(self, *_):
-        '''
+        ''' 
         Pass date available if it meets the datetime format.
         '''
         testUser = db.session.query(User) \
