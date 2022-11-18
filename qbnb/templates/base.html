@@ -9,7 +9,11 @@
     />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
     <link rel="icon" href="{{url_for('static',filename='favicon.ico')}}" />
   </head>
@@ -25,11 +29,20 @@
           /></a>
         </div>
         <div style="margin-right: 2em" class="searchbar-container">
-          <input
-            class="searchbar"
-            placeholder="Search for a New Experience..."
-            type="text"
-          />
+          <form method="post" id="holder">
+            <input
+              class="searchbar"
+              placeholder="Search for a New Experience..."
+              type="text"
+              value="{{ request.form['search'] }}"
+            />
+            <span
+              style="position: absolute; top: 2.5em; left: 47em"
+              class="material-symbols-outlined"
+            >
+              search
+            </span>
+          </form>
         </div>
         <div class="login-container">
           {% if user %}

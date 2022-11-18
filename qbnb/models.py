@@ -491,6 +491,7 @@ class Listing(db.Model):
         '''
         Returns relevant modifiable data in a dictionary.
         '''
+        self.check()  # Check if listing needs to be unbooked
         listingData = {
             "title": self.title,
             "description": self.description,
@@ -571,6 +572,58 @@ class Listing(db.Model):
             # Also no reviews
             self.rating = 5.0
 
+    def detNights(self):
+        '''
+        Determines the number of nights a stay will be.
+        '''
+        dates = self.dateAvailable.split(" to ")
+        d1 = dates[0].split("-")
+        d2 = dates[1].split("-")
+        d1 = datetime.date(int(d1[0]), int(d1[1]), int(d1[2]))
+        d2 = datetime.date(int(d2[0]), int(d2[1]), int(d2[2]))
+        date = d2 - d1
+        return str(date)[:-14]
+
+    def bookListing(self, bookingInfo):
+        '''
+        Books the listing
+        '''
+        if self.booked is False:
+            tenant = bookingInfo['tenant']
+            if len(self.tenants) == 0:
+                self.tenants += str(tenant.id)
+            else:
+                self.tenants += "," + str(tenant.id)
+            self.booked = True
+            if tenant.balance - bookingInfo['total'] < 0:
+                return 'Error'
+            else:
+                tenant.balance -= bookingInfo['total']
+                ownerUser = db.session.query(User).get(self.ownerId)
+                ownerUser.balance += bookingInfo['total']
+            db.session.commit()
+            return 'Success'
+        
+        else:
+            return 'Error'
+
+    def check(self):
+        '''
+        Automatically unbooks a listing if it is past the date of 
+        availability and it was booked.
+        '''
+        dates = self.dateAvailable.split(" to ")
+        d2 = dates[1].split("-")
+        d2 = datetime.datetime(int(d2[0]), int(d2[1]), int(d2[2]))
+        print(d2, "date4")
+        present = datetime.datetime.now()
+        print(present, "present")
+        print(present < d2)
+        print(d2 < present)
+        if d2 < present:
+            self.booked = False  # Unbook listing
+        db.session.commit()
+        
 
 class BankTransfer(db.Model):
     """

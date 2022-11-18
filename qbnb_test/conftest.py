@@ -4,7 +4,9 @@ import time
 import tempfile
 import threading
 from werkzeug.serving import make_server
+import shutil
 from qbnb import app
+import traceback
 
 
 def pytest_sessionstart():
@@ -14,32 +16,23 @@ def pytest_sessionstart():
     print("Setting up testing environment...")
     db_file = 'db.sqlite'
     if os.path.exists(db_file):
-        os.system('copy ' + db_file + " db_copy.sqlite")
-        print("Database copied.")
+        shutil.copyfile(db_file, 'BACKUP1.sqlite')
         os.remove(db_file)
         print("Database removed.")
     app.app_context().push()
-    print("App context pushed.")
+    
 
-
-# def pytest_sessionfinish():
-#     '''
-#     Reset database
-#     '''
-#     print("Tearing down testing environment...")
-#     db_file = 'db.sqlite'
-#     os.remove(db_file)
-#     print("Testing Database removed.")
-#     os.system('copy db_copy.sqlite db.sqlite')
-#     print("Original database copied to db.sqlite.")
-#     time.sleep(2)
-#     try:
-#         os.remove('db_copy.sqlite')
-#     except FileNotFoundError:
-#         pass
-#     print("Database copy removed.")
-#     app.app_context().push()
-#     print("App context pushed.")
+def pytest_sessionfinish():
+    '''
+    Reset database
+    '''
+    try:
+        os.remove('db.sqlite')
+        shutil.copyfile('BACKUP1.sqlite', 'db.sqlite')
+        os.remove('BACKUP1.sqlite')
+        app.app_context().push()
+    except PermissionError as e:
+        traceback.print_tb(e.__traceback__)
         
 
 base_url = 'http://127.0.0.1:{}'.format(5000)
@@ -71,3 +64,4 @@ def server():
     time.sleep(5)
     yield
     server.shutdown()
+    time.sleep(2)
