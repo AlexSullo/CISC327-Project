@@ -17,9 +17,8 @@ services:
         "--strict",
         "--timeout=300",
         "--",
-        "python",
-        "-m",
-        "qbnb",
+        "flask --app __main__",
+        "run",
       ]
     networks:
       - qbnb-site
