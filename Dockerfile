@@ -5,5 +5,6 @@ ADD requirements.txt /app
 RUN pip3 install -r requirements.txt
 ADD . /app
 ADD wait-for-it.sh /app
+ENV FLASK_APP="qbnb/__main__.py"
 RUN chmod +x /app/wait-for-it.sh
-EXPOSE 8081 
+EXPOSE 8081

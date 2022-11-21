@@ -1,4 +1,4 @@
 db.sqlite
 mysql_data
-qbnb/pycache
-qbnb_test/pycache
+qbnb/__pycache__/
+qbnb_test/__pycache__/

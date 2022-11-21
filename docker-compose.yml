@@ -1,7 +1,7 @@
 version: "2"
 services:
   qbnb-web:
-    image: alsatechdocker/qbnb:v1
+    image: alsatechdocker/qbnb:latest
     depends_on:
       - qbnb-db
     links:
@@ -11,15 +11,17 @@ services:
     environment:
       - db_string=mysql+pymysql://root:root@qbnb-db/qa327
     command:
-      [
-        "./wait-for-it.sh",
-        "qbnb-db:3306",
-        "--strict",
-        "--timeout=300",
-        "--",
-        "flask --app __main__",
-        "run",
-      ]
+      ["./wait-for-it.sh",
+       "qbnb-db:3306",
+       "--strict" ,
+       "--timeout=300",
+       "--",
+       "flask",
+       "--app",
+       "qbnb/__main__",
+       "run",
+       "-p 8081",
+       "--host=0.0.0.0"]
     networks:
       - qbnb-site
 

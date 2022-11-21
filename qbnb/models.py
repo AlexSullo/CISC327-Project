@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager
 from qbnb import app
 from flask_migrate import Migrate
+from sqlalchemy.dialects.mysql import LONGBLOB, LONGTEXT
 from email_validator import validate_email, EmailNotValidError
 import re
 
@@ -251,10 +252,10 @@ class Transaction(db.Model):
     recipient of the transaction, and price of the transaction.
     """
     __tablename__ = 'transactions'
-    id = db.Column(db.Integer,  # Unique value to identify user
+    id = db.Column(db.Integer,
                    primary_key=True,
-                   unique=True
-                   )
+                   autoincrement=True,
+                   unique=True)
 
     DateOfTransaction = db.Column(db.DateTime,  # Day/Time of trans.
                                   unique=False,
@@ -301,10 +302,10 @@ class Listing(db.Model):
     """
 
     __tablename__ = 'listings'
-    id = db.Column(db.Integer,  # Unique number identifies the listing
+    id = db.Column(db.Integer,
                    primary_key=True,
-                   unique=True,
-                   nullable=False)
+                   autoincrement=True,
+                   unique=True)
 
     title = db.Column(db.String(40),  # The title of the listing
                       nullable=False)
@@ -322,7 +323,6 @@ class Listing(db.Model):
                                  nullable=False)
 
     ownerId = db.Column(db.Integer,  # Unique number identifies the owner
-                        primary_key=True,
                         unique=False)
     booked = db.Column(db.Boolean,  # Determines if listing has been booked
                        unique=False,
@@ -380,7 +380,6 @@ class Listing(db.Model):
             listingLoc = listingData['location']
         else:
             listingLoc = "Ontario, CAN"
-        self.id = hash(listingData['title'])
         self.title = listingData['title']
         self.description = listingData['description']
         self.price = float(listingData['price'])
@@ -532,6 +531,7 @@ class Listing(db.Model):
         print(reviewCheck)
         if len(reviewCheck) != 0 and reviewCheck[0] != "":
             for review in reviewCheck:
+                print(review, "review")
                 rev = db.session.query(Review).get(review)
                 authors.append(rev.author)
         return authors
@@ -633,6 +633,7 @@ class BankTransfer(db.Model):
     __tablename__ = 'banktransfer'
     id = db.Column(db.Integer,
                    primary_key=True,
+                   autoincrement=True,
                    unique=True)
 
     dateOfTransaction = db.Column(db.DateTime,
@@ -677,6 +678,7 @@ class Review(db.Model):
     __tablename__ = 'reviews'
     id = db.Column(db.Integer,
                    primary_key=True,
+                   autoincrement=True,
                    unique=True)
 
     author = db.Column(db.String(32),  # Author of review
@@ -721,39 +723,44 @@ class Review(db.Model):
             self.recipient = reviewData['recipient']
             self.rating = reviewData['rating']
             self.content = reviewData['content']
-            self.id = hash(self.content)
             self.date = datetime.date.today()
+    
+    def updateTables(self):
+        '''
+        Updates the database
+        '''
+        auth = db.session.query(User).get(self.author)
+        if self.reviewType == "Property":
+            # If the review is on a property
+            listing = db.session.query(Listing) \
+                .filter_by(id=self.recipient).first()
+            if len(listing.reviews) == 0:
+                listing.reviews += str(self.id)  # Append review
+            else:
+                listing.reviews += "," + str(self.id)  # Append review
 
-            if reviewData['type'] == "Property":
-                # If the review is on a property
-                listing = db.session.query(Listing) \
-                    .filter_by(id=reviewData['recipient']).first()
-                if len(listing.reviews) == 0:
-                    listing.reviews += str(self.id)  # Append review
-                else:
-                    listing.reviews += "," + str(self.id)  # Append review
+            if len(auth.writtenReviews) == 0:
+                auth.writtenReviews += str(self.id)  # Append rev.
+            else:
+                auth.writtenReviews += "," + str(self.id)  # Append rev.
+            listing.updateRating()
+            db.session.commit()
 
-                if len(auth.writtenReviews) == 0:
-                    auth.writtenReviews += str(self.id)  # Append rev.
-                else:
-                    auth.writtenReviews += "," + str(self.id)  # Append rev.
-                listing.updateRating()
+        elif (
+            self.reviewType == 'Host' or
+            self.reviewType == 'Tenant'
+        ):
+            # Review is on a user
+            user = db.session.query(User).get(self.recipient)
+            if len(user.reviewsAbout) == 0:
+                user.reviewsAbout += str(self.id)  # Append review
+            else:
+                user.reviewsAbout += "," + str(self.id)  # Append review
 
-            elif (
-                reviewData['type'] == 'Host' or
-                reviewData['type'] == 'Tenant'
-            ):
-                # Review is on a user
-                user = db.session.query(User).get(reviewData['recipient'])
-                if len(user.reviewsAbout) == 0:
-                    user.reviewsAbout += str(self.id)  # Append review
-                else:
-                    user.reviewsAbout += "," + str(self.id)  # Append review
-
-                if len(auth.writtenReviews) == 0:
-                    auth.writtenReviews += str(self.id)  # Append rev.
-                else:
-                    auth.writtenReviews += "," + str(self.id)  # Append rev.
+            if len(auth.writtenReviews) == 0:
+                auth.writtenReviews += str(self.id)  # Append rev.
+            else:
+                auth.writtenReviews += "," + str(self.id)  # Append rev.
 
             db.session.commit()
         else:
