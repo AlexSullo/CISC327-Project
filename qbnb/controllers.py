@@ -433,7 +433,7 @@ def update_listing(id):
                 listing.description = request.form['description']
 
             if request.form['price'] != "":
-                    listing.price = request.form['price']
+                listing.price = request.form['price']
                 
             if request.form['address'] != "":
                 listing.address = request.form['address']
