@@ -40,4 +40,4 @@ def test_sql_injection():
                 print("Exception error for password payload:", str(error))
             
             # SQL INJECTION TESTING: LISTING
-    #pytest_sessionfinish()
+    # pytest_sessionfinish()
