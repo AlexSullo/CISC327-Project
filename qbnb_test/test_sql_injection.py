@@ -37,26 +37,26 @@ def test_sql_injection():
             except Exception as error:
                 print("Exception error for password payload:", str(error))
             # SQL INJECTION TESTING: LISTING
-            listingData = {"title" : payload,
-                           "description" : "This is a test but \
+            listingData = {"title": payload,
+                           "description": "This is a test but \
                            should be longer than the title",
-                           "price" : "200"}
+                           "price": "200"}
             try:
                 Listing.__init__(listingData).checkListing()
             except Exception as error:
                 print("Exception error for title payload:", str(error))
-            listingData = {"title" : "this place",
-                           "description" : payload,
-                           "price" : "200"
+            listingData = {"title": "this place",
+                           "description": payload,
+                           "price": "200"
                           }
             try:
                 Listing.__init__(listingData).checkListing()
             except Exception as error:
                 print("Exception error for description payload:", str(error))
-            listingData = {"title" : "this place",
-                           "description" : "This is a test but \
+            listingData = {"title": "this place",
+                           "description": "This is a test but \
                            should be longer than the title",
-                           "price" : payload
+                           "price": payload
                           }
             try:
                 Listing.__init__(listingData).checkListing()
