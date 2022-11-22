@@ -301,10 +301,10 @@ def post_review(id, revType):
                           "rating": rating,
                           "type": 'Property',
                           "content": request.form['content']}
-
             newReview = Review(reviewData)
             db.session.add(newReview)
             db.session.commit()
+            newReview.updateTables()
             return redirect("/listing/" + str(newListing.id))
 
         else:
@@ -404,7 +404,6 @@ def update_listing(id):
             # Gets the listing ID
             # Dictionary of what should be changeable in a 
             # Listing from a user
-            print(listing.propertyType1)
             listingInfo = {
                 "title": listing.title,
                 "description": listing.description,
@@ -434,8 +433,7 @@ def update_listing(id):
                 listing.description = request.form['description']
 
             if request.form['price'] != "":
-                if float(request.form['price']) > float(listing.price):
-                    listing.price = request.form['price']
+                listing.price = request.form['price']
                 
             if request.form['address'] != "":
                 listing.address = request.form['address']
