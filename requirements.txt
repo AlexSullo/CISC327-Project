@@ -6,3 +6,4 @@ seleniumbase
 email-validator
 flask_migrate
 flask_login
+pymysql
