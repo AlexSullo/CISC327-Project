@@ -1,0 +1,4 @@
+db.sqlite
+mysql_data
+qbnb/__pycache__/
+qbnb_test/__pycache__/

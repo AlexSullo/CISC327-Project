@@ -11,13 +11,13 @@
         <br>
         <form method="post">
             <label for="title" class="input-label">Title</label><br>
-            <input id="title" type="text" minlength="4" class="textfield" name="title" placeholder="{{ listingInfo.title }}" pattern="^[a-zA-Z0-9]{4,10}$"title="Title cannot have special characters."value="{{ request.form['title'] }}"></input>
+            <input id="title" type="text" minlength="4" class="textfield" name="title" placeholder="{{ listingInfo.title }}" pattern="/^(?=.*[a-z])[a-z\s.'-]+$/i"title="Title cannot have special characters."value="{{ request.form['title'] }}"></input>
             <br>
             <label for="description" class="input-label">Description</label><br>
             <input id="description" type="text" minlength="0"class="textfield" name="description" placeholder="{{ listingInfo.description }}" title="Enter a description for your listing"  value="{{ request.form['description'] }}"></input>    
             <br>
             <label for="price" class="input-label">Price</label><br>
-            <input id="price" type="number" minlength="4" class="textfield" name="price" step="0.01" min="10" max="10000.00" placeholder="{{ listingInfo.price }}" value="{{ request.form['price'] }}"></input>
+            <input id="price" type="number" class="textfield" name="price" step="0.01" min="10" max="10000.00" placeholder="{{ listingInfo.price }}" value="{{ request.form['price'] }}"></input>
             <br>
             <label for="booked" class="input-label">Booked</label><br>
             <p class="tiny">Is somebody currently staying at your property?</p>
@@ -36,10 +36,10 @@
             <input id="propertyType2"type="text" minlength="4" class="textfield" name="propertyType2" placeholder="{{ listingInfo.propertyType2 }}" value="{{ request.form['propertyType2'] }}"></input>
             <br>
             <label for="propertyType3" class="input-label">Bedroom Amount</label><br>
-            <input id="propertyType3" type="text" minlength="4" class="textfield" name="propertyType3" placeholder="{{ listingInfo.propertyType3 }}" value="{{ request.form['propertyType3'] }}"></input>
+            <input id="propertyType3" type="number" min="1" max="999" class="textfield" name="propertyType3" placeholder="{{ listingInfo.propertyType3 }}" value="{{ request.form['propertyType3'] }}"></input>
             <br>
             <label for="propertyType4" class="input-label">Bathroom Amount</label><br>
-            <input id="propertyType4" type="text" minlength="4" class="textfield" name="propertyType4" placeholder="{{ listingInfo.propertyType4 }}" value="{{ request.form['propertyType4'] }}"></input>
+            <input id="propertyType4" type="number"  min="1" max="999" class="textfield" name="propertyType4" placeholder="{{ listingInfo.propertyType4 }}" value="{{ request.form['propertyType4'] }}"></input>
             <br>
             <label for="inputFile" class="input-label">Image</label><br>
             <input id="coverImage" type="file" class="textfield" name="inputFile" placeholder={{ listingInfo.coverImage }} title="Enter a valid address" value="{{ request.form['coverImage'] }}"></input>
