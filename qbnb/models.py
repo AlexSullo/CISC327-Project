@@ -411,7 +411,6 @@ class Listing(db.Model):
         run the website. Like the registration function in models
         doing the same thing to manually input the listData.
         '''
-        
 
     def checkListing(self):
         """This function checks if the title, description, price, and
