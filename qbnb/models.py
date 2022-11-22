@@ -400,6 +400,18 @@ class Listing(db.Model):
         self.imgData = listingData['imgData']
         self.imgRenderedData = listingData['imgRenderedData']
         self.tenants = ''
+    
+    def createListing(self, listData):
+        '''
+        Creating a create list functionl that allows the listData 
+        parameter to be able to accept the payload input from
+        the SQL injection. This is the case since the create
+        listing function in controllers does not have any
+        parameters that the injection can insert unless we
+        run the website. Like the registration function in models
+        doing the same thing to manually input the listData.
+        '''
+        
 
     def checkListing(self):
         """This function checks if the title, description, price, and
