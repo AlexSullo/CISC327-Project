@@ -420,10 +420,10 @@ class Listing(db.Model):
             print("Or title must not be longer than 80char")
             return False
         if listingData['description'] == "" or len(
-           listingData['description']) > 2000 or len(
-           listingData['description'] < 20) or len(
-           listingData['description']) < len(
-           listingData['title']):
+                listingData['description']) > 2000 or len(
+                listingData['description'] < 20) or len(
+                listingData['description']) < len(
+                listingData['title']):
             print("Must be more than 20 characters")
             print("or must be less than 2000")
             return False
