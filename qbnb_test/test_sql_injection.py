@@ -47,8 +47,7 @@ def test_sql_injection():
                 print("Exception error for title payload:", str(error))
             listingData = {"title": "this place",
                            "description": payload,
-                           "price": "200"
-                          }
+                           "price": "200"}
             try:
                 Listing.__init__(listingData).checkListing()
             except Exception as error:
@@ -56,8 +55,7 @@ def test_sql_injection():
             listingData = {"title": "this place",
                            "description": "This is a test but \
                            should be longer than the title",
-                           "price": payload
-                          }
+                           "price": payload}
             try:
                 Listing.__init__(listingData).checkListing()
             except Exception as error:
