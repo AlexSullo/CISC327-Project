@@ -1,9 +1,7 @@
-from qbnb_test.conftest import pytest_sessionstart, pytest_sessionfinish
 from qbnb.models import *
 
 
 def test_sql_injection():
-    pytest_sessionstart()
     with open('qbnb_test/sql-injection-payload-list.txt', 'r') as file:
         for payload in file:
             print("Payload:", payload)
@@ -38,6 +36,3 @@ def test_sql_injection():
                 User.registration(userData)
             except Exception as error:
                 print("Exception error for password payload:", str(error))
-            
-            # SQL INJECTION TESTING: LISTING
-    # pytest_sessionfinish()
