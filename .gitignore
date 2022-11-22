@@ -2,3 +2,4 @@ db.sqlite
 mysql_data
 qbnb/__pycache__/
 qbnb_test/__pycache__/
+qbnb_test/frontend/__pycache__/

@@ -399,6 +399,72 @@ class Listing(db.Model):
         self.imgData = listingData['imgData']
         self.imgRenderedData = listingData['imgRenderedData']
         self.tenants = ''
+    
+    def createListing(self, listingData):
+        '''
+        Creating a create list functionl that allows the listingData
+        parameter to be able to accept the payload input from
+        the SQL injection. This is the case since the create
+        listing function in controllers does not have any
+        parameters that the injection can insert unless we
+        run the website. Like the registration function in models
+        doing the same thing to manually input the listingData
+        '''
+        # Checking that attributes meet requirements for test
+        if listingData['owner'] == "":
+            print("Property must have owner")
+        if listingData['title'] == "" or re.match(
+            '^[a-zA-Z0-9_]+$', listingData['email']) or len(
+                listingData['title']) > 20:
+            print("Title must be alphanumeric and can't be empty.")
+            print("Or title must not be longer than 80char")
+            return False
+        if listingData['description'] == "" or len(
+                listingData['description']) > 2000 or len(
+                listingData['description'] < 20) or len(
+                listingData['description']) < len(
+                listingData['title']):
+            print("Must be more than 20 characters")
+            print("or must be less than 2000")
+            return False
+        if listingData['price'] < 10 or listingData[
+           'price'] > 10000:
+            print("Price must be more than 10")
+            return False
+        if listingData['address'] == "":
+            print("address must not be empty")
+            return False
+        if listingData['propertyType1'] == "":
+            print("Must not be empty")
+            return False
+        if listingData['propertyType2'] == "":
+            print("Must not be empty")
+            return False
+        if listingData['propertyType3'] == "":
+            print("Must not be empty")
+            return False
+        if listingData['propertyType4'] == "":
+            print("Must not be empty")
+            return False
+        if listingData['location'] == "":
+            print("Must not be empty")
+            return False
+        if listingData[
+           'dateAvailable'] == datetime.time(0, 0):
+            print("Date available must not be empty")
+            return False
+        d1 = datetime.datetime(2021, 1, 2, 0, 0, 0)
+        d2 = datetime.datetime(2025, 1, 2, 0, 0, 0)
+        if listingData['lastModifiedDate'] < d1 or listingData[
+           'lastModifiedDate'] > d2:
+            print("must be between 2021-01-02 and 2025-01-02")
+            return False
+        # requirements checked
+        # listing created
+        listing = Listing(listingData)
+        db.session.add(listing)
+        db.session.commit()
+        return True        
 
     def checkListing(self):
         """This function checks if the title, description, price, and
