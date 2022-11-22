@@ -414,21 +414,21 @@ class Listing(db.Model):
         if listingData['owner'] == "":
             print("Property must have owner")
         if listingData['title'] == "" or re.match(
-            '^[a-zA-Z0-9_]+$',listingData['email']) or len(
+            '^[a-zA-Z0-9_]+$', listingData['email']) or len(
                 listingData['title']) > 20:
             print("Title must be alphanumeric and can't be empty.")
             print("Or title must not be longer than 80char")
             return False
         if listingData['description'] == "" or len(
-            listingData['description']) > 2000 or len(
-            listingData['description'] < 20) or len(
-            listingData['description']) < len(
-            listingData['title']):
+           listingData['description']) > 2000 or len(
+           listingData['description'] < 20) or len(
+           listingData['description']) < len(
+           listingData['title']):
             print("Must be more than 20 characters")
             print("or must be less than 2000")
             return False
         if listingData['price'] < 10 or listingData[
-            'price'] > 10000:
+           'price'] > 10000:
             print("Price must be more than 10")
             return False
         if listingData['address'] == "":
@@ -450,13 +450,13 @@ class Listing(db.Model):
             print("Must not be empty")
             return False
         if listingData[
-            'dateAvailable'] == datetime.time(0,0):
+           'dateAvailable'] == datetime.time(0, 0):
             print("Date available must not be empty")
             return False
-        d1 = datetime.datetime(2021,1,2,0,0,0)
-        d2 = datetime.datetime(2025,1,2,0,0,0)
+        d1 = datetime.datetime(2021, 1, 2, 0, 0, 0)
+        d2 = datetime.datetime(2025, 1, 2, 0, 0, 0)
         if listingData['lastModifiedDate'] < d1 or listingData[
-            'lastModifiedDate'] > d2:
+           'lastModifiedDate'] > d2:
             print("must be between 2021-01-02 and 2025-01-02")
             return False
         # requirements checked
