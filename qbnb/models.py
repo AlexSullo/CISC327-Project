@@ -74,6 +74,7 @@ class User(UserMixin, db.Model):
                               default=False)
 
     bookedListings = db.Column(db.Text,  # List of booked listings
+                               default="",
                                nullable=False)
 
     def registration(self, userData):
