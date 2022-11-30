@@ -553,14 +553,14 @@ def register():
         try:
             if register_user[0] is False:
                 return render_template('register.html',
-                                message=register_user[1])
+                                       message=register_user[1])
         except TypeError:  # User did not fail requirements
             login_user(db.session.query(User).filter_by(
                 email=request.form["email"]).first())
             return redirect("/")
         except AttributeError:
             return render_template('register.html',
-                            message=register_user[1])
+                                   message=register_user[1])
             
     return render_template('register.html', message="Create your Account!")
 
