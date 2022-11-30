@@ -264,7 +264,7 @@ class updateListingPageTest(BaseCase):
         # listing = db.session.query(Listing).filter_by(title=t).first()
         date = str(datetime.datetime.now())[:10]
         datesplit = date.split("-")
-        if (int(datesplit[2] + 3 > 28)):
+        if (int(datesplit[2]) + 3 > 28):
             datesplit[2] = 1
             datesplit[1] = int(datesplit[1]) + 1
         else:
