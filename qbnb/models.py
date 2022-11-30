@@ -653,11 +653,17 @@ class Listing(db.Model):
         dates = self.dateAvailable.split(" to ")
         d1 = dates[0].split("-")
         d2 = dates[1].split("-")
-        d1 = datetime.date(int(d1[0]), int(d1[1]), int(d1[2]))
-        d2 = datetime.date(int(d2[0]), int(d2[1]), int(d2[2]))
-        date = d2 - d1
-        return str(date)[:-14]
-
+        try:
+            d1 = datetime.date(int(d1[0]), int(d1[1]), int(d1[2]),
+                errors='coerce')
+            d2 = datetime.date(int(d2[0]), int(d2[1]), int(d2[2]),
+                errors='coerce')
+            date = d2 - d1
+            return str(date)[:-14]
+        except ValueError:  # day is out of range for month
+            date = 'NaT'
+            return date
+            
     def bookListing(self, bookingInfo):
         '''
         Books the listing
