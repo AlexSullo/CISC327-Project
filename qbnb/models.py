@@ -73,20 +73,24 @@ class User(UserMixin, db.Model):
     authenticated = db.Column(db.Boolean,
                               default=False)
 
+    bookedListings = db.Column(db.Text,  # List of booked listings
+                               nullable=False)
+
     def registration(self, userData):
         reg = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&])\
         [A-Za-z/d@$!#%*?&]{6,20}$"
         pat = re.compile(reg)
         mat = re.search(pat, userData['password'])
         if userData['email'] == "":
-            print("Email can not be empty.")
-            return False
+            return [False, "Email can not be empty."]
+        else:
+            email = db.session.query(User).filter_by(email=userData['email'])
+            if email.first() != None:
+                return [False, "Email already in use."]
         if userData['username'] == "":
-            print("Username can not be empty.")
-            return False
+            return [False, "Username can not be empty."]
         if userData['password'] == "":
-            print("Password can not be empty.")
-            return False
+            return [False, "Password can not be empty."]
 
         passwordRules = [lambda s: any(
             x.isupper() for x in s), lambda s: any(
@@ -123,6 +127,7 @@ class User(UserMixin, db.Model):
             email = validation.email
             user = User(userData)
             user.billingAddress = userData['billingAddress']
+            user.bookedListings = ''
             db.session.add(user)
             db.session.commit()
             return True
@@ -323,7 +328,9 @@ class Listing(db.Model):
                                  nullable=False)
 
     ownerId = db.Column(db.Integer,  # Unique number identifies the owner
+                        primary_key=False,
                         unique=False)
+
     booked = db.Column(db.Boolean,  # Determines if listing has been booked
                        unique=False,
                        nullable=False)
@@ -362,11 +369,11 @@ class Listing(db.Model):
     dateAvailable = db.Column(db.String(60),  # When the property is avail.
                               unique=False,
                               nullable=False)
-
-    imgData = db.Column(db.LargeBinary,  # Actual data, needed for Download
+    # Actual data, needed for download
+    imgData = db.Column(db.LargeBinary,
                         nullable=False)
-
-    imgRenderedData = db.Column(db.Text,  # Data to render the pic in browser
+    # Data to render the pic in browser
+    imgRenderedData = db.Column(db.Text,
                                 nullable=False)
     
     location = db.Column(db.String(32),  # Location (Area, province)
@@ -656,14 +663,18 @@ class Listing(db.Model):
         '''
         if self.booked is False:
             tenant = bookingInfo['tenant']
-            if len(self.tenants) == 0:
-                self.tenants += str(tenant.id)
-            else:
-                self.tenants += "," + str(tenant.id)
-            self.booked = True
             if tenant.balance - bookingInfo['total'] < 0:
                 return 'Error'
             else:
+                if len(self.tenants) == 0:
+                    self.tenants += str(tenant.id)
+                else:
+                    self.tenants += "," + str(tenant.id)
+                if len(tenant.bookedListings) == 0:
+                    tenant.bookedListings += str(self.id)
+                else:
+                    tenant.bookedListings += "," + str(self.id)
+                self.booked = True
                 tenant.balance -= bookingInfo['total']
                 ownerUser = db.session.query(User).get(self.ownerId)
                 ownerUser.balance += bookingInfo['total']
@@ -688,6 +699,21 @@ class Listing(db.Model):
         print(d2 < present)
         if d2 < present:
             self.booked = False  # Unbook listing
+            newestTenant = self.tenants.split(",")[-1]
+            tenant = db.session.query(User).get(newestTenant)
+            tenantListings = tenant.bookedListings
+            splitTenant = tenantListings.split(",")
+            if len(splitTenant) == 1:
+                 tenant.bookedListings = ''
+            else:
+                del(splitTenant[-1])
+                newBookedListings = ''
+                for x in splitTenant: # Update user's booked listings
+                    if len(newBookedListings) == 0:
+                        newBookedListings += str(x)
+                    else:
+                        newBookedListings += "," + str(x)
+                tenant.bookedListings = newBookedListings
         db.session.commit()
         
 

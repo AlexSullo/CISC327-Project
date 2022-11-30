@@ -36,10 +36,26 @@ def home():
     '''
     listings = load_listings()
     userInfo = get_info()  # Check if user is signed in
+    if userInfo[0] is None:
+        upcoming = None
+    else:
+        try:
+            if userInfo[0].bookedListings[0] != '':
+                usersListings = userInfo[0].bookedListings.split(",")   
+                upcoming = []
+                for listing in usersListings:
+                    newList = db.session.query(Listing).get(listing)
+                    upcoming.append(newList)
+            else:
+                upcoming = None
+        except IndexError:
+            upcoming = None
+    print(upcoming)
     return render_template("homepage.html",
                            listings=listings,
                            userInformation=userInfo[0],
-                           user=userInfo[1])
+                           user=userInfo[1],
+                           upcoming=upcoming)
 
 
 @app.route("/profile/<id>/addbalance", methods=["GET", "POST"])
@@ -533,14 +549,16 @@ def register():
             'postalCode': request.form["postalCode"]
         }
         register_user = User(userData).registration(userData)
-        if register_user:
+        print(register_user)
+        try:
+            if register_user[0] is False:
+                render_template('register.html',
+                                message=register_user[1])
+        except TypeError:  # User did not fail requirements
             login_user(db.session.query(User).filter_by(
                 email=request.form["email"]).first())
             return redirect("/")
-        else:
-            render_template('register.html',
-                            message='Your username or email is already' +
-                                    'taken. Please try another one.')
+            
     return render_template('register.html', message="Create your Account!")
 
 
