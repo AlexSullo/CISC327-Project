@@ -266,7 +266,7 @@ class updateListingPageTest(BaseCase):
         datesplit = date.split("-")
         if (int(datesplit[2] + 3 > 28)):
             datesplit[2] = 1
-            datesplit[1] = str(datesplit[1]) + 1
+            datesplit[1] = int(datesplit[1]) + 1
         else:
             datesplit[2] = int(datesplit[2]) + 3
         otherdate = str(datesplit[0]) + "-" + str(datesplit[1])
