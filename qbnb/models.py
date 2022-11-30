@@ -85,7 +85,7 @@ class User(UserMixin, db.Model):
             return [False, "Email can not be empty."]
         else:
             email = db.session.query(User).filter_by(email=userData['email'])
-            if email.first() != None:
+            if email.first() is not None:
                 return [False, "Email already in use."]
         if userData['username'] == "":
             return [False, "Username can not be empty."]
@@ -707,15 +707,15 @@ class Listing(db.Model):
                 if len(splitTenant) == 1:
                     tenant.bookedListings = ''
                 else:
-                    del(splitTenant[-1])
+                    del (splitTenant[-1])
                     newBookedListings = ''
-                    for x in splitTenant: # Update user's booked listings
+                    for x in splitTenant:  # Update user's booked listings
                         if len(newBookedListings) == 0:
                             newBookedListings += str(x)
                         else:
                             newBookedListings += "," + str(x)
                     tenant.bookedListings = newBookedListings
-            except AttributeError: # Empty tenants list
+            except AttributeError:  # Empty tenants list
                 pass
         db.session.commit()
         

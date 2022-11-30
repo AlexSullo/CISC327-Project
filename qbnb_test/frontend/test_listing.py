@@ -23,7 +23,9 @@ class updateListingPageTest(BaseCase):
                     "password": "testedPassword1!",
                     "billingAddress": "1212 Test Address",
                     "postalCode": "A1A1A1",
-                    "username": "automateduser"}
+                    "bookedListings": "",
+                    "username": "automateduser",
+                    }
         
     testUser = User(testUserInfo)
     testUser.billingAddress = testUserInfo["billingAddress"]
