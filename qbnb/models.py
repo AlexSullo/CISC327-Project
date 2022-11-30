@@ -699,21 +699,24 @@ class Listing(db.Model):
         print(d2 < present)
         if d2 < present:
             self.booked = False  # Unbook listing
-            newestTenant = self.tenants.split(",")[-1]
-            tenant = db.session.query(User).get(newestTenant)
-            tenantListings = tenant.bookedListings
-            splitTenant = tenantListings.split(",")
-            if len(splitTenant) == 1:
-                 tenant.bookedListings = ''
-            else:
-                del(splitTenant[-1])
-                newBookedListings = ''
-                for x in splitTenant: # Update user's booked listings
-                    if len(newBookedListings) == 0:
-                        newBookedListings += str(x)
-                    else:
-                        newBookedListings += "," + str(x)
-                tenant.bookedListings = newBookedListings
+            try:
+                newestTenant = self.tenants.split(",")[-1]
+                tenant = db.session.query(User).get(newestTenant)
+                tenantListings = tenant.bookedListings
+                splitTenant = tenantListings.split(",")
+                if len(splitTenant) == 1:
+                    tenant.bookedListings = ''
+                else:
+                    del(splitTenant[-1])
+                    newBookedListings = ''
+                    for x in splitTenant: # Update user's booked listings
+                        if len(newBookedListings) == 0:
+                            newBookedListings += str(x)
+                        else:
+                            newBookedListings += "," + str(x)
+                    tenant.bookedListings = newBookedListings
+            except AttributeError: # Empty tenants list
+                pass
         db.session.commit()
         
 
