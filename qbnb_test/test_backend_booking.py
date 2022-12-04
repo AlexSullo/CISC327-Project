@@ -55,8 +55,8 @@ def test_Booking():
                        "location": "1234 Kingston Ave"}
     # "imgRenderedData" : "",
     testListing = Listing(testListingInfo)
-    test_Booking_Info ={"tenant": testUser1,
-                        "total": 20.00}
+    test_Booking_Info = {"tenant": testUser1,
+                         "total": 20.00}
     # testListing.imgRenderedData = testListing['imgRenderedData']
     db.session.add(testListing)
     testListing = db.session.query(Listing) \
@@ -64,6 +64,7 @@ def test_Booking():
     testListing.bookListing(test_Booking_Info)
     db.session.commit()
     assert testUser.bookedListings.split(",")[0] != 0
+
 
 def test_toExpensive():
     testUser = db.session.query(User) \
@@ -92,7 +93,7 @@ def test_toExpensive():
     # "imgRenderedData" : "",
     testListing = Listing(testListingInfo)
     test_Booking_Info = {"tenant": testUser1,
-                        "total": 2.00}
+                         "total": 2.00}
     # testListing.imgRenderedData = testListing['imgRenderedData']
     db.session.add(testListing)
     testListing = db.session.query(Listing) \
@@ -126,7 +127,7 @@ def test_Own_Listing():
     # "imgRenderedData" : "",
     testListing = Listing(testListingInfo)
     test_Booking_Info = {"tenant": testUser,
-                        "total": 20.00}
+                         "total": 20.00}
     # testListing.imgRenderedData = testListing['imgRenderedData']
     db.session.add(testListing)
     testListing = db.session.query(Listing) \
@@ -134,6 +135,7 @@ def test_Own_Listing():
     testListing.bookListing(test_Booking_Info)
     db.session.commit()
     assert testListing.bookListing(test_Booking_Info) == "Error"
+
 
 def test_already_booked():
     testUserInfoA = {"firstName": "Automated2",
@@ -174,7 +176,7 @@ def test_already_booked():
     # "imgRenderedData" : "",
     testListing = Listing(testListingInfo)
     test_Booking_Info = {"tenant": testUser1,
-                        "total": 100.00}
+                         "total": 100.00}
     test_Booking_Info2 = {"tenant": testUser2,
                          "total": 100.00}
     # testListing.imgRenderedData = testListing['imgRenderedData']
