@@ -23,6 +23,33 @@
         PROPERTY TYPE
       </button>
     </div>
+    {% if upcoming %}
+    <div class="container-col" style="margin-top: 2vh">
+      <h2>Your Upcoming Listings</h2>
+    <div class="listings-container">
+      {% for listing in upcoming %}
+      <div class="listing" style="--index: {{loop.index}}">
+        <a href="/listing/{{listing.id}}">
+          <img
+            class="listing-img"
+            src="data:;base64,{{listing.imgRenderedData}}"
+          />
+          <div class="loc-and-rating">
+            <p class="listing-location">{{listing.location}}</p>
+            <p class="listing-rating">{{listing.rating}}</p>
+          </div>
+          <p class="booking-date">{{listing.dateAvailable}}</p>
+          <p class="cost-text"><b>${{listing.price}}</b> night</p>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    <hr class="short-hr">
+    </div>
+    <h2>Other Listings</h2>
+    
+    {% else %}
+    {% endif %}
     <div class="listings-container">
       {% for listing in listings %}
       <div class="listing" style="--index: {{loop.index}}">

@@ -38,7 +38,7 @@ class updateListingPageTest(BaseCase):
     date += "2022-02-12"
     testListingInfo = {"title": "Automated",
                        "owner": testUser.id,
-                       "description": "Test description",
+                       "description": "Test description that is valid and!!!",
                        "price": float(10.01),
                        "booked": False,
                        "address": "1313 TestHouse dr.",
@@ -262,7 +262,11 @@ class updateListingPageTest(BaseCase):
         # listing = db.session.query(Listing).filter_by(title=t).first()
         date = str(datetime.datetime.now())[:10]
         datesplit = date.split("-")
-        datesplit[2] = int(datesplit[2]) + 3
+        if (int(datesplit[2]) + 3 > 28):
+            datesplit[2] = 1
+            datesplit[1] = int(datesplit[1]) + 1
+        else:
+            datesplit[2] = int(datesplit[2]) + 3
         otherdate = str(datesplit[0]) + "-" + str(datesplit[1])
         otherdate += "-" + str(datesplit[2])
         self.type("#dateAvailable", 
