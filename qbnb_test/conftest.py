@@ -21,6 +21,7 @@ def pytest_sessionstart():
         print("Database removed.")
     app.app_context().push()
     
+    
 """
 def pytest_sessionfinish():
     '''
