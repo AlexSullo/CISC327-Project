@@ -22,6 +22,7 @@ def test_Booking():
     db.session.add(testUser1)
     testUser1 = db.session.query(User) \
         .filter_by(email="automatedtestuser1@email.com").first() 
+
     testUserInfo = {"firstName": "Automated",
                     "surname": "Testuser",
                     "email": "automatedtestuser@email.com",
@@ -102,6 +103,7 @@ def test_toExpensive():
     db.session.commit()
     assert testListing.bookListing(test_Booking_Info) == "Error"
 
+
 def test_Own_Listing():
     testUser = db.session.query(User) \
         .filter_by(email="automatedtestuser@email.com").first() 
@@ -178,7 +180,7 @@ def test_already_booked():
     test_Booking_Info = {"tenant": testUser1,
                          "total": 100.00}
     test_Booking_Info2 = {"tenant": testUser2,
-                         "total": 100.00}
+                          "total": 100.00}
     # testListing.imgRenderedData = testListing['imgRenderedData']
     db.session.add(testListing)
     testListing = db.session.query(Listing) \
