@@ -12,7 +12,7 @@ import sys
 def test_Booking():
     testUserInfoL = {"firstName": "Automated1",
                      "surname": "Testuser1",
-                     "email": "automatedtestuser1@email.com",
+                     "email": "backendtest1@email.com",
                      "password": "testedPassword1!",
                      "billingAddress": "1212 Test Address",
                      "postalCode": "A1A1A1",
@@ -21,11 +21,11 @@ def test_Booking():
     testUser1.billingAddress = testUserInfoL["billingAddress"]
     db.session.add(testUser1)
     testUser1 = db.session.query(User) \
-        .filter_by(email="automatedtestuser1@email.com").first() 
+        .filter_by(email="backendtest1@email.com").first() 
 
     testUserInfo = {"firstName": "Automated",
                     "surname": "Testuser",
-                    "email": "automatedtestuser@email.com",
+                    "email": "backendtest@email.com",
                     "password": "testedPassword1!",
                     "billingAddress": "1212 Test Address",
                     "postalCode": "A1A1A1",
@@ -34,7 +34,7 @@ def test_Booking():
     testUser.billingAddress = testUserInfo["billingAddress"]
     db.session.add(testUser)
     testUser = db.session.query(User) \
-        .filter_by(email="automatedtestuser@email.com").first() 
+        .filter_by(email="backendtest@email.com").first() 
     im = open(os.path.join(sys.path[0], "test.jpg"), "rb")
     data = im.read()
     render_pic = base64.b64encode(data).decode('ascii')
@@ -69,9 +69,9 @@ def test_Booking():
 
 def test_toExpensive():
     testUser = db.session.query(User) \
-        .filter_by(email="automatedtestuser@email.com").first() 
+        .filter_by(email="backendtest@email.com").first() 
     testUser1 = db.session.query(User) \
-        .filter_by(email="automatedtestuser1@email.com").first() 
+        .filter_by(email="backendtest1@email.com").first() 
     im = open(os.path.join(sys.path[0], "test.jpg"), "rb")
     data = im.read()
     render_pic = base64.b64encode(data).decode('ascii')
@@ -106,7 +106,7 @@ def test_toExpensive():
 
 def test_Own_Listing():
     testUser = db.session.query(User) \
-        .filter_by(email="automatedtestuser@email.com").first() 
+        .filter_by(email="backendtest@email.com").first() 
     im = open(os.path.join(sys.path[0], "test.jpg"), "rb")
     data = im.read()
     render_pic = base64.b64encode(data).decode('ascii')
@@ -151,11 +151,11 @@ def test_already_booked():
     testUser2.billingAddress = testUserInfoA["billingAddress"]
     db.session.add(testUser2)
     testUser2 = db.session.query(User) \
-        .filter_by(email="automatedtestuser1@email.com").first()
+        .filter_by(email="backendtest1@email.com").first()
     testUser = db.session.query(User) \
-        .filter_by(email="automatedtestuser@email.com").first() 
+        .filter_by(email="backendtest@email.com").first() 
     testUser1 = db.session.query(User) \
-        .filter_by(email="automatedtestuser1@email.com").first() 
+        .filter_by(email="backendtest1@email.com").first() 
     im = open(os.path.join(sys.path[0], "test.jpg"), "rb")
     data = im.read()
     render_pic = base64.b64encode(data).decode('ascii')
