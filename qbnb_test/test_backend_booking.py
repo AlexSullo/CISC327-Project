@@ -11,12 +11,12 @@ import sys
 
 def test_Booking():
     testUserInfoL = {"firstName": "Automated1",
-                    "surname": "Testuser1",
-                    "email": "automatedtestuser1@email.com",
-                    "password": "testedPassword1!",
-                    "billingAddress": "1212 Test Address",
-                    "postalCode": "A1A1A1",
-                    "username": "automateduser4"}       
+                     "surname": "Testuser1",
+                     "email": "automatedtestuser1@email.com",
+                     "password": "testedPassword1!",
+                     "billingAddress": "1212 Test Address",
+                     "postalCode": "A1A1A1",
+                     "username": "automateduser4"}       
     testUser1 = User(testUserInfoL)
     testUser1.billingAddress = testUserInfoL["billingAddress"]
     db.session.add(testUser1)
@@ -91,7 +91,7 @@ def test_toExpensive():
                        "location": "1234 Kingston Ave"}
     # "imgRenderedData" : "",
     testListing = Listing(testListingInfo)
-    test_Booking_Info ={"tenant": testUser1,
+    test_Booking_Info = {"tenant": testUser1,
                         "total": 2.00}
     # testListing.imgRenderedData = testListing['imgRenderedData']
     db.session.add(testListing)
@@ -125,7 +125,7 @@ def test_Own_Listing():
                        "location": "1234 Kingston Ave"}
     # "imgRenderedData" : "",
     testListing = Listing(testListingInfo)
-    test_Booking_Info ={"tenant": testUser,
+    test_Booking_Info = {"tenant": testUser,
                         "total": 20.00}
     # testListing.imgRenderedData = testListing['imgRenderedData']
     db.session.add(testListing)
@@ -137,12 +137,12 @@ def test_Own_Listing():
 
 def test_already_booked():
     testUserInfoA = {"firstName": "Automated2",
-                    "surname": "Testuser2",
-                    "email": "automatedtestuser2@email.com",
-                    "password": "testedPassword1!",
-                    "billingAddress": "1212 Test Address",
-                    "postalCode": "A1A1A1",
-                    "username": "automateduser2"}       
+                     "surname": "Testuser2",
+                     "email": "automatedtestuser2@email.com",
+                     "password": "testedPassword1!",
+                     "billingAddress": "1212 Test Address",
+                     "postalCode": "A1A1A1",
+                     "username": "automateduser2"}       
     testUser2 = User(testUserInfoA)
     testUser2.billingAddress = testUserInfoA["billingAddress"]
     db.session.add(testUser2)
@@ -173,10 +173,10 @@ def test_already_booked():
                        "location": "1234 Kingston Ave"}
     # "imgRenderedData" : "",
     testListing = Listing(testListingInfo)
-    test_Booking_Info ={"tenant": testUser1,
+    test_Booking_Info = {"tenant": testUser1,
                         "total": 100.00}
-    test_Booking_Info2 ={"tenant": testUser2,
-                        "total": 100.00}
+    test_Booking_Info2 = {"tenant": testUser2,
+                         "total": 100.00}
     # testListing.imgRenderedData = testListing['imgRenderedData']
     db.session.add(testListing)
     testListing = db.session.query(Listing) \
