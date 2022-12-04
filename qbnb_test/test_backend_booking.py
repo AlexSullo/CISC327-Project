@@ -10,7 +10,7 @@ import sys
 
 
 def test_Booking():
-    testUserInfoL = {"firstName": "Automated1",
+    testUserInfoL = {"firstName": "Backend1",
                      "surname": "Testuser1",
                      "email": "backendtest1@email.com",
                      "password": "testedPassword1!",
@@ -23,13 +23,13 @@ def test_Booking():
     testUser1 = db.session.query(User) \
         .filter_by(email="backendtest1@email.com").first() 
 
-    testUserInfo = {"firstName": "Automated",
+    testUserInfo = {"firstName": "Backed",
                     "surname": "Testuser",
                     "email": "backendtest@email.com",
                     "password": "testedPassword1!",
                     "billingAddress": "1212 Test Address",
                     "postalCode": "A1A1A1",
-                    "username": "automateduser"}       
+                    "username": "backenduser"}       
     testUser = User(testUserInfo)
     testUser.billingAddress = testUserInfo["billingAddress"]
     db.session.add(testUser)
