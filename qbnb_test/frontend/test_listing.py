@@ -17,18 +17,18 @@ class updateListingPageTest(BaseCase):
     # don't have to run from qbnb
     # python -m flask --app __main__ --debug run  
     # cd qbnb
-    testUserInfo = {"firstName": "Automated",
-                    "surname": "Testuser",
-                    "email": "automatedtestuser@email.com",
-                    "password": "testedPassword1!",
-                    "billingAddress": "1212 Test Address",
-                    "postalCode": "A1A1A1",
-                    "username": "automateduser"}
+    # testUserInfo = {"firstName": "Automated",
+    #                 "surname": "Testuser",
+    #                 "email": "automatedtestuser@email.com",
+    #                 "password": "testedPassword1!",
+    #                 "billingAddress": "1212 Test Address",
+    #                 "postalCode": "A1A1A1",
+    #                 "username": "automateduser"}
         
-    testUser = User(testUserInfo)
-    testUser.billingAddress = testUserInfo["billingAddress"]
-    db.session.add(testUser)
-    db.session.commit()
+    # testUser = User(testUserInfo)
+    # testUser.billingAddress = testUserInfo["billingAddress"]
+    # db.session.add(testUser)
+    # db.session.commit()
     testUser = db.session.query(User) \
         .filter_by(email="automatedtestuser@email.com").first()  
     im = open(os.path.join(sys.path[0], "test.jpg"), "rb")
