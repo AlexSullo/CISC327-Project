@@ -23,16 +23,14 @@ class updateListingPageTest(BaseCase):
                     "password": "testedPassword1!",
                     "billingAddress": "1212 Test Address",
                     "postalCode": "A1A1A1",
-                    "bookedListings": "",
-                    "username": "automateduser",
-                    }
+                    "username": "automateduser"}
         
     testUser = User(testUserInfo)
     testUser.billingAddress = testUserInfo["billingAddress"]
     db.session.add(testUser)
     db.session.commit()
     testUser = db.session.query(User) \
-        .filter_by(email="automatedtestuser@email.com").first()  
+        .filter_by(email="automatedtestuser@email.com").first() 
     im = open(os.path.join(sys.path[0], "test.jpg"), "rb")
     data = im.read()
     render_pic = base64.b64encode(data).decode('ascii')

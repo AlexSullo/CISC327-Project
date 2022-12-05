@@ -192,6 +192,7 @@ class User(UserMixin, db.Model):
         self.billingAddress = ''
         self.surname = userInfo['surname']
         self.username = userInfo['username']
+        self.bookedListings = ''
 
     def save_updated_info(self, updatedInfo):
         '''
