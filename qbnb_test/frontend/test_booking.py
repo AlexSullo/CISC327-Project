@@ -11,6 +11,7 @@ import base64
 import os
 import sys
 
+
 class bookListingTest(BaseCase):
     # These two initializations create the main user that will be 
     # testing the booking of the website
@@ -74,12 +75,12 @@ class bookListingTest(BaseCase):
     Third User
     '''
     thirdUserInfo = {"firstName": "Third",
-                    "surname": "User",
-                    "email": "thirduser@email.com",
-                    "password": "testedPassword1!",
-                    "billingAddress": "333 third Address",
-                    "postalCode": "A3A3A3",
-                    "username": "thirdkUser123"}
+                     "surname": "User",
+                     "email": "thirduser@email.com",
+                     "password": "testedPassword1!",
+                     "billingAddress": "333 third Address",
+                     "postalCode": "A3A3A3",
+                     "username": "thirdkUser123"}
         
     thirdUser = User(thirdUserInfo)
     thirdUser.billingAddress = thirdUserInfo["billingAddress"]
@@ -88,15 +89,19 @@ class bookListingTest(BaseCase):
 
     """
     Testing:
-    - T1 - A user can book a listing. (This will not be tested together with T3)
-    - T2 - A user cannot book a listing for his/her listing. (partition blackbox test, 
-    each partiton is a different way to access own property booking)
-    - T3 - A user cannot book a listing that costs more than his/her balance. 
-        (partition blackbox testing)
-    - T4 - A user cannot book a listing that is already booked with the overlapped dates.
-    (will be tested once through a third user)
-    - T5 - A booked listing will show up on the user's home page (up-coming stages).
-        (will not be tested since it shows on the homepage)
+    - T1 - A user can book a listing. (This will not be 
+    tested together with T3)
+    - T2 - A user cannot book a listing for his/her listing. 
+    (partition blackbox test, each partiton is a different way 
+    to access own property booking)
+    - T3 - A user cannot book a listing that costs more than 
+    his/her balance. (partition blackbox testing)
+    - T4 - A user cannot book a listing that is already booked 
+    with the overlapped dates.(will be tested once through a 
+    third user)
+    - T5 - A booked listing will show up on the user's home
+    page (up-coming stages). (will not be tested since it 
+    shows on the homepage)
     """
     '''
     - T2 -
@@ -147,7 +152,8 @@ class bookListingTest(BaseCase):
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         # try to go to the book page by force through html
-        m = self.open(base_url + "/listing/" + "/" + str(testListing.id) + "/book")
+        m = self.open(base_url + "/listing/" + "/" + 
+            str(testListing.id) + "/book")
         self.assert_false(m)
     
     '''
@@ -174,8 +180,8 @@ class bookListingTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        #self.click("#dropDown")
-        self.hover_and_click("#dropDown",'#logoutButton')
+        # self.click("#dropDown")
+        self.hover_and_click("#dropDown", '#logoutButton')
         
         # Signing in with bookUser
         testUser = db.session.query(User) \
@@ -192,7 +198,7 @@ class bookListingTest(BaseCase):
         # adds balance
         self.open(base_url + "/profile/" + str(testUser.id) + "/addbalance")
         self.click("#rbc")
-        self.type("#balanceAmount",float(100.01))
+        self.type("#balanceAmount", float(100.01))
 
         # book listing
         self.open(base_url + "/listing/" + str(testListingId) + "/book")
@@ -215,8 +221,8 @@ class bookListingTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        #self.click("#dropDown")
-        self.hover_and_click("#dropDown",'#logoutButton')
+        # self.click("#dropDown")
+        self.hover_and_click("#dropDown", '#logoutButton')
         
         # Signing in with bookUser
         testUser = db.session.query(User) \
@@ -233,7 +239,7 @@ class bookListingTest(BaseCase):
         # adds balance
         self.open(base_url + "/profile/" + str(testUser.id) + "/addbalance")
         self.click("#rbc")
-        self.type("#balanceAmount",float(10.00))
+        self.type("#balanceAmount", float(10.00))
 
         # book listing
         self.open(base_url + "/listing/" + str(testListingId) + "/book")
@@ -256,8 +262,8 @@ class bookListingTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        #self.click("#dropDown")
-        self.hover_and_click("#dropDown",'#logoutButton')
+        # self.click("#dropDown")
+        self.hover_and_click("#dropDown", '#logoutButton')
         
         # Signing in with bookUser
         testUser = db.session.query(User) \
@@ -274,7 +280,7 @@ class bookListingTest(BaseCase):
         # adds balance
         self.open(base_url + "/profile/" + str(testUser.id) + "/addbalance")
         self.click("#rbc")
-        self.type("#balanceAmount",float(10.00))
+        self.type("#balanceAmount", float(10.00))
 
         # book listing
         self.open(base_url + "/listing/" + str(testListingId) + "/book")
@@ -302,8 +308,8 @@ class bookListingTest(BaseCase):
         self.type("#email", "automatedtestuser@email.com")
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
-        #self.click("#dropDown")
-        self.hover_and_click("#dropDown",'#logoutButton')
+        # self.click("#dropDown")
+        self.hover_and_click("#dropDown", '#logoutButton')
         
         # Signing in with bookUser
         testUser = db.session.query(User) \
@@ -320,16 +326,16 @@ class bookListingTest(BaseCase):
         # adds balance
         self.open(base_url + "/profile/" + str(testUser.id) + "/addbalance")
         self.click("#rbc")
-        self.type("#balanceAmount",float(100.01))
+        self.type("#balanceAmount", float(100.01))
 
         # book listing
         self.open(base_url + "/listing/" + str(testListingId) + "/book")
         self.click("#book-button")
 
-        #logout
+        # logout
         self.open(base_url + "/profile/" + str(testUser.id))
-        #self.click("#dropDown")
-        self.hover_and_click("#dropDown",'#logoutButton')
+        # self.click("#dropDown")
+        self.hover_and_click("#dropDown", '#logoutButton')
 
         # sign in third user
         testUser = db.session.query(User) \
@@ -345,7 +351,7 @@ class bookListingTest(BaseCase):
         # adds balance
         self.open(base_url + "/profile/" + str(testUser.id) + "/addbalance")
         self.click("#rbc")
-        self.type("#balanceAmount",float(100.01))
+        self.type("#balanceAmount", float(100.01))
 
         # book listing
         self.open(base_url + "/listing/" + str(testListingId) + "/book")
