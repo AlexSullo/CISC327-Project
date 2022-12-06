@@ -152,8 +152,8 @@ class bookListingTest(BaseCase):
         self.type("#password", "testedPassword1!")
         self.click('#login-button')
         # try to go to the book page by force through html
-        m = self.open(base_url + "/listing/" + "/" + str(testListing.id) 
-            + "/book")
+        m = self.open(base_url + "/listing/" + "/" + 
+            str(testListing.id) + "/book")
         self.assert_false(m)
     
     '''
