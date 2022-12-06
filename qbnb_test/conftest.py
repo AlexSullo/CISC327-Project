@@ -21,7 +21,8 @@ def pytest_sessionstart():
         print("Database removed.")
     app.app_context().push()
     
-
+    
+"""
 def pytest_sessionfinish():
     '''
     Reset database
@@ -33,7 +34,7 @@ def pytest_sessionfinish():
         app.app_context().push()
     except PermissionError as e:
         traceback.print_tb(e.__traceback__)
-        
+"""
 
 base_url = 'http://127.0.0.1:{}'.format(5000)
 
