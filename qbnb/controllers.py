@@ -228,7 +228,7 @@ def book_listing(id):
     Allows the user to book a listing.
     '''
     newListing = db.session.query(Listing).filter_by(id=id).first()
-    listingOwner = (db.session.query(User).get(newListing.owner)) 
+    listingOwner = (db.session.query(User).get(newListing.owner))
     userInfo = get_info()
     nights = newListing.detNights()
     if nights == "":
@@ -237,6 +237,11 @@ def book_listing(id):
     gstcost = round(subtotal * 0.05, 2)
     hstcost = round(subtotal * 0.13, 2)
     total = round(subtotal + gstcost + hstcost, 2)
+    # added for sprint 6
+    # redirects user back to listing page
+    # if he enters /book in url (try to access book page for theirs)
+    if listingOwner == userInfo[0]:
+        return redirect("/")
     if request.method == "GET":
         listingOwner = listingOwner.firstName + " " + listingOwner.surname
         return render_template("bookListing.html",

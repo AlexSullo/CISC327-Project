@@ -669,6 +669,15 @@ class Listing(db.Model):
         '''
         if self.booked is False:
             tenant = bookingInfo['tenant']
+            # added for sprint 6
+            # user can't book own property
+            if tenant.id == self.owner:
+                return 'Error'
+            if len(self.tenants) == 0:
+                self.tenants += str(tenant.id)
+            else:
+                self.tenants += "," + str(tenant.id)
+            self.booked = True
             if tenant.balance - bookingInfo['total'] < 0:
                 return 'Error'
             else:

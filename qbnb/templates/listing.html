@@ -69,7 +69,7 @@
              </p>
                {% else %}  
                 <p>Want to stay at {{ listingData.address }}? It is currently available from <b>{{ listingData.date}}</b>!<br><br>
-                   <a href="/listing/{{ listingData.id }}/book"><button class="standard-button">Book Now</button></a>
+                   <a href="/listing/{{ listingData.id }}/book"><button id="bookButton"class="standard-button">Book Now</button></a>
                 </p>
                 {% endif %}
             </div>
