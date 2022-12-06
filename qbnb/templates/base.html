@@ -46,7 +46,7 @@
         </div>
         <div class="login-container">
           {% if user %}
-          <button name="profile-options" class="standard-button" \>
+          <button id="dropDown" name="profile-options" class="standard-button" \>
             Hi, {{ userInformation.username }}
           </button>
           <div class="dropdown-content">
@@ -54,7 +54,7 @@
               >View Profile</a
             >
             <a rel="noopener" href="/create">Create Listing</a>
-            <a rel="noopener" href="/logout">Logout</a>
+            <a id="logoutButton"rel="noopener" href="/logout">Logout</a>
           </div>
 
           {% else %}

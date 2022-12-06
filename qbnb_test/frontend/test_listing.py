@@ -17,45 +17,45 @@ class updateListingPageTest(BaseCase):
     # don't have to run from qbnb
     # python -m flask --app __main__ --debug run  
     # cd qbnb
-    testUserInfo = {"firstName": "Automated",
-                    "surname": "Testuser",
-                    "email": "automatedtestuser@email.com",
-                    "password": "testedPassword1!",
-                    "billingAddress": "1212 Test Address",
-                    "postalCode": "A1A1A1",
-                    "username": "automateduser"}
+    # testUserInfo = {"firstName": "Automated",
+    #                 "surname": "Testuser",
+    #                 "email": "automatedtestuser@email.com",
+    #                 "password": "testedPassword1!",
+    #                 "billingAddress": "1212 Test Address",
+    #                 "postalCode": "A1A1A1",
+    #                 "username": "automateduser"}
         
-    testUser = User(testUserInfo)
-    testUser.billingAddress = testUserInfo["billingAddress"]
-    db.session.add(testUser)
-    db.session.commit()
-    testUser = db.session.query(User) \
-        .filter_by(email="automatedtestuser@email.com").first()  
-    im = open(os.path.join(sys.path[0], "test.jpg"), "rb")
-    data = im.read()
-    render_pic = base64.b64encode(data).decode('ascii')
-    date = str(datetime.datetime.now())[:10] + " to "
-    date += "2022-02-12"
-    testListingInfo = {"title": "Automated",
-                       "owner": testUser.id,
-                       "description": "Test description",
-                       "price": float(10.01),
-                       "booked": False,
-                       "address": "1313 TestHouse dr.",
-                       "dateAvailable": date,
-                       "imgData": data,
-                       "imgRenderedData": render_pic,
-                       "propertyType1": "House",
-                       "propertyType2": "apartment",
-                       "propertyType3": "room",
-                       "propertyType4": "bathroom",
-                       "location": "1234 Kingston Ave"}
-    # "imgRenderedData" : "",
-    testListing = Listing(testListingInfo)
-    # testListing.imgRenderedData = testListing['imgRenderedData']
-    db.session.add(testListing)
-    db.session.commit()
-    print(testListing.id)
+    # testUser = User(testUserInfo)
+    # testUser.billingAddress = testUserInfo["billingAddress"]
+    # db.session.add(testUser)
+    # db.session.commit()
+    # testUser = db.session.query(User) \
+    #     .filter_by(email="automatedtestuser@email.com").first()  
+    # im = open(os.path.join(sys.path[0], "test.jpg"), "rb")
+    # data = im.read()
+    # render_pic = base64.b64encode(data).decode('ascii')
+    # date = str(datetime.datetime.now())[:10] + " to "
+    # date += "2022-02-12"
+    # testListingInfo = {"title": "Automated",
+    #                    "owner": testUser.id,
+    #                    "description": "Test description",
+    #                    "price": float(10.01),
+    #                    "booked": False,
+    #                    "address": "1313 TestHouse dr.",
+    #                    "dateAvailable": date,
+    #                    "imgData": data,
+    #                    "imgRenderedData": render_pic,
+    #                    "propertyType1": "House",
+    #                    "propertyType2": "apartment",
+    #                    "propertyType3": "room",
+    #                    "propertyType4": "bathroom",
+    #                    "location": "1234 Kingston Ave"}
+    # # "imgRenderedData" : "",
+    # testListing = Listing(testListingInfo)
+    # # testListing.imgRenderedData = testListing['imgRenderedData']
+    # db.session.add(testListing)
+    # db.session.commit()
+    # print(testListing.id)
 
     '''
     R5-1
