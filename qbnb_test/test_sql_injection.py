@@ -42,14 +42,14 @@ def test_sql_injection():
                            should be longer than the title",
                            "price": "200"}
             try:
-                Listing.__init__(listingData).checkListing()
+                Listing.createListing(listingData)
             except Exception as error:
                 print("Exception error for title payload:", str(error))
             listingData = {"title": "this place",
                            "description": payload,
                            "price": "200"}
             try:
-                Listing.__init__(listingData).checkListing()
+                Listing.createListing(listingData)
             except Exception as error:
                 print("Exception error for description payload:", str(error))
             listingData = {"title": "this place",
@@ -57,6 +57,24 @@ def test_sql_injection():
                            should be longer than the title",
                            "price": payload}
             try:
-                Listing.__init__(listingData).checkListing()
+                Listing.createListing(listingData)
             except Exception as error:
-                print("Exception error for description payload:", str(error))
+                print("Exception error for price payload:", str(error))
+            # SQL INJECTION TESTING: BOOKING
+            bookingData = {"tenant": payload,
+                           "total": 100}
+            try:
+                Listing.bookListing(bookingData)
+            except Exception as error:
+                print("Exception error for tenant payload", str(error))
+            bookingData = {"tenant": "testuser",
+                           "total": payload}
+            try:
+                Listing.bookListing(bookingData)
+            except Exception as error:
+                print("Exception error for total payload", str(error))
+            listingData = {"dateAvailable": payload}
+            try:
+                Listing.__init__(listingData).check()
+            except Exception as error:
+                print("Exception error for dateAvailable payload", str(error))
